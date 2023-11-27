@@ -1,0 +1,21 @@
+{
+  "name": "mncea",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "turbo run dev",
+    "start": "turbo run start",
+    "build": "turbo run build",
+    "preview": "turbo run preview"
+  },
+  "keywords": [],
+  "author": "Khashaa",
+  "license": "ISC",
+  "devDependencies": {
+    "turbo": "^1.10.16"
+  },
+  "workspaces": [
+    "workspaces/*"
+  ]
+}
