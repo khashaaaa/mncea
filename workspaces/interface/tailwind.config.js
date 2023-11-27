@@ -11,7 +11,7 @@ export default {
         "accentOne": "rgb(214, 76, 58)"
       },
       height: {
-        "showcase": "675px"
+        "showcase": "300px"
       }
     },
   },
