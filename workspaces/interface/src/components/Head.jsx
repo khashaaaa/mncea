@@ -4,23 +4,19 @@ export const Head = () => {
 
     return (
         <div>
-            <div className='bg-main h-10 w-full'>
-
-            </div>
-            <div className='mx-auto h-20 flex items-center' style={{ width: '60%' }}>
-
+            <div className="bg-main w-full h-10"></div>
+            <div className='mx-auto h-20 flex items-center' style={{ width: '70%' }}>
                 <div className='w-full flex items-center justify-between'>
-                    <img className='w-20' src={logo} alt="logo" />
-                    <div className='flex'>
-                        <div className='mx-2'>Тухай</div>
-                        <div className='mx-2'>Мэдээлэл</div>
-                        <div className='mx-2'>Ил тод байдал</div>
-                        <div className='mx-2'>Сан</div>
-                        <div className='mx-2'>Холбоо барих</div>
+                    <div className="flex items-center">
+                        <img className='w-28' src={logo} alt="logo" />
+                        <div className="ml-4 text-main w-60 text-sm">Боловсролын магадлан итгэмжлэлийн үндэсний зөвлөл</div>
                     </div>
-                    <div className='flex'>
-                        <input type='text' className='outline-none border border-stone-200 rounded-l-xl px-2 py-1 focus:bg-slate-200' />
-                        <button className='bg-accentOne rounded-r-xl text-white w-16'>Хайх</button>
+                    <div className='flex text-lg'>
+                        <div className='ml-8'>Тухай</div>
+                        <div className='ml-8'>Мэдээлэл</div>
+                        <div className='ml-8'>Ил тод байдал</div>
+                        <div className='ml-8'>Сан</div>
+                        <div className='ml-8'>Холбоо барих</div>
                     </div>
                 </div>
             </div>

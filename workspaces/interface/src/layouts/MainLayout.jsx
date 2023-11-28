@@ -1,3 +1,4 @@
+import { Foot } from "../components/Foot"
 import { Head } from "../components/Head"
 
 export const MainLayout = ({ children }) => {
@@ -8,6 +9,7 @@ export const MainLayout = ({ children }) => {
             <div>
                 {children}
             </div>
+            <Foot />
         </div>
     )
 }

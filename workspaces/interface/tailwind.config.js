@@ -9,9 +9,6 @@ export default {
       colors: {
         "main": "rgb(0, 52, 143)",
         "accentOne": "rgb(214, 76, 58)"
-      },
-      height: {
-        "showcase": "300px"
       }
     },
   },
