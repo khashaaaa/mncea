@@ -5,6 +5,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { envconfig } from 'config/envconfig'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { JwtModule } from '@nestjs/jwt'
+import { BasecategoryModule } from './basecategory/basecategory.module';
+import { MidcategoryModule } from './midcategory/midcategory.module';
+import { SubcategoryModule } from './subcategory/subcategory.module';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -37,7 +41,11 @@ import { JwtModule } from '@nestjs/jwt'
         }
       }),
       inject: [ConfigService]
-    })
+    }),
+    BasecategoryModule,
+    MidcategoryModule,
+    SubcategoryModule,
+    PostModule
   ],
   controllers: [AppController],
   providers: [AppService],

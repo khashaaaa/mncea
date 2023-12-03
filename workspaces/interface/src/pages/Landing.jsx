@@ -1,5 +1,5 @@
 import { Carousel } from "../components/Carousel"
-import { PreviewGrid } from "../components/PreviewGrid"
+import { NewsGrid } from "../components/NewsGrid"
 import { ShowCase } from "../components/ShowCase"
 import { MainLayout } from "../layouts/MainLayout"
 
@@ -9,7 +9,7 @@ export const Landing = () => {
         <MainLayout>
             <ShowCase />
             <Carousel />
-            <PreviewGrid />
+            <NewsGrid />
         </MainLayout>
     )
 }
