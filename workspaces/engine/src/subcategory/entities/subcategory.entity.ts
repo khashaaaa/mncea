@@ -10,5 +10,8 @@ export class Subcategory {
     name: string
 
     @Column()
+    grandParent: number
+
+    @Column()
     parent: number
 }
