@@ -13,15 +13,20 @@ export class MidcategoryService {
   async create(createMidcategoryDto: CreateMidcategoryDto) {
 
     try {
-      return await this.repo.save(createMidcategoryDto)
+      const data = await this.repo.save(createMidcategoryDto)
+      return {
+        ok: true,
+        data,
+        message: 'Цэс нэмэгдлээ'
+      }
     }
     catch (error) {
-      throw new InternalServerErrorException('' + error.message)
+      throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
     }
   }
 
   async findAll() {
-    return this.repo.find()
+    return await this.repo.find()
   }
 
   async findOne(mark: number) {
@@ -33,7 +38,10 @@ export class MidcategoryService {
         throw new NotFoundException('Олдсонгүй')
       }
 
-      return exist
+      return {
+        ok: true,
+        data: exist
+      }
     }
     catch (error) {
       throw new InternalServerErrorException('' + error.message)
@@ -54,7 +62,11 @@ export class MidcategoryService {
         ...updateMidcategoryDto
       })
 
-      return updated
+      return {
+        ok: true,
+        data: updated,
+        message: 'Мэдээлэл шинэчлэгдлээ'
+      }
     }
     catch (error) {
       throw new InternalServerErrorException('' + error.message)
@@ -62,6 +74,14 @@ export class MidcategoryService {
   }
 
   async remove(mark: number) {
-    return await this.repo.delete(mark)
+    const delItem = await this.repo.delete(mark)
+    if (delItem.affected === 0) {
+      throw new NotFoundException('Олдсонгүй')
+    }
+    return {
+      ok: true,
+      data: delItem,
+      message: 'Мэдээлэл устгагдлаа'
+    }
   }
 }

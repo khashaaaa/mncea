@@ -13,10 +13,16 @@ export class SubcategoryService {
   async create(createSubcategoryDto: CreateSubcategoryDto) {
 
     try {
-      return await this.repo.save(createSubcategoryDto)
+      const data = await this.repo.save(createSubcategoryDto)
+
+      return {
+        ok: true,
+        data,
+        message: 'Дэд цэс нэмэгдлээ'
+      }
     }
     catch (error) {
-      throw new InternalServerErrorException('', error.message)
+      throw new InternalServerErrorException('Алдааны мэдээлэл', error.message)
     }
   }
 
@@ -30,13 +36,16 @@ export class SubcategoryService {
       const exist = await this.repo.findOneOrFail({ where: { mark } })
 
       if (!exist) {
-        throw new NotFoundException('')
+        throw new NotFoundException('Олдсонгүй')
       }
 
-      return exist
+      return {
+        ok: true,
+        data: exist
+      }
     }
     catch (error) {
-      throw new InternalServerErrorException('', error.message)
+      throw new InternalServerErrorException('Алдааны мэдээлэл: ', error.message)
     }
   }
 
@@ -54,14 +63,26 @@ export class SubcategoryService {
         ...updateSubcategoryDto
       })
 
-      return updated
+      return {
+        ok: true,
+        data: updated,
+        message: 'Мэдээлэл шинэчлэгдлээ'
+      }
     }
     catch (error) {
-      throw new InternalServerErrorException('' + error.message)
+      throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
     }
   }
 
   async remove(mark: number) {
-    return await this.repo.delete(mark)
+    const delItem = await this.repo.delete(mark)
+    if (delItem.affected === 0) {
+      throw new NotFoundException('Олдсонгүй')
+    }
+    return {
+      ok: true,
+      data: delItem,
+      message: 'Мэдээлэл устгагдлаа'
+    }
   }
 }

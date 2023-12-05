@@ -13,7 +13,13 @@ export class PostService {
   async create(createPostDto: CreatePostDto) {
 
     try {
-      return await this.repo.save(createPostDto)
+      const data = await this.repo.save(createPostDto)
+
+      return {
+        ok: true,
+        data,
+        message: 'Нийтлэгдлээ'
+      }
     }
     catch (error) {
       throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
@@ -33,10 +39,13 @@ export class PostService {
         throw new NotFoundException('Олдсонгүй')
       }
 
-      return exist
+      return {
+        ok: true,
+        data: exist
+      }
     }
     catch (error) {
-      throw new InternalServerErrorException('' + error.message)
+      throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
     }
   }
 
@@ -54,7 +63,11 @@ export class PostService {
         ...updatePostDto
       })
 
-      return updated
+      return {
+        ok: true,
+        data: updated,
+        message: 'Мэдээлэл шинэчлэгдлээ'
+      }
     }
     catch (error) {
       throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
@@ -62,6 +75,14 @@ export class PostService {
   }
 
   async remove(mark: string) {
-    return await this.repo.delete(mark)
+    const delItem = await this.repo.delete(mark)
+    if (delItem.affected === 0) {
+      throw new NotFoundException('Олдсонгүй')
+    }
+    return {
+      ok: true,
+      data: delItem,
+      message: 'Мэдээлэл устгагдлаа'
+    }
   }
 }

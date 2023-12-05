@@ -13,7 +13,12 @@ export class BasecategoryService {
   async create(createBasecategoryDto: CreateBasecategoryDto) {
 
     try {
-      return await this.repo.save(createBasecategoryDto)
+      const data = await this.repo.save(createBasecategoryDto)
+      return {
+        ok: true,
+        data,
+        message: 'Үндсэн цэс нэмэгдлээ'
+      }
     }
     catch (error) {
       throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
@@ -31,7 +36,10 @@ export class BasecategoryService {
       if (!exist) {
         throw new NotFoundException('Олдсонгүй')
       }
-      return exist
+      return {
+        ok: true,
+        data: exist
+      }
     }
     catch (error) {
       throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
@@ -52,7 +60,11 @@ export class BasecategoryService {
         ...updateBasecategoryDto
       })
 
-      return updated
+      return {
+        ok: true,
+        data: updated,
+        message: 'Мэдээлэл шинэчлэлгдлээ'
+      }
     }
     catch (error) {
       throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
@@ -60,6 +72,14 @@ export class BasecategoryService {
   }
 
   async remove(mark: number) {
-    return await this.repo.delete(mark)
+    const delItem = await this.repo.delete(mark)
+    if (delItem.affected === 0) {
+      throw new NotFoundException('Олдсонгүй')
+    }
+    return {
+      ok: true,
+      data: delItem,
+      message: 'Мэдээлэл устгагдлаа'
+    }
   }
 }
