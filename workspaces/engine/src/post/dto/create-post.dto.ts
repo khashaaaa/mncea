@@ -5,7 +5,7 @@ export class CreatePostDto {
     posted_date?: Date
     admin: string
     thumbnail?: string
-    basecategory?: number
-    midcategory?: number
-    subcategory?: number
+    base_category?: number
+    mid_category?: number
+    sub_category?: number
 }

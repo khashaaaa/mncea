@@ -1,14 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { Post } from "./pages/Post"
+import { PostList } from "./pages/PostList"
 import { Category } from "./pages/Category"
+import { Publish } from "./pages/Publish"
+import { Post } from "./pages/Post"
 
 const App = () => {
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Post />} />
+        <Route path="/" element={<PostList />} />
+        <Route path="/publish" element={<Publish />} />
         <Route path="/category" element={<Category />} />
+        <Route path="/:mark" element={<Post />} />
       </Routes>
     </Router>
   )

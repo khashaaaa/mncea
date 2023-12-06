@@ -22,13 +22,13 @@ export class Post {
     thumbnail: string
 
     @Column()
-    basecategory: number
+    base_category: number
 
     @Column()
-    midcategory: number
+    mid_category: number
 
     @Column()
-    subcategory: number
+    sub_category: number
 
     @CreateDateColumn()
     actual_posted_date: Date
