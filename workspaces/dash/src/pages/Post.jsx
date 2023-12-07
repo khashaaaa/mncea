@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 import { MainLayout } from "../layouts/MainLayout"
 import { useParams } from 'react-router-dom'
 import { base_url } from "../config/global"
-import { Modal } from '../components/Modal'
 
 export const Post = () => {
 
     const { mark } = useParams()
 
     const [post, setPost] = useState(null)
+
+    const thumbnailUrl = post?.thumbnail ? `${base_url}post/thumbnail/${post.thumbnail}` : ''
 
     useEffect(() => {
         const FetchPost = async () => {
@@ -20,16 +21,15 @@ export const Post = () => {
         FetchPost()
     }, [])
 
-    const content = <div>
-        <p>asdfasdfasdfsdf</p>
-        <p>asdfasdfasdfsdf</p>
-        <p>asdfasdfasdfsdf</p>
-    </div>
-
     return (
         <MainLayout>
-            <Modal content={content} />
             <div>
+                <img
+                    src={thumbnailUrl}
+                    alt={`Thumbnail for ${post?.title || 'Post'}`}
+                    className="w-80"
+                />
+                <p>{post?.title}</p>
                 <div dangerouslySetInnerHTML={{ __html: post?.content }}></div>
             </div>
         </MainLayout>

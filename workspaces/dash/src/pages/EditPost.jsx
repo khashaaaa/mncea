@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { useNavigate } from "react-router-dom"
 import { Editor } from '@tinymce/tinymce-react'
 import { MainLayout } from "../layouts/MainLayout"
 import { base_url } from '../config/global'
 import { IconPlus, IconX } from '@tabler/icons-react'
 import { Button } from '../components/Button'
+import { useParams } from 'react-router-dom'
 
-export const Publish = () => {
+export const EditPost = () => {
 
     const getCurrentDateTime = () => {
         const now = new Date()
@@ -18,10 +18,11 @@ export const Publish = () => {
         return `${year}-${month}-${day}T${hours}:${minutes}`
     }
 
-    const navigate = useNavigate()
+    const { mark } = useParams()
 
     const editorData = useRef(null)
-
+    const [preview, setPreview] = useState(null)
+    const [image, setImage] = useState(null)
     const [title, setTitle] = useState('')
     const [currentDateTime, setCurrentDateTime] = useState(getCurrentDateTime())
     const [baseCategory, setBaseCategory] = useState('')
@@ -31,10 +32,7 @@ export const Publish = () => {
     const [baseCategories, setBaseCategories] = useState([])
     const [midCategories, setMidCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
-
-    const [imageFile, setImageFile] = useState(null)
-    const [preview, setPreview] = useState(null)
-    const [image, setImage] = useState(null)
+    const [currentPost, setCurrentPost] = useState(null)
 
     useEffect(() => {
         fetchData()
@@ -42,17 +40,24 @@ export const Publish = () => {
 
     const fetchData = async () => {
         try {
-            const [resp1, resp2, resp3] = await Promise.all([
+            const [postResponse, baseResponse, midResponse, subResponse] = await Promise.all([
+                fetch(base_url + 'post/' + mark),
                 fetch(base_url + 'basecategory'),
                 fetch(base_url + 'midcategory'),
-                fetch(base_url + 'subcategory'),
+                fetch(base_url + 'subcategory')
             ])
 
-            const [data1, data2, data3] = await Promise.all([resp1.json(), resp2.json(), resp3.json()])
+            const [postData, baseData, midData, subData] = await Promise.all([
+                postResponse.json(),
+                baseResponse.json(),
+                midResponse.json(),
+                subResponse.json()
+            ])
 
-            setBaseCategories(data1)
-            setMidCategories(data2)
-            setSubCategories(data3)
+            setCurrentPost(postData.data)
+            setBaseCategories(baseData)
+            setMidCategories(midData)
+            setSubCategories(subData)
         } catch (error) {
             console.error('Error fetching data:', error)
         }
@@ -60,23 +65,27 @@ export const Publish = () => {
 
     const imageProcess = useCallback((ev) => {
         const newPreview = [URL.createObjectURL(ev.target.files?.[0])]
-        const newImage = ev.target.files?.[0]?.name?.toLowerCase()
+        const newImageFile = ev.target.files?.[0]
 
-        setImageFile(ev.target.files[0])
         setPreview(newPreview)
-        setImage(newImage)
+        setImage(newImageFile)
     }, [])
 
     const imageCancel = useCallback(() => {
+        setCurrentPost({ thumbnail: null })
         setPreview(null)
         setImage(null)
     }, [])
 
     const SavePost = async () => {
-        try {
-            const editorContent = editorData.current.getContent()
+        const editorContent = editorData.current.getContent()
 
-            const postData = {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
                 title,
                 content: editorContent,
                 posted_date: currentDateTime,
@@ -85,43 +94,13 @@ export const Publish = () => {
                 base_category: baseCategory,
                 mid_category: midCategory,
                 sub_category: subCategory,
-            }
-
-            const imgForm = new FormData()
-            imgForm.append('file', imageFile)
-
-            const thumbnailOptions = {
-                method: 'POST',
-                body: imgForm,
-            }
-
-            const postOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postData),
-            }
-
-            const [thumbnailResponse, postResponse] = await Promise.all([
-                fetch(base_url + 'post/thumbnail', thumbnailOptions),
-                fetch(base_url + 'post', postOptions),
-            ])
-
-            const [thumbnailResult, postResult] = await Promise.all([
-                thumbnailResponse.json(),
-                postResponse.json()
-            ])
-
-            if (thumbnailResult.ok && postResult.ok) {
-                navigate('/')
-            }
-        } catch (error) {
-            console.error('Error while saving post:', error.message)
+            }),
         }
+
+        const raw = await fetch(base_url + 'post', options)
+        const resp = await raw.json()
+        console.log(resp)
     }
-
-
 
     return (
         <MainLayout>
@@ -129,59 +108,69 @@ export const Publish = () => {
                 <p className="mb-2">Зураг сонгох</p>
                 <label className="flex items-center justify-center w-28 h-28 border-dashed border-2 border-stone-200 rounded-md cursor-pointer">
                     <input type="file" onChange={imageProcess} hidden />
-                    {preview ? (
+                    {(currentPost?.thumbnail || preview) && (
                         <div className="relative cursor-default">
                             <IconX onClick={imageCancel} className="absolute right-0 cursor-pointer" />
-                            <img src={preview} alt={image} />
+                            <img src={currentPost?.thumbnail ? `/${currentPost.thumbnail}` : preview[0]} alt="Image Preview" />
                         </div>
-                    ) : (
-                        <IconPlus />
                     )}
+                    {!currentPost?.thumbnail && !preview && <IconPlus />}
                 </label>
+
             </div>
             <div className="mt-4 grid grid-cols-3 gap-4">
                 <div className="col-span-2 flex flex-col">
                     <label className="text-xs mb-1"><span className="text-red-600">*</span> Гарчиг</label>
-                    <input type="text" onChange={(e) => setTitle(e.target.value)} className="h-8 text-sm outline-none border border-stone-200 py-1 px-2 rounded-md" />
+                    <input type="text" defaultValue={currentPost?.title} onChange={(e) => setTitle(e.target.value)} className="h-8 text-sm outline-none border border-stone-200 py-1 px-2 rounded-md" />
                 </div>
                 <div className="flex flex-col">
                     <label className="text-xs mb-1"><span className="text-red-600">*</span> Огноо</label>
                     <input type="datetime-local" value={currentDateTime} onChange={(e) => setCurrentDateTime(e.target.value)} className="h-8 text-sm outline-none border border-stone-200 py-1 px-2 rounded-md" />
                 </div>
             </div>
+
             <div className="my-4 grid grid-cols-3 gap-4">
-                <div>
-                    <label className="text-xs mb-1"><span className="text-red-600">*</span> Үндсэн цэс</label>
-                    <select onChange={(e) => setBaseCategory(e.target.value)} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
-                        <option>--- сонгох ---</option>
-                        {baseCategories.map((item) => (
-                            <option key={item.mark} value={item.mark}>{item.name}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label className="text-xs mb-1">Дунд цэс</label>
-                    <select onClick={(e) => setMidCategory(e.target.value)} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
-                        <option>--- сонгох ---</option>
-                        {midCategories.map((item) => (
-                            <option key={item.mark} value={item.mark}>{item.name}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label className="text-xs mb-1">Дэд цэс</label>
-                    <select onClick={(e) => setSubCategory(e.target.value)} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
-                        <option>--- сонгох ---</option>
-                        {subCategories.map((item) => (
-                            <option key={item.mark} value={item.mark}>{item.name}</option>
-                        ))}
-                    </select>
-                </div>
+                {
+                    currentPost?.base_category &&
+                    <div>
+                        <label className="text-xs mb-1"><span className="text-red-600">*</span> Үндсэн цэс</label>
+                        <select defaultValue={currentPost?.base_category} onChange={(e) => setBaseCategory(e.target.value)} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
+                            <option>--- сонгох ---</option>
+                            {baseCategories.map((item) => (
+                                <option key={item.mark} value={item.mark}>{item.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                }
+                {
+                    currentPost?.mid_category &&
+                    <div>
+                        <label className="text-xs mb-1">Дунд цэс</label>
+                        <select defaultValue={currentPost?.mid_category} onChange={(e) => setMidCategory(e.target.value)} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
+                            <option>--- сонгох ---</option>
+                            {midCategories.map((item) => (
+                                <option key={item.mark} value={item.mark}>{item.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                }
+                {
+                    currentPost?.sub_category &&
+                    <div>
+                        <label className="text-xs mb-1">Дэд цэс</label>
+                        <select defaultValue={currentPost?.sub_category} onChange={(e) => setSubCategory(e.target.value)} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
+                            <option>--- сонгох ---</option>
+                            {subCategories.map((item) => (
+                                <option key={item.mark} value={item.mark}>{item.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                }
             </div>
             <Editor
                 apiKey='bq0t7hixxbs2y6iib4l4hvj79103oganol8cqcadoyolejrs'
                 onInit={(evt, editor) => editorData.current = editor}
-                initialValue=""
+                initialValue={currentPost?.content}
                 init={{
                     height: '800px',
                     menubar: false,
@@ -196,7 +185,7 @@ export const Publish = () => {
             />
 
             <div className='mt-4 flex justify-end'>
-                <Button click={SavePost} text="Нийтлэх" color="green" />
+                <Button onClick={SavePost} text="Нийтлэх" color="green" />
             </div>
         </MainLayout>
     )
