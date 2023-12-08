@@ -15,7 +15,6 @@ export class PostController {
     storage: diskStorage({
       destination: 'public/post',
       filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname)
         cb(null, file.originalname)
       },
     }),

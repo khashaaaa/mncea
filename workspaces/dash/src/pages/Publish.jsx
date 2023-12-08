@@ -68,6 +68,7 @@ export const Publish = () => {
     }, [])
 
     const imageCancel = useCallback(() => {
+        setImageFile(null)
         setPreview(null)
         setImage(null)
     }, [])

@@ -1,4 +1,4 @@
 export const Button = ({ text, color, click }) => {
 
-    return <button onClick={click} className={`bg-${color}-700 text-white text-xs font-bold rounded-md py-1 px-2`} type="button">{text}</button>
+    return <button onClick={click} className={`bg-${color}-600 text-white text-sm font-bold rounded-md py-1 px-2 hover:bg-green-500 duration-300`} type="button">{text}</button>
 }
