@@ -18,16 +18,16 @@ export class Post {
     @Column()
     admin: string
 
-    @Column()
+    @Column({ nullable: true })
     thumbnail: string
 
     @Column()
     base_category: number
 
-    @Column()
+    @Column({ nullable: true })
     mid_category: number
 
-    @Column()
+    @Column({ nullable: true })
     sub_category: number
 
     @CreateDateColumn()

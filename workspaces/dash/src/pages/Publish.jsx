@@ -184,7 +184,6 @@ export const Publish = () => {
                 onInit={(evt, editor) => editorData.current = editor}
                 initialValue=""
                 init={{
-                    height: '800px',
                     menubar: false,
                     plugins: [
                         'advlist', 'autolink', 'emoticons', 'lists', 'link', 'image', 'charmap', 'preview',
