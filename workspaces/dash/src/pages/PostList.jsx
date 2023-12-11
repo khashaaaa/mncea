@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react"
+import { useNavigate } from 'react-router-dom'
 import { MainLayout } from "../layouts/MainLayout"
 import { Button } from "../components/Button"
 import { base_url } from "../config/global"
@@ -6,14 +7,22 @@ import { Link } from "react-router-dom"
 import { IconEdit, IconEye, IconTrash } from "@tabler/icons-react"
 import { ModalContext } from "../context/ModalProvider"
 import { Modal } from "../components/Modal"
+import Cookiez from 'js-cookie'
 
 export const PostList = () => {
+
+    const access_token = Cookiez.get('access_token')
+
+    const navigate = useNavigate()
 
     const [posts, setPosts] = useState([])
     const [del, setDel] = useState(null)
     const { isModalOpen, openModal, closeModal } = useContext(ModalContext)
 
     useEffect(() => {
+        if (!access_token) {
+            navigate('/login')
+        }
         FetchPosts()
     }, [])
 

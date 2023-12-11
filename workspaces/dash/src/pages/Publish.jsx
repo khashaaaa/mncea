@@ -5,6 +5,7 @@ import { MainLayout } from "../layouts/MainLayout"
 import { base_url } from '../config/global'
 import { IconPlus, IconX } from '@tabler/icons-react'
 import { Button } from '../components/Button'
+import Cookiez from 'js-cookie'
 
 export const Publish = () => {
 
@@ -17,6 +18,8 @@ export const Publish = () => {
         const minutes = now.getMinutes().toString().padStart(2, '0')
         return `${year}-${month}-${day}T${hours}:${minutes}`
     }
+
+    const access_token = Cookiez.get('access_token')
 
     const navigate = useNavigate()
 
@@ -37,6 +40,9 @@ export const Publish = () => {
     const [image, setImage] = useState(null)
 
     useEffect(() => {
+        if (!access_token) {
+            navigate('/login')
+        }
         fetchData()
     }, [])
 

@@ -15,6 +15,16 @@ export const Alert = ({ content, type }) => {
         } else {
             setAlertColor("bg-amber-400")
         }
+
+        if (isAlertOpen) {
+            const timeoutId = setTimeout(() => {
+                closeAlert()
+            }, 3000)
+
+            return () => {
+                clearTimeout(timeoutId)
+            }
+        }
     }, [isAlertOpen, closeAlert, type])
 
     return (

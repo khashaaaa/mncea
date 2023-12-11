@@ -4,10 +4,11 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './entities/user.entity'
 import { Repository } from 'typeorm'
+import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private repo: Repository<User>) { }
+  constructor(@InjectRepository(User) private repo: Repository<User>, private jwts: JwtService) { }
 
   async login(createUserDto: CreateUserDto) {
     const user = await this.repo.findOne({
@@ -18,9 +19,12 @@ export class UserService {
       this.handleNotFoundError('Мэдээлэл таарсангүй')
     }
 
+    const access_token = await this.jwts.signAsync({ username: createUserDto.username, password: createUserDto.password }, { secret: process.env.JWT_SECRET })
+
     return {
       ok: true,
       data: user,
+      access_token,
       message: 'Амжилттай нэвтэрлээ. Хуудсыг чиглүүлж байна',
     }
   }

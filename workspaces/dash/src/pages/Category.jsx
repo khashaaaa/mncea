@@ -1,43 +1,52 @@
-import React, { useState, useEffect, useContext } from "react"
-import { ModalContext } from "../context/ModalProvider"
-import { AlertContext } from "../context/AlertProvider"
-import { Alert } from "../components/Alert"
-import { Modal } from "../components/Modal"
+import { useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { MainLayout } from "../layouts/MainLayout"
 import { TabButton } from "../components/TabButton"
+import { base_url } from '../config/global'
+import { IconEdit, IconTrash } from "@tabler/icons-react"
+import { ModalContext } from "../context/ModalProvider"
+import { AlertContext } from "../context/AlertProvider"
 import { Button } from "../components/Button"
-import { base_url } from "../config/global"
-import { IconTrash, IconEdit } from "@tabler/icons-react"
+import { Alert } from "../components/Alert"
+import { Modal } from "../components/Modal"
+import Cookiez from 'js-cookie'
 
 export const Category = () => {
-    const { isAlertOpen, openAlert, closeAlert } = useContext(AlertContext)
-    const { isModalOpen, openModal, closeModal } = useContext(ModalContext)
 
-    const [active, setActive] = useState(1)
-    const [msg, setMsg] = useState(null)
-    const [alertType, setAlertType] = useState("")
-    const [name, setName] = useState("")
-    const [parent, setParent] = useState()
-    const [grandParent, setGrandParent] = useState()
+    const access_token = Cookiez.get('access_token')
+
+    const navigate = useNavigate()
+
+    const [activeTab, setActiveTab] = useState(1)
+
+    const [type, setType] = useState('')
+
     const [baseCategories, setBaseCategories] = useState([])
     const [midCategories, setMidCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
-    const [editingCategory, setEditingCategory] = useState(null)
+
+    const [grandParent, setGrandParent] = useState(null)
+    const [parent, setParent] = useState(null)
+    const [name, setName] = useState(null)
+
+    const [editData, setEditData] = useState({})
+
+    const [del, setDel] = useState(null)
+
+    const [msg, setMsg] = useState(null)
+    const [errType, setErrType] = useState('')
+
+    const { isModalOpen, openModal, closeModal } = useContext(ModalContext)
+    const { isAlertOpen, openAlert, closeAlert } = useContext(AlertContext)
 
     useEffect(() => {
-        fetchData()
-        if (!msg) {
-            closeAlert()
+        if (!access_token) {
+            navigate('/login')
         }
-        if (isAlertOpen) {
-            const timeoutId = setTimeout(() => {
-                closeAlert()
-            }, 3000)
-            return () => clearTimeout(timeoutId)
-        }
-    }, [isAlertOpen, editingCategory])
+        GetData()
+    }, [])
 
-    const fetchData = async () => {
+    const GetData = async () => {
         try {
             const [baseResp, midResp, subResp] = await Promise.all([
                 fetch(base_url + "basecategory"),
@@ -57,299 +66,299 @@ export const Category = () => {
         }
     }
 
-    const saveBaseCategory = async () => {
+    const createCategory = async () => {
         closeModal()
+
+        let endpoint
+        let form
+
+        if (activeTab === 1) {
+            endpoint = 'basecategory'
+            form = { name }
+        }
+        if (activeTab === 2) {
+            endpoint = 'midcategory'
+            form = {
+                parent,
+                name
+            }
+        }
+        if (activeTab === 3) {
+            endpoint = 'subcategory'
+            form = {
+                grandParent,
+                parent,
+                name
+            }
+        }
+
         const options = {
-            method: "POST",
+            method: 'POST',
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ name }),
+            body: JSON.stringify(form)
         }
-        const raw = await fetch(base_url + "basecategory", options)
+
+        const raw = await fetch(base_url + endpoint, options)
         const resp = await raw.json()
-        setAlertType(resp.ok ? "success" : "error")
+
         if (resp.ok) {
-            fetchData()
+            GetData()
+        }
+        else {
+            setErrType('error')
             setMsg(resp.message)
             openAlert()
         }
     }
 
-    const editBaseCategory = async () => {
+    const editCategory = async (category) => {
         closeModal()
+
+        let endpoint
+        let form
+
+        if (activeTab === 1) {
+            endpoint = 'basecategory'
+            form = { name }
+        }
+        if (activeTab === 2) {
+            endpoint = 'midcategory'
+            form = {
+                parent,
+                name
+            }
+        }
+        if (activeTab === 3) {
+            endpoint = 'subcategory'
+            form = {
+                grandParent,
+                parent,
+                name
+            }
+        }
+
         const options = {
-            method: "PATCH",
+            method: 'PATCH',
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ name }),
+            body: JSON.stringify(form)
         }
-        const raw = await fetch(base_url + "basecategory", options)
+
+        const raw = await fetch(base_url + endpoint + category.mark, options)
         const resp = await raw.json()
-        setAlertType(resp.ok ? "success" : "error")
+
         if (resp.ok) {
-            fetchData()
+            GetData()
+        }
+        else {
+            setErrType('error')
             setMsg(resp.message)
             openAlert()
         }
     }
 
-    const deleteBaseCategory = async () => {
+    const deleteCategory = async () => {
         closeModal()
+
         const options = {
-            method: "DELETE",
+            method: 'DELETE'
         }
-        const raw = await fetch(base_url + "basecategory", options)
+
+        let endpoint
+        if (activeTab === 1) {
+            endpoint = 'basecategory/'
+        }
+        if (activeTab === 2) {
+            endpoint = 'midcategory/'
+        }
+        if (activeTab === 3) {
+            endpoint = 'subcategory/'
+        }
+
+        const raw = await fetch(base_url + endpoint + del, options)
         const resp = await raw.json()
-        setAlertType(resp.ok ? "success" : "error")
+
         if (resp.ok) {
-            fetchData()
+            GetData()
+        }
+        else {
+            setErrType('error')
             setMsg(resp.message)
             openAlert()
         }
     }
 
-    const saveMidCategory = async () => {
-        closeModal()
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ parent, name }),
+    const modalContent = () => {
+
+        if (activeTab === 1) {
+            if (type === 'create') {
+                return (
+                    <div className="w-80 mt-8 grid grid-rows-2 gap-4">
+                        <input onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <Button click={createCategory} text="Болсон" color="green" />
+                    </div>
+                )
+            }
+            if (type === 'edit') {
+                return (
+                    <div className="w-80 mt-8 grid grid-rows-2 gap-4">
+                        <input value={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <Button click={editCategory} text="Болсон" color="green" />
+                    </div>
+                )
+            }
+            if (type === 'delete') {
+                return (
+                    <div className="w-80 mt-8 grid grid-rows-2 gap-4">
+                        <p>Мөрийг устгах уу?</p>
+                        <Button click={deleteCategory} text="Болсон" color="green" />
+                    </div>
+                )
+            }
         }
-        const raw = await fetch(base_url + "midcategory", options)
-        const resp = await raw.json()
-        setAlertType(resp.ok ? "success" : "error")
-        if (resp.ok) {
-            fetchData()
-            setMsg(resp.message)
-            openAlert()
+        if (activeTab === 2) {
+            if (type === 'create') {
+                return (
+                    <div className="w-80 mt-8 grid grid-rows-3 gap-4">
+                        <select onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                            <option>---сонгох---</option>
+                            {
+                                baseCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
+                            }
+                        </select>
+                        <input onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <Button click={createCategory} text="Болсон" color="green" />
+                    </div>
+                )
+            }
+            if (type === 'edit') {
+                return (
+                    <div className="w-80 mt-8 grid grid-rows-3 gap-4">
+                        <select value={editData?.parent} onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                            <option>---сонгох---</option>
+                            {
+                                baseCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
+                            }
+                        </select>
+                        <input value={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <Button click={editCategory} text="Болсон" color="green" />
+                    </div>
+                )
+            }
+            if (type === 'delete') {
+                return (
+                    <div className="w-80 mt-8 grid grid-rows-2 gap-4">
+                        <p>Мөрийг устгах уу?</p>
+                        <Button click={deleteCategory} text="Болсон" color="green" />
+                    </div>
+                )
+            }
+        }
+        if (activeTab === 3) {
+            if (type === 'create') {
+                return (
+                    <div className="w-80 mt-8 grid grid-rows-4 gap-4">
+                        <select onChange={(e) => setGrandParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                            <option>---сонгох---</option>
+                            {
+                                baseCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
+                            }
+                        </select>
+                        <select onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                            <option>---сонгох---</option>
+                            {
+                                midCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
+                            }
+                        </select>
+                        <input onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <Button click={createCategory} text="Болсон" color="green" />
+                    </div>
+                )
+            }
+            if (type === 'edit') {
+                return (
+                    <div className="w-80 mt-8 grid grid-rows-4 gap-4">
+                        <select value={editData?.grandParent} onChange={(e) => setGrandParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                            <option>---сонгох---</option>
+                            {
+                                baseCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
+                            }
+                        </select>
+                        <select value={editData?.parent} onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                            <option>---сонгох---</option>
+                            {
+                                midCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
+                            }
+                        </select>
+                        <input value={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <Button click={editCategory} text="Болсон" color="green" />
+                    </div>
+                )
+            }
+            if (type === 'delete') {
+                return (
+                    <div className="w-80 mt-8 grid grid-rows-2 gap-4">
+                        <p>Мөрийг устгах уу?</p>
+                        <Button click={deleteCategory} text="Болсон" color="green" />
+                    </div>
+                )
+            }
         }
     }
 
-    const editMidCategory = async () => {
-        closeModal()
-        const options = {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ parent, name }),
-        }
-        const raw = await fetch(base_url + "midcategory", options)
-        const resp = await raw.json()
-        setAlertType(resp.ok ? "success" : "error")
-        if (resp.ok) {
-            fetchData()
-            setMsg(resp.message)
-            openAlert()
-        }
-    }
-
-    const deleteMidCategory = async () => {
-        closeModal()
-        const options = {
-            method: "DELETE",
-        }
-        const raw = await fetch(base_url + "midcategory", options)
-        const resp = await raw.json()
-        setAlertType(resp.ok ? "success" : "error")
-        if (resp.ok) {
-            fetchData()
-            setMsg(resp.message)
-            openAlert()
-        }
-    }
-
-    const saveSubCategory = async () => {
-        closeModal()
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ grandParent, parent, name }),
-        }
-        const raw = await fetch(base_url + "subcategory", options)
-        const resp = await raw.json()
-        setAlertType(resp.ok ? "success" : "error")
-        if (resp.ok) {
-            fetchData()
-            setMsg(resp.message)
-            openAlert()
-        }
-    }
-
-    const editSubCategory = async () => {
-        closeModal()
-        const options = {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ grandParent, parent, name }),
-        }
-        const raw = await fetch(base_url + "subcategory", options)
-        const resp = await raw.json()
-        setAlertType(resp.ok ? "success" : "error")
-        if (resp.ok) {
-            fetchData()
-            setMsg(resp.message)
-            openAlert()
-        }
-    }
-
-    const deleteSubCategory = async () => {
-        closeModal()
-        const options = {
-            method: "DELETE",
-        }
-        const raw = await fetch(base_url + "subcategory", options)
-        const resp = await raw.json()
-        setAlertType(resp.ok ? "success" : "error")
-        if (resp.ok) {
-            fetchData()
-            setMsg(resp.message)
-            openAlert()
-        }
-    }
-
-    const editCategory = (category) => {
-        setEditingCategory(category)
-        setName(category.name)
-        openModal()
-    }
-
-    const clearEditingState = () => {
-        setEditingCategory(null)
-        setName("")
-    }
-
-    const renderModalContent = () => {
-        if (editingCategory) {
-            return (
-                <div className="mt-8 w-80 grid grid-rows-2 gap-4">
-                    <input
-                        onChange={(e) => setName(e.target.value)}
-                        type="text"
-                        value={name}
-                        className="outline-none border border-stone-200 text-sm py-1 px-2 rounded-md"
-                    />
-                    {active === 1 && (
-                        <Button click={editBaseCategory} text="Хадгалах" color="green" />
-                    )}
-                    {active === 2 && (
-                        <Button click={editMidCategory} text="Хадгалах" color="green" />
-                    )}
-                    {active === 3 && (
-                        <Button click={editSubCategory} text="Хадгалах" color="green" />
-                    )}
-                </div>
-            )
-        }
-
-        const parentOptions = active === 1 ? [] : (active === 2 ? baseCategories : midCategories)
+    const tableElement = (cats) => {
 
         return (
-            <div className="mt-8 w-80 grid grid-rows-2 gap-4">
-                {active !== 1 && (
-                    <select
-                        onChange={(e) => setParent(e.target.value)}
-                        className="bg-white outline-none border border-stone-200 text-sm py-1 px-2 rounded-md"
-                    >
-                        <option>---сонгох---</option>
-                        {parentOptions.map((item) => (
-                            <option key={item.mark} value={item.mark}>
-                                {item.name}
-                            </option>
-                        ))}
-                    </select>
-                )}
-                <input
-                    onChange={(e) => setName(e.target.value)}
-                    type="text"
-                    value={name}
-                    className="outline-none border border-stone-200 text-sm py-1 px-2 rounded-md"
-                />
-                {active === 1 && (
-                    <Button click={saveBaseCategory} text="Болсон" color="green" />
-                )}
-                {active === 2 && (
-                    <Button click={saveMidCategory} text="Болсон" color="green" />
-                )}
-                {active === 3 && (
-                    <Button click={saveSubCategory} text="Болсон" color="green" />
-                )}
-            </div>
-        )
-    }
-
-    const renderCategoryTable = (categories) => (
-        <div className="mt-8">
-            <Button color="green" text="Нэмэх" click={() => openModal()} />
-            <table className="mt-4 w-full border-collapse border border-stone-200 text-xs">
+            <table className="w-full border-collapse border border-stone-200 text-sm">
                 <thead>
                     <tr>
                         <th className="border border-stone-200 w-8">№</th>
                         <th className="border border-stone-200">Нэр</th>
-                        <th className="border border-stone-200 w-20">Үйлдэл</th>
+                        <th className="border border-stone-200 w-16">Үйлдэл</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {categories.map((category, index) => (
-                        <tr key={index}>
-                            <td className="border border-stone-200 w-8">{index + 1}</td>
-                            <td className="border border-stone-200">{category.name}</td>
-                            <td className="border border-stone-200 w-20">
-                                <div className="flex justify-evenly">
-                                    <IconEdit
-                                        onClick={() => editCategory(category)}
-                                        className="cursor-pointer"
-                                    />
-                                    <IconTrash
-                                        onClick={() => {
-                                            clearEditingState()
-                                            deleteCategory(category)
-                                        }}
-                                        className="cursor-pointer"
-                                    />
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
+                    {
+                        cats.map((cat, num) => (
+                            <tr key={cat.mark}>
+                                <td className="border border-stone-200">{num + 1}</td>
+                                <td className="border border-stone-200">{cat.name}</td>
+                                <td className="border border-stone-200">
+                                    <div className="flex justify-evenly">
+                                        <IconEdit onClick={() => { setType('edit'), setEditData(cat), openModal() }} className="cursor-pointer" />
+                                        <IconTrash onClick={() => { setType('delete'), setDel(cat.mark), openModal() }} className="cursor-pointer" />
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </table>
-        </div>
-    )
-
-    const deleteCategory = (category) => {
-        setAlertType("info")
-        setMsg(`Устгахдаа итгэлтэй байна уу?`)
-        openAlert(() => {
-            if (active === 1) {
-                deleteBaseCategory()
-            } else if (active === 2) {
-                deleteMidCategory()
-            } else if (active === 3) {
-                deleteSubCategory()
-            }
-        })
+        )
     }
 
     return (
         <MainLayout>
-            {isAlertOpen && <Alert content={msg} type={alertType} />}
-            {isModalOpen && <Modal content={renderModalContent()} />}
-            <div className="grid grid-cols-3 text-sm">
-                <TabButton index={1} label="Ерөнхий цэс" active={active} setActive={setActive} />
-                <TabButton index={2} label="Дунд цэс" active={active} setActive={setActive} />
-                <TabButton index={3} label="Дэд цэс" active={active} setActive={setActive} />
+            {isAlertOpen && <Alert content={msg} type={errType} />}
+            {isModalOpen && <Modal content={modalContent()} />}
+            <div className="grid grid-cols-3">
+                <TabButton index={1} active={activeTab} setActive={setActiveTab} label="Үндсэн цэс" />
+                <TabButton index={2} active={activeTab} setActive={setActiveTab} label="Дунд цэс" />
+                <TabButton index={3} active={activeTab} setActive={setActiveTab} label="Дэд цэс" />
             </div>
-            {active === 1 && renderCategoryTable(baseCategories)}
-            {active === 2 && renderCategoryTable(midCategories)}
-            {active === 3 && renderCategoryTable(subCategories)}
+            <div className="my-4">
+                <Button click={() => { setEditData({}), setType('create'), openModal() }} text="Нэмэх" color="green" />
+            </div>
+            {
+                activeTab === 1 && tableElement(baseCategories)
+                ||
+                activeTab === 2 && tableElement(midCategories)
+                ||
+                activeTab === 3 && tableElement(subCategories)
+            }
         </MainLayout>
     )
 }

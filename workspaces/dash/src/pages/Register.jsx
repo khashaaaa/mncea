@@ -5,8 +5,10 @@ import { Button } from '../components/Button'
 import { AuthLayout } from '../layouts/AuthLayout'
 import { base_url } from '../config/global'
 import { Alert } from '../components/Alert'
+import Cookiez from 'js-cookie'
 
 export const Register = () => {
+    const access_token = Cookiez.get('access_token')
     const navigate = useNavigate()
     const { isAlertOpen, openAlert, closeAlert } = useContext(AlertContext)
 
@@ -19,17 +21,13 @@ export const Register = () => {
     })
 
     useEffect(() => {
+        if (access_token) {
+            navigate('/')
+        }
         if (!msg) {
             closeAlert()
         }
-        if (isAlertOpen) {
-            const timeoutId = setTimeout(() => {
-                closeAlert()
-            }, 3000)
-
-            return () => clearTimeout(timeoutId)
-        }
-    }, [isAlertOpen, closeAlert, msg])
+    }, [isAlertOpen])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
@@ -37,31 +35,27 @@ export const Register = () => {
     }
 
     const handleRegister = async () => {
-        try {
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            }
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        }
 
-            const raw = await fetch(base_url + 'user', options)
-            const resp = await raw.json()
+        const raw = await fetch(base_url + 'user', options)
+        const resp = await raw.json()
 
-            setAlertType(resp.ok ? 'success' : 'error')
+        setAlertType(resp.ok ? 'success' : 'error')
+
+        if (resp.ok) {
+            navigate('/login')
+        }
+        else {
             openAlert()
             setMsg(resp.message)
-
-            if (resp.ok) {
-                setTimeout(() => navigate('/login'), 3000)
-            }
-        } catch (error) {
-            console.log(error)
         }
     }
-
-    const AlertContent = <p>{msg}</p>
 
     const renderInput = (label, name, type = 'text') => (
         <div className="mt-4 flex flex-col">
@@ -78,8 +72,8 @@ export const Register = () => {
 
     return (
         <AuthLayout>
-            {isAlertOpen && <Alert content={AlertContent} type={alertType} />}
-            <div className="w-80">
+            {isAlertOpen && <Alert content={msg} type={alertType} />}
+            <div className="w-80 bg-sky-400 p-4 rounded-xl">
                 <p className="text-center">Бүртгүүлэх хэсэг</p>
                 {renderInput('Хэрэглэгчийн нэр', 'username')}
                 {renderInput('Утасны дугаар', 'mobile')}

@@ -9,7 +9,7 @@ import { BasecategoryModule } from './basecategory/basecategory.module'
 import { MidcategoryModule } from './midcategory/midcategory.module'
 import { SubcategoryModule } from './subcategory/subcategory.module'
 import { PostModule } from './post/post.module'
-import { UserModule } from './user/user.module';
+import { UserModule } from './user/user.module'
 
 @Module({
   imports: [

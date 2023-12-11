@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { useNavigate, useParams } from "react-router-dom"
 import { Editor } from '@tinymce/tinymce-react'
 import { MainLayout } from "../layouts/MainLayout"
 import { base_url } from '../config/global'
 import { IconPlus, IconX } from '@tabler/icons-react'
 import { Button } from '../components/Button'
-import { useParams } from 'react-router-dom'
+import Cookiez from 'js-cookie'
 
 export const EditPost = () => {
 
@@ -17,6 +18,10 @@ export const EditPost = () => {
         const minutes = now.getMinutes().toString().padStart(2, '0')
         return `${year}-${month}-${day}T${hours}:${minutes}`
     }
+
+    const access_token = Cookiez.get('access_token')
+
+    const navigate = useNavigate()
 
     const { mark } = useParams()
 
@@ -35,6 +40,9 @@ export const EditPost = () => {
     const [currentPost, setCurrentPost] = useState(null)
 
     useEffect(() => {
+        if (!access_token) {
+            navigate('/login')
+        }
         fetchData()
     }, [])
 
