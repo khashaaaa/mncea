@@ -92,6 +92,7 @@ export const EditPost = () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${access_token}`
             },
             body: JSON.stringify({
                 title,

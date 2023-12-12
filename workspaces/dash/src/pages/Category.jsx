@@ -96,6 +96,7 @@ export const Category = () => {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${access_token}`
             },
             body: JSON.stringify(form)
         }
@@ -143,6 +144,7 @@ export const Category = () => {
             method: 'PATCH',
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${access_token}`
             },
             body: JSON.stringify(form)
         }
@@ -164,7 +166,10 @@ export const Category = () => {
         closeModal()
 
         const options = {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
         }
 
         let endpoint
@@ -205,7 +210,7 @@ export const Category = () => {
             if (type === 'edit') {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-2 gap-4">
-                        <input value={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <input defaultValue={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
                         <Button click={editCategory} text="Болсон" color="green" />
                     </div>
                 )
@@ -214,7 +219,10 @@ export const Category = () => {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-2 gap-4">
                         <p>Мөрийг устгах уу?</p>
-                        <Button click={deleteCategory} text="Болсон" color="green" />
+                        <div className="flex justify-between">
+                            <Button click={deleteCategory} text="Тийм" color="green" />
+                            <Button click={() => closeModal()} text="Үгүй" color="gray" />
+                        </div>
                     </div>
                 )
             }
@@ -237,13 +245,13 @@ export const Category = () => {
             if (type === 'edit') {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-3 gap-4">
-                        <select value={editData?.parent} onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                        <select defaultValue={editData?.parent} onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
                             <option>---сонгох---</option>
                             {
                                 baseCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
                             }
                         </select>
-                        <input value={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <input defaultValue={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
                         <Button click={editCategory} text="Болсон" color="green" />
                     </div>
                 )
@@ -252,7 +260,10 @@ export const Category = () => {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-2 gap-4">
                         <p>Мөрийг устгах уу?</p>
-                        <Button click={deleteCategory} text="Болсон" color="green" />
+                        <div className="flex justify-between">
+                            <Button click={deleteCategory} text="Тийм" color="green" />
+                            <Button click={() => closeModal()} text="Үгүй" color="gray" />
+                        </div>
                     </div>
                 )
             }
@@ -281,19 +292,19 @@ export const Category = () => {
             if (type === 'edit') {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-4 gap-4">
-                        <select value={editData?.grandParent} onChange={(e) => setGrandParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                        <select defaultValue={editData?.grandParent} onChange={(e) => setGrandParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
                             <option>---сонгох---</option>
                             {
                                 baseCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
                             }
                         </select>
-                        <select value={editData?.parent} onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                        <select defaultValue={editData?.parent} onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
                             <option>---сонгох---</option>
                             {
                                 midCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
                             }
                         </select>
-                        <input value={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <input defaultValue={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
                         <Button click={editCategory} text="Болсон" color="green" />
                     </div>
                 )
@@ -302,7 +313,10 @@ export const Category = () => {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-2 gap-4">
                         <p>Мөрийг устгах уу?</p>
-                        <Button click={deleteCategory} text="Болсон" color="green" />
+                        <div className="flex justify-between">
+                            <Button click={deleteCategory} text="Тийм" color="green" />
+                            <Button click={() => closeModal()} text="Үгүй" color="gray" />
+                        </div>
                     </div>
                 )
             }

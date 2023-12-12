@@ -33,14 +33,28 @@ export const PostList = () => {
     }
 
     const RemovePost = async () => {
-        const options = {
-            method: 'DELETE'
+        const imageOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ thumbnail: del.thumbnail })
+        }
+        const postOptions = {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            },
         }
 
-        const raw = await fetch(base_url + 'post/' + del + '/delete', options)
-        const resp = await raw.json()
-        if (resp.ok) {
+        const rawImg = await fetch(base_url + 'post/sweep', imageOptions)
+        const rawPost = await fetch(base_url + 'post/' + del.mark + '/delete', postOptions)
+        const respImg = await rawImg.json()
+        const respPost = await rawPost.json()
+
+        if (respImg.ok && respPost.ok) {
             closeModal()
+            FetchPosts()
         }
     }
 
@@ -77,7 +91,7 @@ export const PostList = () => {
                                     <Link to={`/${post.mark}/update`}>
                                         <IconEdit />
                                     </Link>
-                                    <IconTrash onClick={() => { openModal(), setDel(post.mark) }} className="cursor-pointer" />
+                                    <IconTrash onClick={() => { openModal(), setDel(post) }} className="cursor-pointer" />
                                 </div>
                                 <img src={`${base_url}post/thumbnail/${post.thumbnail}`} className="rounded-t-xl border-b border-stone-200" />
                                 <div className="p-4">

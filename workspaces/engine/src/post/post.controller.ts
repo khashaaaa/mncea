@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, ParseFilePipe, FileTypeValidator, MaxFileSizeValidator, BadRequestException, Res } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, ParseFilePipe, FileTypeValidator, MaxFileSizeValidator, BadRequestException, Res, InternalServerErrorException } from '@nestjs/common'
 import { PostService } from './post.service'
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer'
 import * as path from 'path'
+import * as fs from 'fs/promises'
 
 @Controller('post')
 export class PostController {
@@ -61,6 +62,22 @@ export class PostController {
   @Patch(':mark/edit')
   async update(@Param('mark') mark: string, @Body() updatePostDto: UpdatePostDto) {
     return await this.postService.update(mark, updatePostDto)
+  }
+
+  @Post('sweep')
+  async sweepImage(@Body() data: any) {
+    const { thumbnail } = data
+    try {
+      const imgPath = path.join(__dirname, '../../../public/post', thumbnail)
+      const resp = await fs.unlink(imgPath)
+      return {
+        ok: true,
+        data: resp,
+        message: 'Зураг устгагдлаа'
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('Зураг утсгах явцад алдаа гарлаа: ' + error.message)
+    }
   }
 
   @Delete(':mark/delete')

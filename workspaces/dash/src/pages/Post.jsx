@@ -37,7 +37,7 @@ export const Post = () => {
                     alt={`Thumbnail for ${post?.title || 'Post'}`}
                     className="w-80"
                 />
-                <p>{post?.title}</p>
+                <p className="my-4 font-bold text-xl">{post?.title}</p>
                 <div dangerouslySetInnerHTML={{ __html: post?.content }}></div>
             </div>
         </MainLayout>

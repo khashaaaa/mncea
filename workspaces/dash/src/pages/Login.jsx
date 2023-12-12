@@ -48,6 +48,7 @@ export const Login = () => {
 
         if (data.ok) {
             Cookiez.set('access_token', data?.access_token)
+            Cookiez.set('user', JSON.stringify(data?.data))
             navigate('/')
         } else {
             setAlertType('error')
