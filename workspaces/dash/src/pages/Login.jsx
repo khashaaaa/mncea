@@ -73,7 +73,7 @@ export const Login = () => {
     return (
         <AuthLayout>
             {isAlertOpen && <Alert content={msg} type={alertType} />}
-            <div className="w-80 bg-amber-400 p-4 rounded-xl">
+            <div className="w-80 bg-gray-200 p-4 rounded-xl">
                 <p className="text-center">Нэвтрэх хэсэг</p>
                 {renderInput('Хэрэглэгчийн нэр', 'username')}
                 {renderInput('Нууц үг', 'password', 'password')}

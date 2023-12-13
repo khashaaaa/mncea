@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { Editor } from '@tinymce/tinymce-react'
 import { MainLayout } from "../layouts/MainLayout"
 import { base_url } from '../config/global'
-import { IconPlus, IconX } from '@tabler/icons-react'
+import { IconPhotoPlus, IconX } from '@tabler/icons-react'
 import { Button } from '../components/Button'
 import Cookiez from 'js-cookie'
 
@@ -114,16 +114,16 @@ export const EditPost = () => {
     return (
         <MainLayout>
             <div>
-                <p className="mb-2">Зураг сонгох</p>
+                <p className="mb-2">Өнгөц зураг сонгох</p>
                 <label className="flex items-center justify-center w-28 h-28 border-dashed border-2 border-stone-200 rounded-md cursor-pointer">
                     <input type="file" onChange={imageProcess} hidden />
                     {(currentPost?.thumbnail || preview) && (
                         <div className="relative cursor-default">
-                            <IconX onClick={imageCancel} className="absolute right-0 cursor-pointer" />
+                            <IconX onClick={imageCancel} className="bg-white rounded absolute right-0 cursor-pointer" />
                             <img src={currentPost?.thumbnail ? `/${currentPost.thumbnail}` : preview[0]} alt="Image Preview" />
                         </div>
                     )}
-                    {!currentPost?.thumbnail && !preview && <IconPlus />}
+                    {!currentPost?.thumbnail && !preview && <IconPhotoPlus />}
                 </label>
 
             </div>
@@ -181,7 +181,7 @@ export const EditPost = () => {
                 onInit={(evt, editor) => editorData.current = editor}
                 initialValue={currentPost?.content}
                 init={{
-                    height: '800px',
+                    height: '500px',
                     menubar: false,
                     plugins: [
                         'advlist', 'autolink', 'emoticons', 'lists', 'link', 'image', 'charmap', 'preview',

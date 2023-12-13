@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { MainLayout } from "../layouts/MainLayout"
 import { TabButton } from "../components/TabButton"
 import { base_url } from '../config/global'
-import { IconEdit, IconTrash } from "@tabler/icons-react"
+import { IconCategoryPlus, IconEdit, IconTrash } from "@tabler/icons-react"
 import { ModalContext } from "../context/ModalProvider"
 import { AlertContext } from "../context/AlertProvider"
 import { Button } from "../components/Button"
@@ -202,7 +202,7 @@ export const Category = () => {
             if (type === 'create') {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-2 gap-4">
-                        <input onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <input onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300" />
                         <Button click={createCategory} text="Болсон" color="green" />
                     </div>
                 )
@@ -210,7 +210,7 @@ export const Category = () => {
             if (type === 'edit') {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-2 gap-4">
-                        <input defaultValue={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <input defaultValue={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300" />
                         <Button click={editCategory} text="Болсон" color="green" />
                     </div>
                 )
@@ -231,13 +231,13 @@ export const Category = () => {
             if (type === 'create') {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-3 gap-4">
-                        <select onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                        <select onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300">
                             <option>---сонгох---</option>
                             {
                                 baseCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
                             }
                         </select>
-                        <input onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <input onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300" />
                         <Button click={createCategory} text="Болсон" color="green" />
                     </div>
                 )
@@ -245,13 +245,13 @@ export const Category = () => {
             if (type === 'edit') {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-3 gap-4">
-                        <select defaultValue={editData?.parent} onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                        <select defaultValue={editData?.parent} onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300">
                             <option>---сонгох---</option>
                             {
                                 baseCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
                             }
                         </select>
-                        <input defaultValue={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <input defaultValue={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300" />
                         <Button click={editCategory} text="Болсон" color="green" />
                     </div>
                 )
@@ -272,19 +272,19 @@ export const Category = () => {
             if (type === 'create') {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-4 gap-4">
-                        <select onChange={(e) => setGrandParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                        <select onChange={(e) => setGrandParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300">
                             <option>---сонгох---</option>
                             {
                                 baseCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
                             }
                         </select>
-                        <select onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                        <select onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300">
                             <option>---сонгох---</option>
                             {
                                 midCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
                             }
                         </select>
-                        <input onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <input onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300" />
                         <Button click={createCategory} text="Болсон" color="green" />
                     </div>
                 )
@@ -292,19 +292,19 @@ export const Category = () => {
             if (type === 'edit') {
                 return (
                     <div className="w-80 mt-8 grid grid-rows-4 gap-4">
-                        <select defaultValue={editData?.grandParent} onChange={(e) => setGrandParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                        <select defaultValue={editData?.grandParent} onChange={(e) => setGrandParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300">
                             <option>---сонгох---</option>
                             {
                                 baseCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
                             }
                         </select>
-                        <select defaultValue={editData?.parent} onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2">
+                        <select defaultValue={editData?.parent} onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300">
                             <option>---сонгох---</option>
                             {
                                 midCategories.map((cat, num) => <option key={cat.mark} value={cat.mark}>{cat.name}</option>)
                             }
                         </select>
-                        <input defaultValue={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2" />
+                        <input defaultValue={editData?.name} onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300" />
                         <Button click={editCategory} text="Болсон" color="green" />
                     </div>
                 )
@@ -326,31 +326,33 @@ export const Category = () => {
     const tableElement = (cats) => {
 
         return (
-            <table className="w-full border-collapse border border-stone-200 text-sm">
-                <thead>
-                    <tr>
-                        <th className="border border-stone-200 w-8">№</th>
-                        <th className="border border-stone-200">Нэр</th>
-                        <th className="border border-stone-200 w-16">Үйлдэл</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        cats.map((cat, num) => (
-                            <tr key={cat.mark}>
-                                <td className="border border-stone-200">{num + 1}</td>
-                                <td className="border border-stone-200">{cat.name}</td>
-                                <td className="border border-stone-200">
-                                    <div className="flex justify-evenly">
-                                        <IconEdit onClick={() => { setType('edit'), setEditData(cat), openModal() }} className="cursor-pointer" />
-                                        <IconTrash onClick={() => { setType('delete'), setDel(cat.mark), openModal() }} className="cursor-pointer" />
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            <div className="border border-stone-200 rounded-lg">
+                <table className="w-full text-sm">
+                    <thead className="bg-stone-200">
+                        <tr>
+                            <th className="p-2 w-8">№</th>
+                            <th className="p-2">Нэр</th>
+                            <th className="p-2 w-16">Үйлдэл</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            cats.map((cat, num) => (
+                                <tr key={cat.mark}>
+                                    <td className="p-2">{num + 1}</td>
+                                    <td className="p-2">{cat.name}</td>
+                                    <td className="p-2">
+                                        <div className="flex justify-evenly">
+                                            <IconEdit size={18} onClick={() => { setType('edit'), setEditData(cat), openModal() }} className="cursor-pointer" />
+                                            <IconTrash size={18} onClick={() => { setType('delete'), setDel(cat.mark), openModal() }} className="cursor-pointer" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
         )
     }
 
@@ -358,13 +360,13 @@ export const Category = () => {
         <MainLayout>
             {isAlertOpen && <Alert content={msg} type={errType} />}
             {isModalOpen && <Modal content={modalContent()} />}
-            <div className="grid grid-cols-3">
+            <div className="w-80 grid grid-cols-3">
                 <TabButton index={1} active={activeTab} setActive={setActiveTab} label="Үндсэн цэс" />
                 <TabButton index={2} active={activeTab} setActive={setActiveTab} label="Дунд цэс" />
                 <TabButton index={3} active={activeTab} setActive={setActiveTab} label="Дэд цэс" />
             </div>
-            <div className="my-4">
-                <Button click={() => { setEditData({}), setType('create'), openModal() }} text="Нэмэх" color="green" />
+            <div className="my-8">
+                <Button click={() => { setEditData({}), setType('create'), openModal() }} text="Цэс нэмэх" color="green" icon={<IconCategoryPlus />} />
             </div>
             {
                 activeTab === 1 && tableElement(baseCategories)

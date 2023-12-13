@@ -73,7 +73,7 @@ export const Register = () => {
     return (
         <AuthLayout>
             {isAlertOpen && <Alert content={msg} type={alertType} />}
-            <div className="w-80 bg-sky-400 p-4 rounded-xl">
+            <div className="w-80 bg-gray-200 p-4 rounded-xl">
                 <p className="text-center">Бүртгүүлэх хэсэг</p>
                 {renderInput('Хэрэглэгчийн нэр', 'username')}
                 {renderInput('Утасны дугаар', 'mobile')}

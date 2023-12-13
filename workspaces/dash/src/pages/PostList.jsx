@@ -4,7 +4,7 @@ import { MainLayout } from "../layouts/MainLayout"
 import { Button } from "../components/Button"
 import { base_url } from "../config/global"
 import { Link } from "react-router-dom"
-import { IconEdit, IconEye, IconTrash } from "@tabler/icons-react"
+import { IconEdit, IconEye, IconPencilPlus, IconTrash } from "@tabler/icons-react"
 import { ModalContext } from "../context/ModalProvider"
 import { Modal } from "../components/Modal"
 import Cookiez from 'js-cookie'
@@ -77,7 +77,7 @@ export const PostList = () => {
                     null
             }
             <Link to="/publish">
-                <Button color="green" text="Нийтлэл нэмэх" />
+                <Button color="green" text="Мэдээлэл нэмэх" icon={<IconPencilPlus />} />
             </Link>
             <div className="mt-4 grid grid-cols-4 gap-4">
                 {
