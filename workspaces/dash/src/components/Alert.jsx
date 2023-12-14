@@ -9,11 +9,11 @@ export const Alert = ({ content, type }) => {
 
     useEffect(() => {
         if (type === "success") {
-            setAlertColor("bg-green-400")
+            setAlertColor("bg-green-600")
         } else if (type === "error") {
-            setAlertColor("bg-red-400")
+            setAlertColor("bg-red-600")
         } else {
-            setAlertColor("bg-amber-400")
+            setAlertColor("bg-amber-600")
         }
 
         if (isAlertOpen) {
@@ -28,9 +28,9 @@ export const Alert = ({ content, type }) => {
     }, [isAlertOpen, closeAlert, type])
 
     return (
-        <div className={`fixed top-16 left-1/2 transform -translate-x-1/2 flex items-center rounded-xl p-4 ${alertColor}`}>
-            <div className="ml-2"><p>{content}</p></div>
-            <IconX onClick={() => closeAlert()} className="ml-2 cursor-pointer" />
+        <div className={`fixed top-8 left-1/2 transform -translate-x-1/2 flex items-center rounded-xl px-4 py-2 ${alertColor}`}>
+            <div className="ml-2"><p className="font-bold text-white">{content}</p></div>
+            <IconX color="white" onClick={() => closeAlert()} className="ml-2 cursor-pointer" />
         </div>
     )
 }

@@ -16,16 +16,19 @@ export class UserService {
     })
 
     if (!user) {
-      this.handleNotFoundError('Мэдээлэл таарсангүй')
+      this.handleNotFoundError('Хэрэглэгч олдсонгүй')
     }
 
-    const access_token = await this.jwts.signAsync({ username: createUserDto.username, password: createUserDto.password }, { secret: process.env.JWT_SECRET })
+    const access_token = await this.jwts.signAsync(
+      { username: createUserDto.username, password: createUserDto.password },
+      { secret: process.env.JWT_SECRET }
+    )
 
     return {
       ok: true,
       data: user,
       access_token,
-      message: 'Амжилттай нэвтэрлээ. Хуудсыг чиглүүлж байна',
+      message: 'Амжилттай нэвтэрлээ',
     }
   }
 
@@ -61,16 +64,21 @@ export class UserService {
     try {
       const user = await this.repo.findOneOrFail({ where: { mark } })
 
-      if (!user) {
-        this.handleNotFoundError('Олдсонгүй')
-      }
-
       return {
         ok: true,
         data: user,
       }
     } catch (error) {
-      this.handleInternalServerError(error.message)
+      if (error.name !== 'EntityNotFoundError') {
+        this.handleInternalServerError(error.message)
+      }
+
+      this.handleNotFoundError('Хэрэглэгч олдсонгүй')
+
+      return {
+        ok: false,
+        data: null,
+      }
     }
   }
 
@@ -90,7 +98,7 @@ export class UserService {
       return {
         ok: true,
         data: updated,
-        message: 'Мэдээлэл шинэчлэгдлээ',
+        message: 'Хэрэглэгчийн мэдээлэл шинэчлэгдлээ',
       }
     } catch (error) {
       this.handleInternalServerError(error.message)
@@ -105,7 +113,7 @@ export class UserService {
     return {
       ok: true,
       data: delItem,
-      message: 'Мэдээлэл устгагдлаа',
+      message: 'Хэрэглэгч устгагдлаа',
     }
   }
 

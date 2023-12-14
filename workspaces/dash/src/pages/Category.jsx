@@ -10,6 +10,7 @@ import { Button } from "../components/Button"
 import { Alert } from "../components/Alert"
 import { Modal } from "../components/Modal"
 import Cookiez from 'js-cookie'
+import { MenuContext } from "../context/MenuProvider"
 
 export const Category = () => {
 
@@ -36,10 +37,12 @@ export const Category = () => {
     const [msg, setMsg] = useState(null)
     const [errType, setErrType] = useState('')
 
+    const { menuOpen, setActive } = useContext(MenuContext)
     const { isModalOpen, openModal, closeModal } = useContext(ModalContext)
     const { isAlertOpen, openAlert, closeAlert } = useContext(AlertContext)
 
     useEffect(() => {
+        setActive('category')
         if (!access_token) {
             navigate('/login')
         }
@@ -217,7 +220,7 @@ export const Category = () => {
             }
             if (type === 'delete') {
                 return (
-                    <div className="w-80 mt-8 grid grid-rows-2 gap-4">
+                    <div className="mt-8 grid grid-rows-2 gap-4">
                         <p>Мөрийг устгах уу?</p>
                         <div className="flex justify-between">
                             <Button click={deleteCategory} text="Тийм" color="green" />
@@ -258,7 +261,7 @@ export const Category = () => {
             }
             if (type === 'delete') {
                 return (
-                    <div className="w-80 mt-8 grid grid-rows-2 gap-4">
+                    <div className="mt-8 grid grid-rows-2 gap-4">
                         <p>Мөрийг устгах уу?</p>
                         <div className="flex justify-between">
                             <Button click={deleteCategory} text="Тийм" color="green" />
@@ -311,7 +314,7 @@ export const Category = () => {
             }
             if (type === 'delete') {
                 return (
-                    <div className="w-80 mt-8 grid grid-rows-2 gap-4">
+                    <div className="mt-8 grid grid-rows-2 gap-4">
                         <p>Мөрийг устгах уу?</p>
                         <div className="flex justify-between">
                             <Button click={deleteCategory} text="Тийм" color="green" />

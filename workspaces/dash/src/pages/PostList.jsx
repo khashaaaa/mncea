@@ -8,6 +8,7 @@ import { IconEdit, IconEye, IconPencilPlus, IconTrash } from "@tabler/icons-reac
 import { ModalContext } from "../context/ModalProvider"
 import { Modal } from "../components/Modal"
 import Cookiez from 'js-cookie'
+import { MenuContext } from "../context/MenuProvider"
 
 export const PostList = () => {
 
@@ -17,9 +18,12 @@ export const PostList = () => {
 
     const [posts, setPosts] = useState([])
     const [del, setDel] = useState(null)
+
+    const { menuOpen, setActive } = useContext(MenuContext)
     const { isModalOpen, openModal, closeModal } = useContext(ModalContext)
 
     useEffect(() => {
+        setActive('post')
         if (!access_token) {
             navigate('/login')
         }

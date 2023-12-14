@@ -4,7 +4,7 @@ export const MenuContext = createContext()
 
 export const MenuProvider = ({ children }) => {
 
-    const [menuOpen, setMenuOpen] = useState(1)
+    const [menuOpen, setMenuOpen] = useState('')
 
     const setActive = (num) => {
         setMenuOpen(num)
