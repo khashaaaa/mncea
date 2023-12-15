@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, useContext } from 'react'
 import { useNavigate, useParams } from "react-router-dom"
 import { Editor } from '@tinymce/tinymce-react'
 import { MainLayout } from "../layouts/MainLayout"
@@ -6,6 +6,7 @@ import { base_url } from '../config/global'
 import { IconPhotoPlus, IconX } from '@tabler/icons-react'
 import { Button } from '../components/Button'
 import Cookiez from 'js-cookie'
+import { MenuContext } from '../context/MenuProvider'
 
 export const EditPost = () => {
 
@@ -22,6 +23,8 @@ export const EditPost = () => {
     const access_token = Cookiez.get('access_token')
 
     const navigate = useNavigate()
+
+    const { menuOpen, setActive } = useContext(MenuContext)
 
     const { mark } = useParams()
 
@@ -40,6 +43,7 @@ export const EditPost = () => {
     const [currentPost, setCurrentPost] = useState(null)
 
     useEffect(() => {
+        setActive('post')
         if (!access_token) {
             navigate('/login')
         }

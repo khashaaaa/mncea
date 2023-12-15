@@ -40,6 +40,9 @@ export const UserControl = () => {
 
     useEffect(() => {
         setActive('user')
+        if (!access_token) {
+            navigate('/login')
+        }
         GetCurrentUser()
         GetUsers()
     }, [])

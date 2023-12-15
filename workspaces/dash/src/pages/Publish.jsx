@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, useContext } from 'react'
 import { useNavigate } from "react-router-dom"
 import { Editor } from '@tinymce/tinymce-react'
 import { MainLayout } from "../layouts/MainLayout"
@@ -6,6 +6,7 @@ import { base_url } from '../config/global'
 import { IconPhotoPlus, IconPlus, IconX } from '@tabler/icons-react'
 import { Button } from '../components/Button'
 import Cookiez from 'js-cookie'
+import { MenuContext } from '../context/MenuProvider'
 
 export const Publish = () => {
 
@@ -20,6 +21,8 @@ export const Publish = () => {
     }
 
     const access_token = Cookiez.get('access_token')
+
+    const { menuOpen, setActive } = useContext(MenuContext)
 
     const navigate = useNavigate()
 
@@ -40,6 +43,7 @@ export const Publish = () => {
     const [image, setImage] = useState(null)
 
     useEffect(() => {
+        setActive('post')
         if (!access_token) {
             navigate('/login')
         }

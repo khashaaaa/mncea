@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { MenuContext } from "../context/MenuProvider"
 import { Link, useNavigate } from "react-router-dom"
 import Cookiez from 'js-cookie'
-import { IconCategory, IconNews, IconPower, IconUserCog } from "@tabler/icons-react"
+import { IconCategory, IconComponents, IconNews, IconPower, IconUserCog } from "@tabler/icons-react"
 
 export const Aside = () => {
 
@@ -37,9 +37,13 @@ export const Aside = () => {
                     <IconNews />
                     <p className="ml-2">Мэдээлэл</p>
                 </Link>
-                <Link to="/category" onClick={() => setActive('category')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'category' && 'bg-sky-800 text-white'}`}>
+                <Link to="/headcategory" onClick={() => setActive('headcategory')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'headcategory' && 'bg-sky-800 text-white'}`}>
                     <IconCategory />
-                    <p className="ml-2">Цэс</p>
+                    <p className="ml-2">Толгой цэс</p>
+                </Link>
+                <Link to="/specialcategory" onClick={() => setActive('specialcategory')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'specialcategory' && 'bg-sky-800 text-white'}`}>
+                    <IconComponents />
+                    <p className="ml-2">Онцгой цэс</p>
                 </Link>
                 <Link to="/usercontrol" onClick={() => setActive('user')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'user' && 'bg-sky-800 text-white'}`}>
                     <IconUserCog />

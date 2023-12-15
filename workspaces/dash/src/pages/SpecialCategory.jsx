@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { MainLayout } from "../layouts/MainLayout"
 import { TabButton } from "../components/TabButton"
 import { base_url } from '../config/global'
-import { IconCategoryPlus, IconEdit, IconTrash } from "@tabler/icons-react"
+import { IconComponents, IconEdit, IconTrash } from "@tabler/icons-react"
 import { ModalContext } from "../context/ModalProvider"
 import { AlertContext } from "../context/AlertProvider"
 import { Button } from "../components/Button"
@@ -12,7 +12,7 @@ import { Modal } from "../components/Modal"
 import Cookiez from 'js-cookie'
 import { MenuContext } from "../context/MenuProvider"
 
-export const Category = () => {
+export const SpecialCategory = () => {
 
     const access_token = Cookiez.get('access_token')
 
@@ -42,7 +42,7 @@ export const Category = () => {
     const { isAlertOpen, openAlert, closeAlert } = useContext(AlertContext)
 
     useEffect(() => {
-        setActive('category')
+        setActive('specialcategory')
         if (!access_token) {
             navigate('/login')
         }
@@ -364,12 +364,12 @@ export const Category = () => {
             {isAlertOpen && <Alert content={msg} type={errType} />}
             {isModalOpen && <Modal content={modalContent()} />}
             <div className="w-80 grid grid-cols-3">
-                <TabButton index={1} active={activeTab} setActive={setActiveTab} label="Үндсэн цэс" />
-                <TabButton index={2} active={activeTab} setActive={setActiveTab} label="Дунд цэс" />
-                <TabButton index={3} active={activeTab} setActive={setActiveTab} label="Дэд цэс" />
+                <TabButton index={1} active={activeTab} setActive={setActiveTab} label="Үндсэн" />
+                <TabButton index={2} active={activeTab} setActive={setActiveTab} label="Дунд" />
+                <TabButton index={3} active={activeTab} setActive={setActiveTab} label="Дэд" />
             </div>
             <div className="my-8">
-                <Button click={() => { setEditData({}), setType('create'), openModal() }} text="Цэс нэмэх" color="green" icon={<IconCategoryPlus />} />
+                <Button click={() => { setEditData({}), setType('create'), openModal() }} text="Нэмэх" color="green" icon={<IconComponents />} />
             </div>
             {
                 activeTab === 1 && tableElement(baseCategories)

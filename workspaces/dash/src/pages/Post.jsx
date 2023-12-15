@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { MainLayout } from "../layouts/MainLayout"
 import { useParams, useNavigate } from 'react-router-dom'
 import { base_url } from "../config/global"
 import Cookiez from 'js-cookie'
+import { MenuContext } from "../context/MenuProvider"
 
 export const Post = () => {
 
     const access_token = Cookiez.get('access_token')
 
     const navigate = useNavigate()
+
+    const { menuOpen, setActive } = useContext(MenuContext)
 
     const { mark } = useParams()
 
@@ -17,6 +20,7 @@ export const Post = () => {
     const thumbnailUrl = post?.thumbnail ? `${base_url}post/thumbnail/${post.thumbnail}` : ''
 
     useEffect(() => {
+        setActive('post')
         if (!access_token) {
             navigate('/login')
         }
