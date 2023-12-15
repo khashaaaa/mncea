@@ -1,15 +1,29 @@
-import logo from '../assets/logo.png'
+import { IconBrandFacebook, IconBrandX, IconBrandYoutube, IconSearch } from '@tabler/icons-react'
+import logo from '/logo.jpg'
 
 export const Head = () => {
 
     return (
         <div>
-            <div className="bg-main w-full h-10"></div>
+            <div className="bg-main w-full h-10 flex items-center">
+                <div className='mx-auto flex justify-between items-center' style={{ width: '70%' }}>
+                    <div className='grid grid-cols-3 gap-2'>
+                        <IconBrandFacebook color='white' />
+                        <IconBrandYoutube color='white' />
+                        <IconBrandX color='white' />
+                    </div>
+
+                    <div className='flex items-center'>
+                        <input className='w-60 rounded-l outline-none px-2 py-1 text-sm' />
+                        <button type='button' className='bg-white py-1 px-2 rounded-r'><IconSearch size={20} /></button>
+                    </div>
+                </div>
+
+            </div>
             <div className='mx-auto h-20 flex items-center' style={{ width: '70%' }}>
                 <div className='w-full flex items-center justify-between'>
                     <div className="flex items-center">
-                        <img className='w-28' src={logo} alt="logo" />
-                        <div className="ml-4 text-main w-60 text-sm">Боловсролын магадлан итгэмжлэлийн үндэсний зөвлөл</div>
+                        <img className='w-60' src={logo} alt="logo" />
                     </div>
                     <div className='flex text-lg'>
                         <div className='ml-8'>Тухай</div>

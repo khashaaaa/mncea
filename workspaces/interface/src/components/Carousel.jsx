@@ -1,5 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
+import banner from '/banner.png'
 
 export const Carousel = () => {
 
@@ -7,13 +8,7 @@ export const Carousel = () => {
         <div style={{ marginRight: '15%', marginLeft: '15%', marginTop: '2rem' }}>
             <Swiper>
                 <SwiperSlide>
-                    <div className="rounded-xl" style={{ height: '480px', backgroundImage: 'url(/one.jpg)' }}></div>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <div className="rounded-xl" style={{ height: '480px', backgroundImage: 'url(/two.jpg)' }}></div>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <div className="rounded-xl" style={{ height: '480px', backgroundImage: 'url(/three.jpg)' }}></div>
+                    <img src={banner} />
                 </SwiperSlide>
             </Swiper>
         </div>
