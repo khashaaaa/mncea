@@ -1,5 +1,6 @@
 import { IconBrandFacebook, IconBrandX, IconBrandYoutube, IconSearch } from '@tabler/icons-react'
 import logo from '/logo.jpg'
+import { Link } from 'react-router-dom'
 
 export const Head = () => {
 
@@ -22,9 +23,9 @@ export const Head = () => {
             </div>
             <div className='mx-auto h-20 flex items-center' style={{ width: '70%' }}>
                 <div className='w-full flex items-center justify-between'>
-                    <div className="flex items-center">
+                    <Link to="/" className="flex items-center">
                         <img className='w-60' src={logo} alt="logo" />
-                    </div>
+                    </Link>
                     <div className='flex text-lg'>
                         <div className='ml-8'>Тухай</div>
                         <div className='ml-8'>Мэдээлэл</div>

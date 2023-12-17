@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Language } from "./language"
 
 @Entity()
 export class Post {
@@ -20,6 +21,12 @@ export class Post {
 
     @Column({ nullable: true })
     thumbnail: string
+
+    @Column({
+        type: 'enum',
+        enum: Language
+    })
+    language: Language
 
     @Column()
     base_category: number

@@ -21,6 +21,8 @@ export const Publish = () => {
     }
 
     const access_token = Cookiez.get('access_token')
+    const str = Cookiez.get('user')
+    const user = str ? JSON.parse(str) : null
 
     const { menuOpen, setActive } = useContext(MenuContext)
 
@@ -30,6 +32,7 @@ export const Publish = () => {
 
     const [title, setTitle] = useState('')
     const [currentDateTime, setCurrentDateTime] = useState(getCurrentDateTime())
+    const [language, setLanguage] = useState('mn')
     const [baseCategory, setBaseCategory] = useState('')
     const [midCategory, setMidCategory] = useState('')
     const [subCategory, setSubCategory] = useState('')
@@ -92,7 +95,8 @@ export const Publish = () => {
                 content: editorContent,
                 posted_date: currentDateTime,
                 thumbnail: image,
-                admin: 'asdfasdfasdf',
+                language,
+                admin: user?.username,
                 base_category: baseCategory,
                 mid_category: midCategory,
                 sub_category: subCategory,
@@ -133,8 +137,6 @@ export const Publish = () => {
         }
     }
 
-
-
     return (
         <MainLayout>
             <div>
@@ -150,6 +152,14 @@ export const Publish = () => {
                         <IconPhotoPlus />
                     )}
                 </label>
+            </div>
+
+            <div className="mt-4 flex flex-col">
+                <label className="text-xs mb-1">Хэл</label>
+                <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="h-8 text-sm w-40 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                    <option value="mn">Монгол</option>
+                    <option value="en">English</option>
+                </select>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-4">
                 <div className="col-span-2 flex flex-col">
