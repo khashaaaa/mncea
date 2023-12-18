@@ -153,7 +153,7 @@ export const Publish = () => {
 
             <div className="mt-4 flex flex-col">
                 <label className="text-xs mb-1">Хэл</label>
-                <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="h-6 text-xs w-40 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="h-8 text-xs w-40 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
                     <option value="mn">Монгол</option>
                     <option value="en">English</option>
                 </select>
@@ -162,17 +162,17 @@ export const Publish = () => {
             <div className="mt-4 grid grid-cols-3 gap-4">
                 <div className="col-span-2 flex flex-col">
                     <label className="text-xs mb-1"><span className="text-red-600">*</span> Гарчиг</label>
-                    <input type="text" onChange={(e) => setTitle(e.target.value)} className="h-6 text-xs outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300" />
+                    <input type="text" onChange={(e) => setTitle(e.target.value)} className="h-8 text-xs outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300" />
                 </div>
                 <div className="flex flex-col">
                     <label className="text-xs mb-1"><span className="text-red-600">*</span> Огноо</label>
-                    <input type="datetime-local" value={currentDateTime} onChange={(e) => setCurrentDateTime(e.target.value)} className="h-6 text-xs outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300" />
+                    <input type="datetime-local" value={currentDateTime} onChange={(e) => setCurrentDateTime(e.target.value)} className="h-8 text-xs outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300" />
                 </div>
             </div>
             <div className="my-4 grid grid-cols-3 gap-4">
                 <div>
                     <label className="text-xs mb-1"><span className="text-red-600">*</span> Үндсэн цэс</label>
-                    <select onChange={(e) => setBaseCategory(e.target.value)} className="h-6 text-xs w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                    <select onChange={(e) => setBaseCategory(e.target.value)} className="h-8 text-xs w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
                         <option>--- сонгох ---</option>
                         {baseCategories.map((item) => (
                             <option key={item.mark} value={item.mark}>{item.name}</option>
@@ -181,7 +181,7 @@ export const Publish = () => {
                 </div>
                 <div>
                     <label className="text-xs mb-1">Дунд цэс</label>
-                    <select onClick={(e) => setMidCategory(e.target.value)} className="h-6 text-xs w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                    <select onClick={(e) => setMidCategory(e.target.value)} className="h-8 text-xs w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
                         <option>--- сонгох ---</option>
                         {midCategories.map((item) => (
                             <option key={item.mark} value={item.mark}>{item.name}</option>
@@ -190,7 +190,7 @@ export const Publish = () => {
                 </div>
                 <div>
                     <label className="text-xs mb-1">Дэд цэс</label>
-                    <select onClick={(e) => setSubCategory(e.target.value)} className="h-6 text-xs w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                    <select onClick={(e) => setSubCategory(e.target.value)} className="h-8 text-xs w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
                         <option>--- сонгох ---</option>
                         {subCategories.map((item) => (
                             <option key={item.mark} value={item.mark}>{item.name}</option>

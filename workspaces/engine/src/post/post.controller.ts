@@ -68,12 +68,13 @@ export class PostController {
   @Post('sweep')
   async sweepImage(@Body() data: any) {
     const { thumbnail } = data
+
     try {
       const imgPath = path.join(__dirname, '../../../public/post', thumbnail)
-      const resp = await fs.unlink(imgPath)
+      await fs.unlink(imgPath)
       return {
         ok: true,
-        data: resp,
+        data: null,
         message: 'Зураг устгагдлаа'
       }
     } catch (error) {

@@ -1,8 +1,14 @@
-import { IconBrandFacebook, IconBrandX, IconBrandYoutube, IconSearch } from '@tabler/icons-react'
-import logo from '/logo.jpg'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { IconBrandFacebook, IconBrandX, IconBrandYoutube, IconSearch } from '@tabler/icons-react'
+import { useTranslation } from "react-i18next"
+import logo from '/logo.jpg'
+import mongolia from '/mongolia.png'
+import usa from '/united-states.png'
 
 export const Head = () => {
+
+    const [language, setLanguage] = useState('mn')
 
     return (
         <div>
@@ -14,12 +20,20 @@ export const Head = () => {
                         <IconBrandX color='white' />
                     </div>
 
-                    <div className='flex items-center'>
-                        <input className='w-60 rounded-l outline-none px-2 py-1 text-sm' />
-                        <button type='button' className='bg-white py-1 px-2 rounded-r'><IconSearch size={20} /></button>
+                    <div className="flex">
+                        <div className='flex items-center mr-8'>
+                            <input className='w-60 rounded-l outline-none px-2 py-1 text-sm' />
+                            <button type='button' className='bg-white py-1 px-2 rounded-r'><IconSearch size={20} /></button>
+                        </div>
+                        <div>
+                            {
+                                language === 'mn' && <img onClick={() => setLanguage('en')} src={mongolia} className="w-8 cursor-pointer" />
+                                ||
+                                language === 'en' && <img onClick={() => setLanguage('mn')} src={usa} className="w-8 cursor-pointer" />
+                            }
+                        </div>
                     </div>
                 </div>
-
             </div>
             <div className='mx-auto h-20 flex items-center' style={{ width: '70%' }}>
                 <div className='w-full flex items-center justify-between'>
@@ -27,11 +41,11 @@ export const Head = () => {
                         <img className='w-60' src={logo} alt="logo" />
                     </Link>
                     <div className='flex text-lg'>
-                        <div className='ml-8'>Тухай</div>
-                        <div className='ml-8'>Мэдээлэл</div>
-                        <div className='ml-8'>Ил тод байдал</div>
-                        <div className='ml-8'>Сан</div>
-                        <div className='ml-8'>Холбоо барих</div>
+                        <Link className='ml-8'>Тухай</Link>
+                        <Link className='ml-8'>Мэдээлэл</Link>
+                        <Link className='ml-8'>Ил тод байдал</Link>
+                        <Link className='ml-8'>Сан</Link>
+                        <Link className='ml-8'>Холбоо барих</Link>
                     </div>
                 </div>
             </div>

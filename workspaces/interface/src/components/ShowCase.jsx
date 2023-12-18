@@ -1,5 +1,6 @@
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export const ShowCase = () => {
     const [mega, setMega] = useState(0)
@@ -37,9 +38,11 @@ export const ShowCase = () => {
         return midCategories
             .filter((cat) => cat.parent === parentMark)
             .map((cat, num) => (
-                <div key={cat.mark}>
-                    <p className="font-bold">{cat?.name}</p>
-                    {renderSubCategories(cat.mark)}
+                <div key={cat.mark} className="py-2 border-b border-gray-400">
+                    <Link to={`/post/mid/${cat.mark}`} className="font-bold hover:text-yellow-400">{cat?.name}</Link>
+                    <div className="flex flex-col">
+                        {renderSubCategories(cat.mark)}
+                    </div>
                 </div>
             ))
     }
@@ -48,7 +51,7 @@ export const ShowCase = () => {
         return subCategories
             .filter((cat) => cat.parent === midCategoryMark)
             .map((cat, num) => (
-                <p key={cat.mark} className="ml-4">{cat?.name}</p>
+                <Link to={`/post/sub/${cat.mark}`} key={cat.mark} className="ml-4 hover:text-yellow-400">{cat?.name}</Link>
             ))
     }
 
