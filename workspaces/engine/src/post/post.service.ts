@@ -4,6 +4,7 @@ import { UpdatePostDto } from './dto/update-post.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Post } from './entities/post.entity'
 import { Repository } from 'typeorm'
+import { Language } from './entities/language'
 
 @Injectable()
 export class PostService {
@@ -26,8 +27,8 @@ export class PostService {
     }
   }
 
-  async findAll() {
-    return await this.repo.find()
+  async findAll(language: Language) {
+    return await this.repo.find({ where: { language } })
   }
 
   async findOne(mark: string) {

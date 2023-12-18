@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthLayout } from '../layouts/AuthLayout'
 import { Button } from '../components/Button'
 import { Alert } from '../components/Alert'
@@ -77,7 +77,8 @@ export const Login = () => {
                 <p className="text-center">Нэвтрэх хэсэг</p>
                 {renderInput('Хэрэглэгчийн нэр', 'username')}
                 {renderInput('Нууц үг', 'password', 'password')}
-                <div className="mt-4 flex justify-end">
+                <div className="mt-4 flex items-center justify-between">
+                    <Link to="/register" className="text-blue-600 text-sm">Бүртгүүлэх</Link>
                     <Button text="Нэвтрэх" color="green" click={handleLogin} />
                 </div>
             </div>

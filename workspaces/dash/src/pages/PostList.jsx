@@ -16,6 +16,7 @@ export const PostList = () => {
 
     const navigate = useNavigate()
 
+    const [language, setLanguage] = useState('mn')
     const [posts, setPosts] = useState([])
     const [del, setDel] = useState(null)
 
@@ -28,10 +29,10 @@ export const PostList = () => {
             navigate('/login')
         }
         FetchPosts()
-    }, [])
+    }, [language])
 
     const FetchPosts = async () => {
-        const raw = await fetch(base_url + 'post')
+        const raw = await fetch(`${base_url}post?language=${language}`)
         const resp = await raw.json()
         setPosts(resp)
     }
@@ -80,9 +81,15 @@ export const PostList = () => {
                     :
                     null
             }
-            <Link to="/publish">
-                <Button color="green" text="Мэдээлэл нэмэх" icon={<IconPencilPlus />} />
-            </Link>
+            <div className="flex items-center">
+                <Link to="/publish">
+                    <Button color="green" text="Мэдээлэл нэмэх" icon={<IconPencilPlus />} />
+                </Link>
+                <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="ml-4 bg-white rounded-md border border-stone-200 px-2 py-1">
+                    <option value="mn">Монгол</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
             <div className="mt-4 grid grid-cols-4 gap-4">
                 {
                     posts.map(post => {

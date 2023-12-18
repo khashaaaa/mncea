@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AlertContext } from '../context/AlertProvider'
 import { Button } from '../components/Button'
 import { AuthLayout } from '../layouts/AuthLayout'
@@ -78,7 +78,8 @@ export const Register = () => {
                 {renderInput('Хэрэглэгчийн нэр', 'username')}
                 {renderInput('Утасны дугаар', 'mobile')}
                 {renderInput('Нууц үг', 'password', 'password')}
-                <div className="mt-4 flex justify-end">
+                <div className="mt-4 flex items-center justify-between">
+                    <Link to="/login" className="text-blue-600 text-sm">Нэвтрэх</Link>
                     <Button text="Болсон" color="green" click={handleRegister} />
                 </div>
             </div>

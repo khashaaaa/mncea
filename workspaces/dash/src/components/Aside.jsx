@@ -27,7 +27,7 @@ export const Aside = () => {
     }
 
     return (
-        <div className="bg-white rounded-2xl ml-4 mb-4 mt-4 p-4 shadow">
+        <div className="h-auto bg-white rounded-2xl ml-4 mb-4 mt-4 p-4 shadow border">
             <div className="flex justify-between items-center">
                 <p>Сайн байна уу? <b>{userJSON?.username}</b></p>
                 <button onClick={Logout} type="button" className="ml-4 bg-red-600 rounded-full p-1 hover:bg-red-500 duration-300"><IconPower color="white" /></button>

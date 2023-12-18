@@ -117,25 +117,25 @@ export const SpecialCategory = () => {
         }
     }
 
-    const editCategory = async (category) => {
+    const editCategory = async () => {
         closeModal()
 
         let endpoint
         let form
 
         if (activeTab === 1) {
-            endpoint = 'basecategory'
+            endpoint = 'basecategory/'
             form = { name }
         }
         if (activeTab === 2) {
-            endpoint = 'midcategory'
+            endpoint = 'midcategory/'
             form = {
                 parent,
                 name
             }
         }
         if (activeTab === 3) {
-            endpoint = 'subcategory'
+            endpoint = 'subcategory/'
             form = {
                 grandParent,
                 parent,
@@ -152,7 +152,7 @@ export const SpecialCategory = () => {
             body: JSON.stringify(form)
         }
 
-        const raw = await fetch(base_url + endpoint + category.mark, options)
+        const raw = await fetch(base_url + endpoint + editData.mark, options)
         const resp = await raw.json()
 
         if (resp.ok) {

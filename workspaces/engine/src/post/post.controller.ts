@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, ParseFilePipe, FileTypeValidator, MaxFileSizeValidator, BadRequestException, Res, InternalServerErrorException } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, ParseFilePipe, FileTypeValidator, MaxFileSizeValidator, BadRequestException, Res, InternalServerErrorException, Query } from '@nestjs/common'
 import { PostService } from './post.service'
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
@@ -6,6 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer'
 import * as path from 'path'
 import * as fs from 'fs/promises'
+import { Language } from './entities/language'
 
 @Controller('post')
 export class PostController {
@@ -50,8 +51,8 @@ export class PostController {
   }
 
   @Get()
-  async findAll() {
-    return await this.postService.findAll()
+  async findAll(@Query('language') language: Language) {
+    return await this.postService.findAll(language)
   }
 
   @Get(':mark')
