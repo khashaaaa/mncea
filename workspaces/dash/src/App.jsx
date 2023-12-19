@@ -11,6 +11,8 @@ import { AlertProvider } from "./context/AlertProvider"
 import { MenuProvider } from "./context/MenuProvider"
 import { UserControl } from "./pages/UserControl"
 import { HeadCategory } from "./pages/HeadCategory"
+import { PageList } from "./pages/PageList"
+import { CreatePage } from "./pages/CreatePage"
 
 const App = () => {
 
@@ -20,7 +22,9 @@ const App = () => {
         <MenuProvider>
           <Router>
             <Routes>
-              <Route path="/" element={<PostList />} />
+              <Route path="/" element={<PageList />} />
+              <Route path="/createpage" element={<CreatePage />} />
+              <Route path="/post" element={<PostList />} />
               <Route path="/publish" element={<Publish />} />
               <Route path="/headcategory" element={<HeadCategory />} />
               <Route path="/specialcategory" element={<SpecialCategory />} />

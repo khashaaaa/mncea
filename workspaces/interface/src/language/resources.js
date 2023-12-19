@@ -1,4 +1,5 @@
 export const resources = {
+
     en: {
         translation: {
             "head_menu": {

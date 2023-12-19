@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { MenuContext } from "../context/MenuProvider"
 import { Link, useNavigate } from "react-router-dom"
 import Cookiez from 'js-cookie'
-import { IconCategory, IconComponents, IconNews, IconPower, IconUserCog } from "@tabler/icons-react"
+import { IconCategory, IconClipboardText, IconComponents, IconNews, IconPower, IconUserCog } from "@tabler/icons-react"
 
 export const Aside = () => {
 
@@ -33,7 +33,11 @@ export const Aside = () => {
                 <button onClick={Logout} type="button" className="ml-4 bg-red-600 rounded-full p-1 hover:bg-red-500 duration-300"><IconPower color="white" /></button>
             </div>
             <div className="mt-8 grid grid-rows-4 gap-2 text-sm">
-                <Link to="/" onClick={() => setActive('post')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'post' && 'bg-sky-800 text-white'}`}>
+                <Link to="/" onClick={() => setActive('page')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'page' && 'bg-sky-800 text-white'}`}>
+                    <IconClipboardText />
+                    <p className="ml-2">Хуудас</p>
+                </Link>
+                <Link to="/post" onClick={() => setActive('post')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'post' && 'bg-sky-800 text-white'}`}>
                     <IconNews />
                     <p className="ml-2">Мэдээлэл</p>
                 </Link>

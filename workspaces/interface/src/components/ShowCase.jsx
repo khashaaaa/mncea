@@ -66,7 +66,7 @@ export const ShowCase = () => {
                                 key={cat.mark}
                                 onMouseEnter={() => setMega(active)}
                                 onMouseLeave={() => setMega(0)}
-                                className={`${mega === active ? "rounded-t bg-blue-800" : "rounded-md bg-main"} text-white flex items-center justify-center py-2 cursor-pointer`}
+                                className={`bg-gradient-to-r from-main bg-accentTwo ${mega === active ? "rounded-t-md" : "rounded-md"} text-white flex items-center justify-center py-2 cursor-pointer`}
                             >
                                 <p className="font-bold uppercase">{cat?.name}</p>
                                 {mega === active ? <IconChevronUp size={18} /> : <IconChevronDown size={18} />}
@@ -76,15 +76,15 @@ export const ShowCase = () => {
                 </div>
 
                 <div onMouseLeave={() => setMega(0)} className={`${mega === 0 && 'hidden'} absolute grid grid-cols-3 gap-8 w-full bg-main rounded-md z-10 shadow-xl`}>
-                    <div onMouseEnter={() => setMega(1)} className={mega === 1 ? "bg-blue-800 text-white rounded-bl p-2" : "p-2 text-gray-200"}>
+                    <div onMouseEnter={() => setMega(1)} className={mega === 1 ? "bg-accentOne text-white rounded-bl p-2" : "p-2 text-gray-200"}>
                         {renderMidCategories(5)}
                     </div>
 
-                    <div onMouseEnter={() => setMega(2)} className={mega === 2 ? "bg-blue-800 text-white p-2" : "p-2 text-gray-200"}>
+                    <div onMouseEnter={() => setMega(2)} className={mega === 2 ? "bg-accentOne text-white p-2" : "p-2 text-gray-200"}>
                         {renderMidCategories(6)}
                     </div>
 
-                    <div onMouseEnter={() => setMega(3)} className={mega === 3 ? "bg-blue-800 text-white rounded-br p-2" : "p-2 text-gray-200"}>
+                    <div onMouseEnter={() => setMega(3)} className={mega === 3 ? "bg-accentOne text-white rounded-br p-2" : "p-2 text-gray-200"}>
                         {renderMidCategories(7)}
                     </div>
                 </div>
