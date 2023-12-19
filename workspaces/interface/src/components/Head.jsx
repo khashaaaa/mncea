@@ -10,6 +10,13 @@ export const Head = () => {
 
     const [language, setLanguage] = useState('mn')
 
+    const { t, i18n } = useTranslation()
+
+    const switchLang = (lang) => {
+        setLanguage(lang)
+        i18n.changeLanguage(lang)
+    }
+
     return (
         <div>
             <div className="bg-main w-full h-10 flex items-center">
@@ -20,16 +27,16 @@ export const Head = () => {
                         <IconBrandX color='white' />
                     </div>
 
-                    <div className="flex">
+                    <div className="flex items-center">
                         <div className='flex items-center mr-8'>
                             <input className='w-60 rounded-l outline-none px-2 py-1 text-sm' />
                             <button type='button' className='bg-white py-1 px-2 rounded-r'><IconSearch size={20} /></button>
                         </div>
                         <div>
                             {
-                                language === 'mn' && <img onClick={() => setLanguage('en')} src={mongolia} className="w-8 cursor-pointer" />
+                                language === 'mn' && <img onClick={() => switchLang('en')} src={mongolia} className="w-6 cursor-pointer" />
                                 ||
-                                language === 'en' && <img onClick={() => setLanguage('mn')} src={usa} className="w-8 cursor-pointer" />
+                                language === 'en' && <img onClick={() => switchLang('mn')} src={usa} className="w-6 cursor-pointer" />
                             }
                         </div>
                     </div>
@@ -41,11 +48,11 @@ export const Head = () => {
                         <img className='w-60' src={logo} alt="logo" />
                     </Link>
                     <div className='flex text-lg'>
-                        <Link className='ml-8'>Тухай</Link>
-                        <Link className='ml-8'>Мэдээлэл</Link>
-                        <Link className='ml-8'>Ил тод байдал</Link>
-                        <Link className='ml-8'>Сан</Link>
-                        <Link className='ml-8'>Холбоо барих</Link>
+                        <Link className='ml-8'>{t("head_menu.about")}</Link>
+                        <Link className='ml-8'>{t("head_menu.news")}</Link>
+                        <Link className='ml-8'>{t("head_menu.transparency")}</Link>
+                        <Link className='ml-8'>{t("head_menu.fund")}</Link>
+                        <Link className='ml-8'>{t("head_menu.contact")}</Link>
                     </div>
                 </div>
             </div>
