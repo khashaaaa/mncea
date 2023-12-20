@@ -7,9 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        "main": "rgb(0, 52, 143)",
-        "accentOne": "rgb(0, 65, 179)",
-        "accentTwo": "rgb(46, 84, 219)"
+        "main": "rgb(7, 21, 92)"
       }
     },
   },

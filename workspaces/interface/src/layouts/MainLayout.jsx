@@ -6,9 +6,7 @@ export const MainLayout = ({ children }) => {
     return (
         <div>
             <Head />
-            <div>
-                {children}
-            </div>
+            {children}
             <Foot />
         </div>
     )
