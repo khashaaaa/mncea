@@ -15,21 +15,19 @@ export const Head = () => {
 
     return (
         <div>
-            <div className="bg-gray-100 w-full h-10 flex items-center justify-end">
-                <div style={{ margin: '0 15%' }}>
-                    <div className="flex items-center">
-                        <div className='grid grid-cols-3 gap-2 mr-8'>
-                            <IconBrandFacebook size={18} color='navy' />
-                            <IconBrandYoutube size={18} color='navy' />
-                            <IconBrandX size={18} color='navy' />
-                        </div>
-                        <div>
-                            {
-                                language === 'mn' && <img onClick={() => switchLanguage('en')} src={usa} className="w-6 cursor-pointer" />
-                                ||
-                                language === 'en' && <img onClick={() => switchLanguage('mn')} src={mongolia} className="w-6 cursor-pointer" />
-                            }
-                        </div>
+            <div className="bg-gray-100 w-full h-12 flex items-center justify-end">
+                <div className="flex items-center" style={{ margin: '0 15%' }}>
+                    <div className='grid grid-cols-3 gap-2 mr-8'>
+                        <IconBrandFacebook size={18} color='white' className='rounded-full h-6 w-6 bg-main p-1 cursor-pointer hover:bg-sky-800' />
+                        <IconBrandYoutube size={18} color='white' className='rounded-full h-6 w-6 bg-main p-1 cursor-pointer hover:bg-sky-800' />
+                        <IconBrandX size={18} color='white' className='rounded-full h-6 w-6 bg-main p-1 cursor-pointer hover:bg-sky-800' />
+                    </div>
+                    <div>
+                        {
+                            language === 'mn' && <img onClick={() => switchLanguage('en')} src={usa} className="w-6 cursor-pointer" />
+                            ||
+                            language === 'en' && <img onClick={() => switchLanguage('mn')} src={mongolia} className="w-6 cursor-pointer" />
+                        }
                     </div>
                 </div>
             </div>
@@ -38,12 +36,12 @@ export const Head = () => {
                     <Link to="/" className="flex items-center">
                         <img className='w-60' src={logo} alt="logo" />
                     </Link>
-                    <div className='flex text-md'>
-                        <Link className='ml-8'>{t("head_menu.about")}</Link>
-                        <Link className='ml-8'>{t("head_menu.news")}</Link>
-                        <Link className='ml-8'>{t("head_menu.transparency")}</Link>
-                        <Link className='ml-8'>{t("head_menu.fund")}</Link>
-                        <Link className='ml-8'>{t("head_menu.contact")}</Link>
+                    <div className='flex text-sm'>
+                        <Link className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.about")}</Link>
+                        <Link className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.news")}</Link>
+                        <Link className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.transparency")}</Link>
+                        <Link className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.fund")}</Link>
+                        <Link className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.contact")}</Link>
                     </div>
                 </div>
             </div>

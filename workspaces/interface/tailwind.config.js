@@ -8,6 +8,9 @@ export default {
     extend: {
       colors: {
         "main": "rgb(7, 21, 92)"
+      },
+      backgroundImage: {
+        'carousel_back': "url('/carousel_back.jpg')"
       }
     },
   },

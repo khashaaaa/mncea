@@ -38,7 +38,7 @@ export const Foot = () => {
             .filter((cat) => cat.parent === parentMark)
             .map((cat, num) => (
                 <div key={cat.mark}>
-                    <Link to={`/post/mid/${cat.mark}`} className="font-bold hover:text-yellow-400">{cat?.name}</Link>
+                    <Link to={`/post/mid/${cat.mark}`} className="font-bold hover:text-gray-400">{cat?.name}</Link>
                     <div className="flex flex-col">
                         {renderSubCategories(cat.mark)}
                     </div>
@@ -50,7 +50,7 @@ export const Foot = () => {
         return subCategories
             .filter((cat) => cat.parent === midCategoryMark)
             .map((cat, num) => (
-                <Link to={`/post/sub/${cat.mark}`} key={cat.mark} className="ml-4 hover:text-yellow-400">{cat?.name}</Link>
+                <Link to={`/post/sub/${cat.mark}`} key={cat.mark} className="ml-4 hover:text-gray-400">{cat?.name}</Link>
             ))
     }
 
@@ -70,11 +70,11 @@ export const Foot = () => {
                 </div>
 
                 <div className="flex flex-col text-white">
-                    <Link to="/" className="font-bold hover:text-yellow-400">Тухай</Link>
-                    <Link to="/" className="font-bold hover:text-yellow-400">Мэдээ</Link>
-                    <Link to="/" className="font-bold hover:text-yellow-400">Ил тод байдал</Link>
-                    <Link to="/" className="font-bold hover:text-yellow-400">Сан</Link>
-                    <Link to="/" className="font-bold hover:text-yellow-400">Холбоо барих</Link>
+                    <Link to="/" className="font-bold hover:text-gray-400">Тухай</Link>
+                    <Link to="/" className="font-bold hover:text-gray-400">Мэдээ</Link>
+                    <Link to="/" className="font-bold hover:text-gray-400">Ил тод байдал</Link>
+                    <Link to="/" className="font-bold hover:text-gray-400">Сан</Link>
+                    <Link to="/" className="font-bold hover:text-gray-400">Холбоо барих</Link>
                 </div>
             </div>
         </div>
