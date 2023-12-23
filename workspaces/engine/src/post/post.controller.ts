@@ -6,7 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer'
 import * as path from 'path'
 import * as fs from 'fs/promises'
-import { Language } from './entities/language'
+import { Language } from '../enum/language'
 
 @Controller('post')
 export class PostController {

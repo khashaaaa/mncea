@@ -10,6 +10,7 @@ import { MidcategoryModule } from './midcategory/midcategory.module'
 import { SubcategoryModule } from './subcategory/subcategory.module'
 import { PostModule } from './post/post.module'
 import { UserModule } from './user/user.module'
+import { PageModule } from './page/page.module';
 
 @Module({
   imports: [
@@ -47,7 +48,8 @@ import { UserModule } from './user/user.module'
     MidcategoryModule,
     SubcategoryModule,
     PostModule,
-    UserModule
+    UserModule,
+    PageModule
   ],
   controllers: [AppController],
   providers: [AppService],

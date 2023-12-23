@@ -1,34 +1,89 @@
-import { useContext, useEffect, useRef } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { MainLayout } from "../layouts/MainLayout"
 import { MenuContext } from "../context/MenuProvider"
 import { Editor } from "@tinymce/tinymce-react"
 import { IconPlus } from "@tabler/icons-react"
 import { Button } from "../components/Button"
+import { useNavigate } from "react-router-dom"
+import Cookiez from 'js-cookie'
+import { base_url } from "../config/global"
 
 export const CreatePage = () => {
 
-    const { menuOpen, setActive } = useContext(MenuContext)
+    const access_token = Cookiez.get('access_token')
+    const str = Cookiez.get('user')
+    const user = str ? JSON.parse(str) : null
+
+    const navigate = useNavigate()
+
+    const { setActive } = useContext(MenuContext)
+
+    const [title, setTitle] = useState('')
+    const [language, setLanguage] = useState('mn')
+    const [page, setPage] = useState('')
 
     const editorData = useRef(null)
 
     useEffect(() => {
         setActive('page')
+        if (!access_token) {
+            navigate('/login')
+        }
     }, [])
+
+    const SavePage = async () => {
+        const editorContent = editorData.current.getContent()
+
+        const pageData = {
+            title,
+            content: editorContent,
+            admin: user?.username,
+            page,
+            language
+        }
+
+        const pageOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${access_token}`
+            },
+            body: JSON.stringify(pageData),
+        }
+
+        const pageRaw = await fetch(base_url + 'page', pageOptions)
+        const pageResp = await pageRaw.json()
+
+        if (pageResp.ok) {
+            navigate('/')
+        }
+    }
 
     return (
         <MainLayout>
             <div className="flex mb-4">
-                <select className="h-8 w-40 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
-                    <option value="mn">Монгол</option>
-                    <option value="en">English</option>
-                </select>
-                <select className="ml-4 h-8 w-40 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
-                    <option>Тухай</option>
-                    <option>Мэдээ</option>
-                    <option>Ил тод байдал</option>
-                    <option>Сан</option>
-                    <option>Холбоо барих</option>
-                </select>
+                <div className="flex flex-col">
+                    <label className="text-xs mb-1">Хэл</label>
+                    <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="h-8 w-40 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                        <option value="mn">Монгол</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div className="ml-4 flex flex-col">
+                    <label className="text-xs mb-1"><span className="text-red-600">*</span> Цэс</label>
+                    <select onChange={(e) => setPage(e.target.value)} className="h-8 w-40 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                        <option value="about">Тухай</option>
+                        <option value="news">Мэдээ</option>
+                        <option value="transparency">Ил тод байдал</option>
+                        <option value="fund">Сан</option>
+                        <option value="contact">Холбоо барих</option>
+                    </select>
+                </div>
+
+            </div>
+            <div className="mb-4 flex flex-col">
+                <label className="text-xs mb-1"><span className="text-red-600">*</span> Гарчиг</label>
+                <input type="text" onChange={(e) => setTitle(e.target.value)} className="h-8 outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300" />
             </div>
             <Editor
                 apiKey='bq0t7hixxbs2y6iib4l4hvj79103oganol8cqcadoyolejrs'
@@ -47,7 +102,7 @@ export const CreatePage = () => {
                 }}
             />
             <div className='mt-4 flex justify-end'>
-                <Button text="Нийтлэх" color="green" icon={<IconPlus />} />
+                <Button click={SavePage} text="Нийтлэх" color="green" icon={<IconPlus />} />
             </div>
         </MainLayout>
     )

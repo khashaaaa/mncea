@@ -21,8 +21,8 @@ export const UserControl = () => {
 
     const navigate = useNavigate()
 
-    const { menuOpen, setActive } = useContext(MenuContext)
-    const { isAlertOpen, openAlert, closeAlert } = useContext(AlertContext)
+    const { setActive } = useContext(MenuContext)
+    const { isAlertOpen, openAlert } = useContext(AlertContext)
     const { isModalOpen, openModal, closeModal } = useContext(ModalContext)
 
     const [currentUser, setCurrentUser] = useState({})

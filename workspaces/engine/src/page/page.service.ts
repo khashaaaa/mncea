@@ -1,20 +1,19 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { CreatePostDto } from './dto/create-post.dto'
-import { UpdatePostDto } from './dto/update-post.dto'
+import { CreatePageDto } from './dto/create-page.dto'
+import { UpdatePageDto } from './dto/update-page.dto'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Post } from './entities/post.entity'
+import { Page } from './entities/page.entity'
 import { Repository } from 'typeorm'
-import { Language } from '../enum/language'
+import { Language } from 'src/enum/language'
 
 @Injectable()
-export class PostService {
+export class PageService {
 
-  constructor(@InjectRepository(Post) private repo: Repository<Post>) { }
+  constructor(@InjectRepository(Page) private repo: Repository<Page>) { }
 
-  async create(createPostDto: CreatePostDto) {
-
+  async create(createPageDto: CreatePageDto) {
     try {
-      const data = await this.repo.save(createPostDto)
+      const data = await this.repo.save(createPageDto)
 
       return {
         ok: true,
@@ -32,7 +31,6 @@ export class PostService {
   }
 
   async findOne(mark: string) {
-
     try {
       const exist = await this.repo.findOneOrFail({ where: { mark } })
 
@@ -50,8 +48,7 @@ export class PostService {
     }
   }
 
-  async update(mark: string, updatePostDto: UpdatePostDto) {
-
+  async update(mark: string, updatePageDto: UpdatePageDto) {
     try {
       const exist = await this.repo.findOneOrFail({ where: { mark } })
 
@@ -61,7 +58,7 @@ export class PostService {
 
       const updated = await this.repo.save({
         ...exist,
-        ...updatePostDto
+        ...updatePageDto
       })
 
       return {

@@ -1,8 +1,8 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
-import { Language } from "../../enum/language"
+import { Language } from "src/enum/language"
 
 @Entity()
-export class Post {
+export class Page {
 
     @PrimaryGeneratedColumn('uuid')
     mark: string
@@ -14,13 +14,10 @@ export class Post {
     content: string
 
     @Column()
-    posted_date: Date
-
-    @Column()
     admin: string
 
-    @Column({ nullable: true })
-    thumbnail: string
+    @Column()
+    page: string
 
     @Column({
         type: 'enum',
@@ -28,18 +25,9 @@ export class Post {
     })
     language: Language
 
-    @Column()
-    base_category: number
-
-    @Column({ nullable: true })
-    mid_category: number
-
-    @Column({ nullable: true })
-    sub_category: number
-
     @CreateDateColumn()
-    actual_posted_date: Date
+    created: Date
 
     @UpdateDateColumn()
-    updated_date: Date
+    updated: Date
 }

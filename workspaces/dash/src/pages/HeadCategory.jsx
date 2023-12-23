@@ -47,7 +47,7 @@ export const HeadCategory = () => {
                     </div>
                 )
             default:
-                return null // or return different content for unexpected types
+                return null
         }
     }
 

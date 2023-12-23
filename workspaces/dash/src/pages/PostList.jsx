@@ -20,7 +20,7 @@ export const PostList = () => {
     const [posts, setPosts] = useState([])
     const [del, setDel] = useState(null)
 
-    const { menuOpen, setActive } = useContext(MenuContext)
+    const { setActive } = useContext(MenuContext)
     const { isModalOpen, openModal, closeModal } = useContext(ModalContext)
 
     useEffect(() => {
@@ -85,7 +85,7 @@ export const PostList = () => {
                 <Link to="/publish">
                     <Button color="green" text="Мэдээлэл нэмэх" icon={<IconPencilPlus />} />
                 </Link>
-                <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="ml-4 bg-white rounded-md border border-stone-200 px-2 py-1">
+                <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="ml-4 outline-none bg-white rounded-md border border-stone-200 px-2 py-1">
                     <option value="mn">Монгол</option>
                     <option value="en">English</option>
                 </select>

@@ -1,4 +1,4 @@
-import { Language } from "../entities/language"
+import { Language } from "../../enum/language"
 
 export class CreatePostDto {
 

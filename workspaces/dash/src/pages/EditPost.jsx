@@ -24,7 +24,7 @@ export const EditPost = () => {
 
     const navigate = useNavigate()
 
-    const { menuOpen, setActive } = useContext(MenuContext)
+    const { setActive } = useContext(MenuContext)
 
     const { mark } = useParams()
 

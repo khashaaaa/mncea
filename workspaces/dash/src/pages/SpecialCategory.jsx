@@ -37,9 +37,9 @@ export const SpecialCategory = () => {
     const [msg, setMsg] = useState(null)
     const [errType, setErrType] = useState('')
 
-    const { menuOpen, setActive } = useContext(MenuContext)
+    const { setActive } = useContext(MenuContext)
     const { isModalOpen, openModal, closeModal } = useContext(ModalContext)
-    const { isAlertOpen, openAlert, closeAlert } = useContext(AlertContext)
+    const { isAlertOpen, openAlert } = useContext(AlertContext)
 
     useEffect(() => {
         setActive('specialcategory')

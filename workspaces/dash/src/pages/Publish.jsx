@@ -24,7 +24,7 @@ export const Publish = () => {
     const str = Cookiez.get('user')
     const user = str ? JSON.parse(str) : null
 
-    const { menuOpen, setActive } = useContext(MenuContext)
+    const { setActive } = useContext(MenuContext)
 
     const navigate = useNavigate()
 
