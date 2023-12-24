@@ -13,6 +13,7 @@ import { UserControl } from "./pages/UserControl"
 import { HeadCategory } from "./pages/HeadCategory"
 import { PageList } from "./pages/PageList"
 import { CreatePage } from "./pages/CreatePage"
+import { EditPage } from "./pages/EditPage"
 
 const App = () => {
 
@@ -28,8 +29,9 @@ const App = () => {
               <Route path="/publish" element={<Publish />} />
               <Route path="/headcategory" element={<HeadCategory />} />
               <Route path="/specialcategory" element={<SpecialCategory />} />
-              <Route path="/:mark" element={<Post />} />
-              <Route path="/:mark/update" element={<EditPost />} />
+              <Route path="/post/:mark" element={<Post />} />
+              <Route path="/post/:mark/update" element={<EditPost />} />
+              <Route path="/page/:mark/update" element={<EditPage />} />
               <Route path="/usercontrol" element={<UserControl />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />

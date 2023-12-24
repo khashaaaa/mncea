@@ -21,6 +21,8 @@ export const EditPost = () => {
     }
 
     const access_token = Cookiez.get('access_token')
+    const str = Cookiez.get('user')
+    const user = str ? JSON.parse(str) : null
 
     const navigate = useNavigate()
 
@@ -103,7 +105,7 @@ export const EditPost = () => {
                 content: editorContent,
                 posted_date: currentDateTime,
                 thumbnail: image,
-                admin: 'asdfasdfasdf',
+                admin: user.username,
                 base_category: baseCategory,
                 mid_category: midCategory,
                 sub_category: subCategory,
@@ -112,7 +114,10 @@ export const EditPost = () => {
 
         const raw = await fetch(base_url + 'post', options)
         const resp = await raw.json()
-        console.log(resp)
+
+        if (resp.ok) {
+            navigate('/')
+        }
     }
 
     return (
@@ -124,7 +129,7 @@ export const EditPost = () => {
                     {(currentPost?.thumbnail || preview) && (
                         <div className="relative cursor-default">
                             <IconX onClick={imageCancel} className="bg-white rounded absolute right-0 cursor-pointer" />
-                            <img src={currentPost?.thumbnail ? `/${currentPost.thumbnail}` : preview[0]} alt="Image Preview" />
+                            <img src={currentPost?.thumbnail ? `${base_url}post/thumbnail/${currentPost?.thumbnail}` : preview[0]} alt="Image Preview" />
                         </div>
                     )}
                     {!currentPost?.thumbnail && !preview && <IconPhotoPlus />}

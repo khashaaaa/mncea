@@ -55,7 +55,7 @@ export const CreatePage = () => {
         const pageResp = await pageRaw.json()
 
         if (pageResp.ok) {
-            navigate('/')
+            navigate('/page')
         }
     }
 

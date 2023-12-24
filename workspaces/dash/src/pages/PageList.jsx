@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { MainLayout } from "../layouts/MainLayout"
 import { MenuContext } from "../context/MenuProvider"
 import { Link, useNavigate } from "react-router-dom"
-import { IconEdit, IconEye, IconPencilPlus, IconTrash } from "@tabler/icons-react"
+import { IconEdit, IconPencilPlus, IconTrash } from "@tabler/icons-react"
 import { Button } from "../components/Button"
 import Cookiez from 'js-cookie'
 import { base_url } from "../config/global"
@@ -81,6 +81,7 @@ export const PageList = () => {
                     <option value="mn">Монгол</option>
                     <option value="en">English</option>
                 </select>
+                <p className="ml-4">Нийт: {pages.length}</p>
             </div>
             {
                 pages.length > 0 ?
@@ -88,18 +89,15 @@ export const PageList = () => {
                         {
                             pages.map(page => {
                                 return (
-                                    <div key={page.mark} className="relative border border-stone-200 rounded-xl hover:shadow-xl duration-300">
-                                        <div className="absolute right-2 top-2 grid grid-cols-3 gap-4 bg-white border border-stone-200 rounded shadow p-1">
-                                            <Link to={`/${page.mark}`}>
-                                                <IconEye />
-                                            </Link>
-                                            <Link to={`/${page.mark}/update`}>
-                                                <IconEdit />
-                                            </Link>
-                                            <IconTrash onClick={() => { openModal(), setDel(page) }} className="cursor-pointer" />
+                                    <div key={page.mark} className="flex items-center justify-between border border-stone-200 rounded-xl hover:shadow-xl duration-300">
+                                        <div className="p-4 w-48">
+                                            <p className="font-bold text-xs truncate">{page.title}</p>
                                         </div>
-                                        <div className="p-4">
-                                            <p className="font-bold text-xs">{page.title}</p>
+                                        <div className="flex justify-between mr-2">
+                                            <Link to={`/page/${page.mark}/update`} className="mr-2">
+                                                <IconEdit size={18} />
+                                            </Link>
+                                            <IconTrash size={18} onClick={() => { openModal(), setDel(page) }} className="cursor-pointer" />
                                         </div>
                                     </div>
                                 )

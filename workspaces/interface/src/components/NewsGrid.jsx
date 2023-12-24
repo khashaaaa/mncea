@@ -18,22 +18,20 @@ export const NewsGrid = () => {
     }
 
     return (
-        <div style={{ margin: '0 15%' }}>
-            <div>
-                {
-                    posts?.map((post, num) => {
-                        return (
-                            <Link to={`/post/${post.mark}`} key={post.mark} className="grid grid-cols-3 gap-4 mb-4">
-                                <img src={`${base_url}post/thumbnail/${post.thumbnail}`} className="rounded-md" />
-                                <div className="col-span-2">
-                                    <p className="text-lg font-bold">{post.title}</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur eos quas id in aut distinctio accusantium quis qui architecto provident?</p>
-                                </div>
-                            </Link>
-                        )
-                    })
-                }
-            </div>
+        <div style={{ margin: '2rem 15%' }}>
+            {
+                posts?.map((post, num) => {
+                    return (
+                        <Link to={`/post/${post.mark}`} key={post.mark} className="grid grid-cols-3 gap-4 mb-4">
+                            <img src={`${base_url}post/thumbnail/${post.thumbnail}`} className="rounded-md" />
+                            <div className="col-span-2">
+                                <p className="text-lg font-bold">{post.title}</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur eos quas id in aut distinctio accusantium quis qui architecto provident?</p>
+                            </div>
+                        </Link>
+                    )
+                })
+            }
         </div>
     )
 }

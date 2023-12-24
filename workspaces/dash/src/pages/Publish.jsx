@@ -130,7 +130,7 @@ export const Publish = () => {
             ])
 
             if (thumbnailResult.ok && postResult.ok) {
-                navigate('/')
+                navigate('/post')
             }
         } catch (error) {
             console.error('Error while saving post:', error.message)

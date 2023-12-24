@@ -4,7 +4,7 @@ import { MainLayout } from "../layouts/MainLayout"
 import { Button } from "../components/Button"
 import { base_url } from "../config/global"
 import { Link } from "react-router-dom"
-import { IconEdit, IconEye, IconPencilPlus, IconTrash } from "@tabler/icons-react"
+import { IconEdit, IconPencilPlus, IconTrash } from "@tabler/icons-react"
 import { ModalContext } from "../context/ModalProvider"
 import { Modal } from "../components/Modal"
 import Cookiez from 'js-cookie'
@@ -89,24 +89,22 @@ export const PostList = () => {
                     <option value="mn">Монгол</option>
                     <option value="en">English</option>
                 </select>
+                <p className="ml-4">Нийт: {posts.length}</p>
             </div>
             <div className="mt-4 grid grid-cols-4 gap-4">
                 {
                     posts.map(post => {
                         return (
-                            <div key={post.mark} className="relative border border-stone-200 rounded-xl hover:shadow-xl duration-300">
-                                <div className="absolute right-2 top-2 grid grid-cols-3 gap-4 bg-white border border-stone-200 rounded shadow p-1">
-                                    <Link to={`/${post.mark}`}>
-                                        <IconEye />
-                                    </Link>
-                                    <Link to={`/${post.mark}/update`}>
-                                        <IconEdit />
-                                    </Link>
-                                    <IconTrash onClick={() => { openModal(), setDel(post) }} className="cursor-pointer" />
-                                </div>
-                                <img src={`${base_url}post/thumbnail/${post.thumbnail}`} className="rounded-t-xl border-b border-stone-200" />
-                                <div className="p-4">
+                            <div key={post.mark} className="border border-stone-200 rounded-xl hover:shadow-xl duration-300">
+                                <img src={`${base_url}post/thumbnail/${post.thumbnail}`} className="object-cover h-60 w-full rounded-t-xl border-b border-stone-200" />
+                                <div className="p-2">
                                     <p className="font-bold text-xs">{post.title}</p>
+                                    <div className="mt-2 flex justify-end">
+                                        <Link to={`/post/${post.mark}/update`} className="mr-2">
+                                            <IconEdit size={18} />
+                                        </Link>
+                                        <IconTrash size={18} onClick={() => { openModal(), setDel(post) }} className="cursor-pointer" />
+                                    </div>
                                 </div>
                             </div>
                         )
