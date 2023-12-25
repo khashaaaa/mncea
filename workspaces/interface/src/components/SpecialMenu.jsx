@@ -68,7 +68,7 @@ export const SpecialMenu = () => {
                                 key={cat.mark}
                                 onMouseEnter={() => setMega(active)}
                                 onMouseLeave={() => setMega(0)}
-                                className={`${mega === active ? "bg-gray-100 rounded-t-md" : "bg-white rounded-md"} flex items-center justify-center py-2 cursor-pointer`}
+                                className={`${mega === active ? "bg-sky-600 text-white rounded-t-md" : "bg-white rounded-md"} border-2 border-sky-600 flex items-center justify-center py-2 cursor-pointer`}
                             >
                                 <p className="font-bold uppercase text-xs">{cat?.name}</p>
                                 {mega === active ? <IconChevronUp size={18} /> : <IconChevronDown size={18} />}
@@ -77,16 +77,16 @@ export const SpecialMenu = () => {
                     })}
                 </div>
 
-                <div onMouseLeave={() => setMega(0)} className={`${mega === 0 && 'hidden'} bg-white absolute grid grid-cols-3 gap-2 w-full rounded-md z-10 shadow-md`}>
-                    <div onMouseEnter={() => setMega(1)} className={mega === 1 ? "bg-gray-100 duration-100 rounded-bl p-2" : "mt-2 p-2 rounded-bl text-gray-800"}>
+                <div onMouseLeave={() => setMega(0)} className={`${mega === 0 && 'hidden'} absolute grid grid-cols-3 gap-2 w-full z-10`}>
+                    <div onMouseEnter={() => setMega(1)} onMouseLeave={() => setMega(0)} className={mega === 1 ? "bg-white duration-300 p-2 rounded-b-md" : "invisible mt-4 p-2 text-gray-800"}>
                         {renderMidCategories(5)}
                     </div>
 
-                    <div onMouseEnter={() => setMega(2)} className={mega === 2 ? "bg-gray-100 duration-100 p-2" : "mt-2 p-2 text-gray-800"}>
+                    <div onMouseEnter={() => setMega(2)} onMouseLeave={() => setMega(0)} className={mega === 2 ? "bg-white duration-300 p-2 rounded-b-md" : "invisible mt-4 p-2 text-gray-800"}>
                         {renderMidCategories(6)}
                     </div>
 
-                    <div onMouseEnter={() => setMega(3)} className={mega === 3 ? "bg-gray-100 duration-100 rounded-br p-2" : "mt-2 p-2 rounded-br text-gray-800"}>
+                    <div onMouseEnter={() => setMega(3)} onMouseLeave={() => setMega(0)} className={mega === 3 ? "bg-white duration-300 p-2 rounded-b-md" : "invisible mt-4 p-2 text-gray-800"}>
                         {renderMidCategories(7)}
                     </div>
                 </div>
