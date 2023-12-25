@@ -9,7 +9,7 @@ export const Page = () => {
 
     const { page } = useParams()
 
-    const { language, switchLanguage } = useContext(LanguageContext)
+    const { language } = useContext(LanguageContext)
 
     const [pg, setPage] = useState(null)
 

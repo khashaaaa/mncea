@@ -1,3 +1,4 @@
+import { IconBrandFacebook, IconBrandX, IconBrandYoutube } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
@@ -54,9 +55,11 @@ export const Foot = () => {
             ))
     }
 
+    const year = new Date().getFullYear()
+
     return (
-        <div className="bg-slate-900 py-8 text-sm">
-            <div className="grid grid-cols-4 gap-4" style={{ margin: '0 15%' }}>
+        <div className="bg-gray-800 text-sm">
+            <div className="grid grid-cols-4 gap-4 py-8" style={{ margin: '0 15%' }}>
                 <div className="text-gray-200">
                     {renderMidCategories(5)}
                 </div>
@@ -69,13 +72,25 @@ export const Foot = () => {
                     {renderMidCategories(7)}
                 </div>
 
-                <div className="flex flex-col text-white">
-                    <Link to="/" className="font-bold hover:text-gray-400">Тухай</Link>
-                    <Link to="/" className="font-bold hover:text-gray-400">Мэдээ</Link>
-                    <Link to="/" className="font-bold hover:text-gray-400">Ил тод байдал</Link>
-                    <Link to="/" className="font-bold hover:text-gray-400">Сан</Link>
-                    <Link to="/" className="font-bold hover:text-gray-400">Холбоо барих</Link>
+                <div>
+                    <div className="flex flex-col text-white">
+                        <Link to="/page/about" className="font-bold hover:text-gray-400">Тухай</Link>
+                        <Link to="/page/news" className="font-bold hover:text-gray-400">Мэдээ</Link>
+                        <Link to="/page/transparency" className="font-bold hover:text-gray-400">Ил тод байдал</Link>
+                        <Link to="/page/fund" className="font-bold hover:text-gray-400">Сан</Link>
+                        <Link to="/page/contact" className="font-bold hover:text-gray-400">Холбоо барих</Link>
+                    </div>
+
+                    <div className="mt-4 flex">
+                        <IconBrandFacebook size={18} color='white' className='mr-2 rounded-full h-6 w-6 bg-sky-800 p-1 cursor-pointer hover:bg-sky-700' />
+                        <IconBrandYoutube size={18} color='white' className='mr-2 rounded-full h-6 w-6 bg-sky-800 p-1 cursor-pointer hover:bg-sky-700' />
+                        <IconBrandX size={18} color='white' className='rounded-full h-6 w-6 bg-sky-800 p-1 cursor-pointer hover:bg-sky-700' />
+                    </div>
                 </div>
+
+            </div>
+            <div className="bg-slate-900 h-12 flex justify-center items-center">
+                <p className="text-white font-bold">&#169;{year} Боловсролын магадлан итгэмжлэх үндэсний зөвлөл.</p>
             </div>
         </div>
     )
