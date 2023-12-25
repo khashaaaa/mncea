@@ -22,7 +22,7 @@ export const NewsGrid = () => {
             {
                 posts?.map((post, num) => {
                     return (
-                        <Link to={`/post/${post.mark}`} key={post.mark} className="grid grid-cols-3 gap-4 mb-4">
+                        <Link key={post.mark} to={`/post/${post.mark}`} className="grid grid-cols-3 gap-4 mb-4">
                             <img src={`${base_url}post/thumbnail/${post.thumbnail}`} className="rounded-md" />
                             <div className="col-span-2">
                                 <p className="text-lg font-bold">{post.title}</p>

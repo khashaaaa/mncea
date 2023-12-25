@@ -31,6 +31,14 @@ export class PostService {
     return await this.repo.find({ where: { language } })
   }
 
+  async findMid(mark: number) {
+    return await this.repo.find({ where: { mid_category: mark } })
+  }
+
+  async findSub(mark: number) {
+    return await this.repo.find({ where: { sub_category: mark } })
+  }
+
   async findOne(mark: string) {
 
     try {

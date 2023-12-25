@@ -1,8 +1,8 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from "react-i18next"
 import { LanguageContext } from '../context/LanguageProvider'
-import { IconBrandFacebook, IconBrandX, IconBrandYoutube, IconSearch } from '@tabler/icons-react'
+import { IconBrandFacebook, IconBrandX, IconBrandYoutube } from '@tabler/icons-react'
 import logo from '/logo.jpg'
 import mongolia from '/mongolia.png'
 import usa from '/united-states.png'
@@ -37,11 +37,11 @@ export const Head = () => {
                         <img className='w-60' src={logo} alt="logo" />
                     </Link>
                     <div className='flex text-sm'>
-                        <Link className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.about")}</Link>
-                        <Link className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.news")}</Link>
-                        <Link className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.transparency")}</Link>
-                        <Link className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.fund")}</Link>
-                        <Link className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.contact")}</Link>
+                        <Link to="/page/about" className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.about")}</Link>
+                        <Link to="/page/news" className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.news")}</Link>
+                        <Link to="/page/transparency" className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.transparency")}</Link>
+                        <Link to="/page/fund" className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.fund")}</Link>
+                        <Link to="/page/contact" className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.contact")}</Link>
                     </div>
                 </div>
             </div>

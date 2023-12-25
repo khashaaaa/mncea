@@ -55,6 +55,16 @@ export class PostController {
     return await this.postService.findAll(language)
   }
 
+  @Get('mid/:mark')
+  async findMid(@Param('mark') mark: number) {
+    return await this.postService.findMid(mark)
+  }
+
+  @Get('sub/:mark')
+  async findSub(@Param('mark') mark: number) {
+    return await this.postService.findSub(mark)
+  }
+
   @Get(':mark')
   async findOne(@Param('mark') mark: string) {
     return await this.postService.findOne(mark)

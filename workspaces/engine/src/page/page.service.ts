@@ -30,6 +30,24 @@ export class PageService {
     return await this.repo.find({ where: { language } })
   }
 
+  async findByName(body: { language: Language, page: string }) {
+    try {
+      const exist = await this.repo.findOneOrFail({ where: { language: body.language, page: body.page } })
+
+      if (!exist) {
+        throw new NotFoundException('Олдсонгүй')
+      }
+
+      return {
+        ok: true,
+        data: exist
+      }
+    }
+    catch (error) {
+      throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
+    }
+  }
+
   async findOne(mark: string) {
     try {
       const exist = await this.repo.findOneOrFail({ where: { mark } })

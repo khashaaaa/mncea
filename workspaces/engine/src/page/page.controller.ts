@@ -18,6 +18,11 @@ export class PageController {
     return await this.pageService.findAll(language)
   }
 
+  @Post('name')
+  async findByName(@Body() body: any) {
+    return await this.pageService.findByName(body)
+  }
+
   @Get(':mark')
   async findOne(@Param('mark') mark: string) {
     return await this.pageService.findOne(mark)

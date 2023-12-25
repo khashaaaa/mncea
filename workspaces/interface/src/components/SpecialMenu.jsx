@@ -1,14 +1,9 @@
-import { IconChevronDown, IconChevronUp } from '@tabler/icons-react'
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import banner from '/banner.png'
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'swiper/css/navigation'
-import { Navigation, Pagination } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react"
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
-export const ShowCase = () => {
+export const SpecialMenu = () => {
+
     const [mega, setMega] = useState(0)
     const [baseCategories, setBaseCategories] = useState([])
     const [midCategories, setMidCategories] = useState([])
@@ -95,20 +90,6 @@ export const ShowCase = () => {
                         {renderMidCategories(7)}
                     </div>
                 </div>
-
-                <Swiper modules={[Pagination, Navigation]} navigation pagination={{ clickable: true }}>
-                    <SwiperSlide className="mt-8 grid grid-cols-2 gap-8 bg-gradient-to-l from-sky-900 to-transparent rounded-xl">
-                        <div>
-                            <img src={banner} alt="" className='rounded-xl h-full' />
-                        </div>
-                        <div className='flex flex-col justify-center px-4'>
-                            <p className='text-white text-2xl border-l-8 border-white pl-8 cursor-pointer hover:underline'>Боловсролын магадлан итгэмжлэх үндэсний зөвлөл байгуулагдсаны 25 жилийн ой</p>
-                            <div className='flex justify-end mr-4 mt-4'>
-                                <button className='bg-white rounded-md px-4 py-1 hover:bg-gray-100'>Цааш унших</button>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-                </Swiper>
             </div>
         </div>
     )
