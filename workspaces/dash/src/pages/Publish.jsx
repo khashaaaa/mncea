@@ -73,11 +73,10 @@ export const Publish = () => {
 
     const imageProcess = useCallback((ev) => {
         const newPreview = [URL.createObjectURL(ev.target.files?.[0])]
-        const newImage = ev.target.files?.[0]?.name?.toLowerCase()
 
         setImageFile(ev.target.files[0])
         setPreview(newPreview)
-        setImage(newImage)
+        setImage(ev.target.files?.[0]?.name)
     }, [])
 
     const imageCancel = useCallback(() => {
@@ -94,7 +93,6 @@ export const Publish = () => {
                 title,
                 content: editorContent,
                 posted_date: currentDateTime,
-                thumbnail: image,
                 language,
                 admin: user?.username,
                 base_category: baseCategory,
@@ -102,35 +100,44 @@ export const Publish = () => {
                 sub_category: subCategory,
             }
 
-            const imgForm = new FormData()
-            imgForm.append('file', imageFile)
+            if (image) {
+                postData.thumbnail = image
 
-            const thumbnailOptions = {
-                method: 'POST',
-                body: imgForm,
+                const imgForm = new FormData()
+                imgForm.append('file', imageFile)
+
+                const thumbnailOptions = {
+                    method: 'POST',
+                    body: imgForm,
+                }
+
+                const thumbnailResponse = await fetch(base_url + 'post/thumbnail', thumbnailOptions)
+                const thumbnailResult = await thumbnailResponse.json()
+
+                if (!thumbnailResult.ok) {
+                    // Handle thumbnail upload failure if needed
+                    console.error('Thumbnail upload failed:', thumbnailResult.message)
+                    return
+                }
             }
 
             const postOptions = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${access_token}`
+                    Authorization: `Bearer ${access_token}`,
                 },
                 body: JSON.stringify(postData),
             }
 
-            const [thumbnailResponse, postResponse] = await Promise.all([
-                fetch(base_url + 'post/thumbnail', thumbnailOptions),
-                fetch(base_url + 'post', postOptions),
-            ])
+            const postResponse = await fetch(base_url + 'post', postOptions)
+            const postResult = await postResponse.json()
 
-            const [thumbnailResult, postResult] = await Promise.all([
-                thumbnailResponse.json(),
-                postResponse.json()
-            ])
-
-            if (thumbnailResult.ok && postResult.ok) {
+            if (postResult.ok) {
                 navigate('/post')
+            } else {
+                // Handle post request failure if needed
+                console.error('Post request failed:', postResult.message)
             }
         } catch (error) {
             console.error('Error while saving post:', error.message)

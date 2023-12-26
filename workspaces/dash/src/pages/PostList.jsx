@@ -9,6 +9,7 @@ import { ModalContext } from "../context/ModalProvider"
 import { Modal } from "../components/Modal"
 import Cookiez from 'js-cookie'
 import { MenuContext } from "../context/MenuProvider"
+import NoThumb from '/no-thumbnail.jpg'
 
 export const PostList = () => {
 
@@ -38,28 +39,41 @@ export const PostList = () => {
     }
 
     const RemovePost = async () => {
-        const imageOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ thumbnail: del.thumbnail })
-        }
-        const postOptions = {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${access_token}`,
-            },
-        }
+        try {
+            const imageOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ thumbnail: del.thumbnail })
+            }
 
-        const rawImg = await fetch(base_url + 'post/sweep', imageOptions)
-        const rawPost = await fetch(base_url + 'post/' + del.mark + '/delete', postOptions)
-        const respImg = await rawImg.json()
-        const respPost = await rawPost.json()
+            if (del.thumbnail) {
+                const rawImg = await fetch(base_url + 'post/sweep', imageOptions)
+                const respImg = await rawImg.json()
 
-        if (respImg.ok && respPost.ok) {
-            closeModal()
-            FetchPosts()
+                if (!respImg.ok) {
+                    console.error('Image not found:', respImg.message)
+                    return
+                }
+            }
+
+            const postOptions = {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            }
+
+            const rawPost = await fetch(base_url + 'post/' + del.mark + '/delete', postOptions)
+            const respPost = await rawPost.json()
+
+            if (respPost.ok) {
+                closeModal()
+                FetchPosts()
+            }
+        } catch (error) {
+            console.error('Error while removing post:', error.message)
         }
     }
 
@@ -95,11 +109,16 @@ export const PostList = () => {
                 {
                     posts.map(post => {
                         return (
-                            <div key={post.mark} className="border border-stone-200 rounded-xl hover:shadow-xl duration-300">
-                                <img src={`${base_url}post/thumbnail/${post.thumbnail}`} className="object-cover h-60 w-full rounded-t-xl border-b border-stone-200" />
-                                <div className="p-2">
+                            <div key={post.mark} className="border border-stone-200 rounded-2xl hover:shadow-xl duration-300">
+                                {
+                                    post.thumbnail ?
+                                        <img src={`${base_url}post/thumbnail/${post.thumbnail}`} alt={post.thumbnail} className="object-cover h-60 w-full rounded-t-xl border-b border-stone-200" />
+                                        :
+                                        <img src={NoThumb} alt="empty" className="object-cover h-60 w-full rounded-t-xl border-b border-stone-200" />
+                                }
+                                <div className="p-2 h-20 flex flex-col justify-between">
                                     <p className="font-bold text-xs">{post.title}</p>
-                                    <div className="mt-2 flex justify-end">
+                                    <div className="flex justify-end">
                                         <Link to={`/post/${post.mark}/update`} className="mr-2">
                                             <IconEdit size={18} />
                                         </Link>

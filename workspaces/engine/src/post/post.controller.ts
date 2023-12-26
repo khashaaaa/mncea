@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, ParseFilePipe, FileTypeValidator, MaxFileSizeValidator, BadRequestException, Res, InternalServerErrorException, Query } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, ParseFilePipe, FileTypeValidator, MaxFileSizeValidator, BadRequestException, Res, InternalServerErrorException, Query, NotFoundException } from '@nestjs/common'
 import { PostService } from './post.service'
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
@@ -46,8 +46,12 @@ export class PostController {
 
   @Get('/thumbnail/:thumbnail')
   serveImage(@Param('thumbnail') filename: string, @Res() res: any) {
-    const imagePath = path.join(__dirname, '../../../public/post', filename)
-    return res.sendFile(imagePath)
+    try {
+      const imagePath = path.join(__dirname, '../../../public/post', filename)
+      return res.sendFile(imagePath)
+    } catch (error) {
+      throw new NotFoundException('Image not found')
+    }
   }
 
   @Get()
