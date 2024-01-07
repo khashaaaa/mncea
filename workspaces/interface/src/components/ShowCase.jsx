@@ -73,7 +73,7 @@ export const ShowCase = () => {
                                 key={cat.mark}
                                 onMouseEnter={() => setMega(active)}
                                 onMouseLeave={() => setMega(0)}
-                                className={`${mega === active ? "bg-sky-600 text-white rounded-t-md" : "bg-white rounded-md"} border-2 border-sky-600 flex items-center justify-center py-2 cursor-pointer`}
+                                className={`${mega === active ? "bg-sky-700 text-white rounded-t-md" : "bg-white rounded-md"} border-2 border-sky-700 flex items-center justify-center py-2 cursor-pointer`}
                             >
                                 <p className="font-bold uppercase text-xs">{cat?.name}</p>
                                 {mega === active ? <IconChevronUp size={18} /> : <IconChevronDown size={18} />}

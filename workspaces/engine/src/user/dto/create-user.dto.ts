@@ -1,4 +1,4 @@
-import { UserRole } from "../entities/role"
+import { UserRole } from "../../enum/role"
 
 export class CreateUserDto {
 

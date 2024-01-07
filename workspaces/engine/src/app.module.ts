@@ -11,6 +11,7 @@ import { SubcategoryModule } from './subcategory/subcategory.module'
 import { PostModule } from './post/post.module'
 import { UserModule } from './user/user.module'
 import { PageModule } from './page/page.module';
+import { CompliantModule } from './compliant/compliant.module';
 
 @Module({
   imports: [
@@ -49,7 +50,8 @@ import { PageModule } from './page/page.module';
     SubcategoryModule,
     PostModule,
     UserModule,
-    PageModule
+    PageModule,
+    CompliantModule
   ],
   controllers: [AppController],
   providers: [AppService],
