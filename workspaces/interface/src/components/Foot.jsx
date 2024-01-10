@@ -1,7 +1,11 @@
 import { IconMail, IconMapPin, IconPhone } from '@tabler/icons-react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { NotifContext } from '../context/NotifProvider'
+import { Spinner } from './Spinner'
 
 export const Foot = () => {
+
+    const { isOpen, Open, Cloze, setMsg } = useContext(NotifContext)
 
     const [user, setUser] = useState('')
     const [email, setEmail] = useState('')
@@ -24,11 +28,26 @@ export const Foot = () => {
             })
         }
 
-        const raw = fetch('/server/compliant', options)
+        const raw = await fetch('/server/compliant', options)
 
-        const resp = raw.json()
+        const resp = await raw.json()
 
-        console.log(resp)
+        if (resp.ok) {
+            Open()
+            setMsg(resp.message)
+        }
+        else {
+            Open()
+            setMsg(resp.message)
+        }
+
+        setUser('')
+        setEmail('')
+        setMobile('')
+        setType('')
+        setStatement('')
+
+        setTimeout(() => Cloze(), 2000)
     }
 
     const year = new Date().getFullYear()
@@ -57,9 +76,10 @@ export const Foot = () => {
                             <div className="flex flex-col mt-2">
                                 <label className="text-white mb-1">Төрөл</label>
                                 <select onChange={(val) => setType(val.target.value)} className="outline-none p-2 rounded-md bg-white">
-                                    <option>Санал</option>
-                                    <option>Өргөдөл</option>
-                                    <option>Гомдол</option>
+                                    <option>--- сонгох ---</option>
+                                    <option value="suggestion">Санал</option>
+                                    <option value="application">Өргөдөл</option>
+                                    <option value="compliant">Гомдол</option>
                                 </select>
                             </div>
                         </div>
@@ -71,7 +91,7 @@ export const Foot = () => {
                     </div>
 
                     <div className='mt-4 flex justify-end'>
-                        <button onClick={Despatch} type='button' className='bg-white rounded-md p-2 w-24 font-bold'>Илгээх</button>
+                        <button onClick={Despatch} type='button' className='bg-white rounded-md p-2 w-24 font-bold flex justify-center'>{isOpen ? <Spinner /> : 'Илгээх'}</button>
                     </div>
                 </div>
 

@@ -1,6 +1,7 @@
 import { CompliantType } from "src/enum/compliant-type"
-import { Column, CreateDateColumn, PrimaryGeneratedColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm"
 
+@Entity()
 export class Compliant {
 
     @PrimaryGeneratedColumn()

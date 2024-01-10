@@ -6,6 +6,7 @@ import i18next from "i18next"
 import { resources } from "./language/resources.js"
 import './global.scss'
 import { LanguageProvider } from './context/LanguageProvider.jsx'
+import { NotifProvider } from './context/NotifProvider.jsx'
 
 i18next.use(initReactI18next)
   .init({
@@ -18,10 +19,12 @@ i18next.use(initReactI18next)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <I18nextProvider i18n={i18next}>
-      <LanguageProvider>
-        <App />
-      </LanguageProvider>
-    </I18nextProvider>
+    <NotifProvider>
+      <I18nextProvider i18n={i18next}>
+        <LanguageProvider>
+          <App />
+        </LanguageProvider>
+      </I18nextProvider>
+    </NotifProvider>
   </React.StrictMode>
 )
