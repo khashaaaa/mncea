@@ -14,6 +14,8 @@ import { HeadCategory } from "./pages/HeadCategory"
 import { PageList } from "./pages/PageList"
 import { CreatePage } from "./pages/CreatePage"
 import { EditPage } from "./pages/EditPage"
+import { PartnerShip } from "./pages/PartnerShip"
+import { CreatePartner } from "./pages/CreatePartner"
 
 const App = () => {
 
@@ -29,10 +31,12 @@ const App = () => {
               <Route path="/publish" element={<Publish />} />
               <Route path="/headcategory" element={<HeadCategory />} />
               <Route path="/specialcategory" element={<SpecialCategory />} />
+              <Route path="/partnership" element={<PartnerShip />} />
+              <Route path="/createpartner" element={<CreatePartner />} />
+              <Route path="/usercontrol" element={<UserControl />} />
               <Route path="/post/:mark" element={<Post />} />
               <Route path="/post/:mark/update" element={<EditPost />} />
               <Route path="/page/:mark/update" element={<EditPage />} />
-              <Route path="/usercontrol" element={<UserControl />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Routes>

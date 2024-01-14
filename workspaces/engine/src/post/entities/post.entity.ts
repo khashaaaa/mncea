@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 import { Language } from "../../enum/language"
+import { Priority } from "src/enum/priority"
 
 @Entity()
 export class Post {
@@ -27,6 +28,12 @@ export class Post {
         enum: Language
     })
     language: Language
+
+    @Column({
+        type: 'enum',
+        enum: Priority
+    })
+    priority: Priority
 
     @Column()
     base_category: number

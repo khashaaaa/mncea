@@ -33,10 +33,10 @@ export const UserControl = () => {
     const [errType, setErrType] = useState('')
     const [del, setDel] = useState({})
 
-    const [username, setUsername] = useState('')
-    const [mobile, setMobile] = useState('')
-    const [role, setRole] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState(currentUser?.username)
+    const [mobile, setMobile] = useState(currentUser?.mobile)
+    const [role, setRole] = useState(currentUser?.role)
+    const [password, setPassword] = useState(currentUser?.password)
 
     useEffect(() => {
         setActive('user')
