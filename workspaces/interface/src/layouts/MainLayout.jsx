@@ -3,6 +3,7 @@ import { NotifContext } from "../context/NotifProvider"
 import { Foot } from "../components/Foot"
 import { Head } from "../components/Head"
 import { Notif } from "../components/Notif"
+import { Partnership } from "../components/Partnership"
 
 export const MainLayout = ({ children }) => {
 
@@ -15,6 +16,7 @@ export const MainLayout = ({ children }) => {
             }
             <Head />
             {children}
+            <Partnership />
             <Foot />
         </div>
     )

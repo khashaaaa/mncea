@@ -18,7 +18,7 @@ export const NewsGrid = () => {
     }
 
     return (
-        <div style={{ margin: '2rem 15%' }}>
+        <div style={{ margin: '0 15%' }}>
             {
                 posts?.map((post, num) => {
                     return (
