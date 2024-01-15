@@ -12,6 +12,7 @@ import { PostModule } from './post/post.module'
 import { UserModule } from './user/user.module'
 import { PageModule } from './page/page.module';
 import { CompliantModule } from './compliant/compliant.module';
+import { PartnershipModule } from './partnership/partnership.module';
 
 @Module({
   imports: [
@@ -51,7 +52,8 @@ import { CompliantModule } from './compliant/compliant.module';
     PostModule,
     UserModule,
     PageModule,
-    CompliantModule
+    CompliantModule,
+    PartnershipModule
   ],
   controllers: [AppController],
   providers: [AppService],

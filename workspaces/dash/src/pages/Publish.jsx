@@ -33,6 +33,7 @@ export const Publish = () => {
     const [title, setTitle] = useState('')
     const [currentDateTime, setCurrentDateTime] = useState(getCurrentDateTime())
     const [language, setLanguage] = useState('mn')
+    const [priority, setPriority] = useState('')
     const [baseCategory, setBaseCategory] = useState('')
     const [midCategory, setMidCategory] = useState('')
     const [subCategory, setSubCategory] = useState('')
@@ -94,6 +95,7 @@ export const Publish = () => {
                 content: editorContent,
                 posted_date: currentDateTime,
                 language,
+                priority,
                 admin: user?.username,
                 base_category: baseCategory,
                 mid_category: midCategory,
@@ -146,24 +148,35 @@ export const Publish = () => {
 
     return (
         <MainLayout>
-            <label className="flex items-center justify-center w-28 h-28 border-dashed border-2 border-stone-200 rounded-md cursor-pointer hover:bg-stone-100 duration-300">
-                <input type="file" onChange={imageProcess} hidden />
-                {preview ? (
-                    <div className="relative cursor-default">
-                        <IconX onClick={imageCancel} className="bg-white absolute right-0 cursor-pointer rounded" />
-                        <img src={preview} alt={image} />
-                    </div>
-                ) : (
-                    <IconPhotoPlus />
-                )}
-            </label>
+            <div className='flex items-end'>
+                <label className="flex items-center justify-center w-28 h-28 border-dashed border-2 border-stone-200 rounded-md cursor-pointer hover:bg-stone-100 duration-300">
+                    <input type="file" onChange={imageProcess} hidden />
+                    {preview ? (
+                        <div className="relative cursor-default">
+                            <IconX onClick={imageCancel} className="bg-white absolute right-0 cursor-pointer rounded" />
+                            <img src={preview} alt={image} />
+                        </div>
+                    ) : (
+                        <IconPhotoPlus />
+                    )}
+                </label>
 
-            <div className="mt-4 flex flex-col">
-                <label className="text-xs mb-1">Хэл</label>
-                <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="h-8 w-40 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
-                    <option value="mn">Монгол</option>
-                    <option value="en">English</option>
-                </select>
+                <div className="ml-4 flex flex-col">
+                    <label className="text-xs mb-1">Хэл</label>
+                    <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="h-8 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                        <option value="mn">Монгол</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+
+                <div className="ml-4 flex flex-col">
+                    <label className="text-xs mb-1">Төрөл</label>
+                    <select onChange={(e) => setPriority(e.target.value)} className="h-8 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                        <option>--- төрөл сонгох ---</option>
+                        <option value="featured">Онцлох</option>
+                        <option value="relevant">Чухал</option>
+                    </select>
+                </div>
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-4">

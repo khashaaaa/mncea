@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from "react-i18next"
 import { LanguageContext } from '../context/LanguageProvider'
-import { IconBrandFacebook, IconBrandX, IconBrandYoutube } from '@tabler/icons-react'
+import { IconBrandFacebook, IconBrandX, IconBrandYoutube, IconSearch } from '@tabler/icons-react'
 import logo from '/logo.jpg'
 import mongolia from '/mongolia.png'
 import usa from '/united-states.png'
@@ -17,6 +17,10 @@ export const Head = () => {
         <div>
             <div className="bg-gray-100 w-full h-12 flex items-center justify-end">
                 <div className="flex items-center" style={{ margin: '0 15%' }}>
+                    <div className='flex items-center mr-8 cursor-pointer'>
+                        <p className='mr-2 text-xs'>Хайх</p>
+                        <IconSearch color='navy' />
+                    </div>
                     <div className='grid grid-cols-3 gap-2 mr-8'>
                         <IconBrandFacebook size={18} color='white' className='rounded-full h-6 w-6 bg-main p-1 cursor-pointer hover:bg-sky-800' />
                         <IconBrandYoutube size={18} color='white' className='rounded-full h-6 w-6 bg-main p-1 cursor-pointer hover:bg-sky-800' />

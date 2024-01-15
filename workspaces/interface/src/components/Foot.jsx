@@ -14,6 +14,12 @@ export const Foot = () => {
     const [statement, setStatement] = useState('')
 
     const Despatch = async () => {
+        setUser('')
+        setEmail('')
+        setMobile('')
+        setType('')
+        setStatement('')
+
         const options = {
             method: 'POST',
             headers: {
@@ -41,12 +47,6 @@ export const Foot = () => {
             setMsg(resp.message)
         }
 
-        setUser('')
-        setEmail('')
-        setMobile('')
-        setType('')
-        setStatement('')
-
         setTimeout(() => Cloze(), 2000)
     }
 
@@ -61,21 +61,21 @@ export const Foot = () => {
                         <div>
                             <div className="flex flex-col">
                                 <label className="text-white mb-1">Нэр</label>
-                                <input onChange={(val) => setUser(val.target.value)} className="outline-none p-2 rounded-md" />
+                                <input value={user} onChange={(val) => setUser(val.target.value)} className="outline-none p-2 rounded-md" />
                             </div>
                             <div className="flex flex-col mt-2">
                                 <label className="text-white mb-1">Утасны дугаар</label>
-                                <input onChange={(val) => setMobile(val.target.value)} className="outline-none p-2 rounded-md" />
+                                <input value={mobile} onChange={(val) => setMobile(val.target.value)} className="outline-none p-2 rounded-md" />
                             </div>
                         </div>
                         <div>
                             <div className="flex flex-col">
                                 <label className="text-white mb-1">Имэйл хаяг</label>
-                                <input onChange={(val) => setEmail(val.target.value)} className="outline-none p-2 rounded-md" />
+                                <input value={email} onChange={(val) => setEmail(val.target.value)} className="outline-none p-2 rounded-md" />
                             </div>
                             <div className="flex flex-col mt-2">
                                 <label className="text-white mb-1">Төрөл</label>
-                                <select onChange={(val) => setType(val.target.value)} className="outline-none p-2 rounded-md bg-white">
+                                <select value={type} onChange={(val) => setType(val.target.value)} className="outline-none p-2 rounded-md bg-white">
                                     <option>--- сонгох ---</option>
                                     <option value="suggestion">Санал</option>
                                     <option value="application">Өргөдөл</option>
@@ -87,7 +87,7 @@ export const Foot = () => {
 
                     <div className="flex flex-col mt-2">
                         <label className="text-white mb-1">Дэлгэрэнгүй мэдээлэл</label>
-                        <textarea onChange={(val) => setStatement(val.target.value)} rows="3" className="outline-none p-2 rounded-md" />
+                        <textarea value={statement} onChange={(val) => setStatement(val.target.value)} rows="3" className="outline-none p-2 rounded-md" />
                     </div>
 
                     <div className='mt-4 flex justify-end'>

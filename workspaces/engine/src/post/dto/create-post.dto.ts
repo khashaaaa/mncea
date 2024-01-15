@@ -1,3 +1,4 @@
+import { Priority } from "src/enum/priority"
 import { Language } from "../../enum/language"
 
 export class CreatePostDto {
@@ -8,6 +9,7 @@ export class CreatePostDto {
     admin: string
     thumbnail?: string
     language: Language
+    priority?: Priority
     base_category?: number
     mid_category?: number
     sub_category?: number
