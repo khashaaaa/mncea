@@ -20,6 +20,8 @@ export const SpecialCategory = () => {
 
     const [activeTab, setActiveTab] = useState(1)
 
+    const [language, setLanguage] = useState('mn')
+
     const [type, setType] = useState('')
 
     const [baseCategories, setBaseCategories] = useState([])
@@ -47,14 +49,14 @@ export const SpecialCategory = () => {
             navigate('/login')
         }
         GetData()
-    }, [])
+    }, [language])
 
     const GetData = async () => {
         try {
             const [baseResp, midResp, subResp] = await Promise.all([
-                fetch(base_url + "basecategory"),
-                fetch(base_url + "midcategory"),
-                fetch(base_url + "subcategory"),
+                fetch(`${base_url}basecategory?language=${language}`),
+                fetch(`${base_url}midcategory?language=${language}`),
+                fetch(`${base_url}subcategory?language=${language}`),
             ])
 
             const baseData = await baseResp.json()
@@ -204,7 +206,8 @@ export const SpecialCategory = () => {
         if (activeTab === 1) {
             if (type === 'create') {
                 return (
-                    <div className="w-80 mt-8 grid grid-rows-2 gap-4">
+                    <div className="w-80 mt-8 grid grid-rows-3 gap-4">
+                        <p>{language === 'mn' ? 'Хэл: Монгол' : 'Language: English'}</p>
                         <input onChange={(e) => setName(e.target.value)} className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300" />
                         <Button click={createCategory} text="Болсон" color="green" />
                     </div>
@@ -233,7 +236,8 @@ export const SpecialCategory = () => {
         if (activeTab === 2) {
             if (type === 'create') {
                 return (
-                    <div className="w-80 mt-8 grid grid-rows-3 gap-4">
+                    <div className="w-80 mt-8 grid grid-rows-4 gap-4">
+                        <p>{language === 'mn' ? 'Хэл: Монгол' : 'Language: English'}</p>
                         <select onChange={(e) => setParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300">
                             <option>---сонгох---</option>
                             {
@@ -274,7 +278,8 @@ export const SpecialCategory = () => {
         if (activeTab === 3) {
             if (type === 'create') {
                 return (
-                    <div className="w-80 mt-8 grid grid-rows-4 gap-4">
+                    <div className="w-80 mt-8 grid grid-rows-5 gap-4">
+                        <p>{language === 'mn' ? 'Хэл: Монгол' : 'Language: English'}</p>
                         <select onChange={(e) => setGrandParent(e.target.value)} className="w-full bg-white outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300">
                             <option>---сонгох---</option>
                             {
@@ -363,10 +368,18 @@ export const SpecialCategory = () => {
         <MainLayout>
             {isAlertOpen && <Alert content={msg} type={errType} />}
             {isModalOpen && <Modal content={modalContent()} />}
-            <div className="w-80 grid grid-cols-3">
-                <TabButton index={1} active={activeTab} setActive={setActiveTab} label="Үндсэн" />
-                <TabButton index={2} active={activeTab} setActive={setActiveTab} label="Дунд" />
-                <TabButton index={3} active={activeTab} setActive={setActiveTab} label="Дэд" />
+            <div className="flex">
+                <div className="w-80 grid grid-cols-3">
+                    <TabButton index={1} active={activeTab} setActive={setActiveTab} label="Үндсэн" />
+                    <TabButton index={2} active={activeTab} setActive={setActiveTab} label="Дунд" />
+                    <TabButton index={3} active={activeTab} setActive={setActiveTab} label="Дэд" />
+                </div>
+                <div className="ml-4 flex flex-col">
+                    <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="h-8 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                        <option value="mn">Монгол</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
             </div>
             <div className="my-8">
                 <Button click={() => { setEditData({}), setType('create'), openModal() }} text="Нэмэх" color="green" icon={<IconComponents />} />

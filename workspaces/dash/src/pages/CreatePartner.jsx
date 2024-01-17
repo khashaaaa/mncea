@@ -5,6 +5,7 @@ import { MainLayout } from '../layouts/MainLayout'
 import { IconPhotoPlus, IconPlus, IconX } from '@tabler/icons-react'
 import Cookiez from 'js-cookie'
 import { Button } from '../components/Button'
+import { base_url } from '../config/global'
 
 export const CreatePartner = () => {
 

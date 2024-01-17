@@ -18,8 +18,10 @@ export const Head = () => {
             <div className="bg-gray-100 w-full h-12 flex items-center justify-end">
                 <div className="flex items-center" style={{ margin: '0 15%' }}>
                     <div className='flex items-center mr-8 cursor-pointer'>
-                        <p className='mr-2 text-xs'>Хайх</p>
-                        <IconSearch color='navy' />
+                        <input className='outline-none rounded-l-md p-1' placeholder='Хайх' />
+                        <button className='bg-white rounded-r-md p-1 hover:bg-sky-200'>
+                            <IconSearch color='navy' />
+                        </button>
                     </div>
                     <div className='grid grid-cols-3 gap-2 mr-8'>
                         <IconBrandFacebook size={18} color='white' className='rounded-full h-6 w-6 bg-main p-1 cursor-pointer hover:bg-sky-800' />

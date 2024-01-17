@@ -6,7 +6,7 @@ import { MenuContext } from "../context/MenuProvider"
 import { ModalContext } from "../context/ModalProvider"
 import { Modal } from "../components/Modal"
 import { Button } from "../components/Button"
-import { IconPencilPlus } from "@tabler/icons-react"
+import { IconEdit, IconPencilPlus, IconTrash } from "@tabler/icons-react"
 import { base_url } from "../config/global"
 
 export const PartnerShip = () => {
@@ -42,10 +42,10 @@ export const PartnerShip = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ thumbnail: del.thumbnail })
+                body: JSON.stringify({ logo: del.logo })
             }
 
-            if (del.thumbnail) {
+            if (del.logo) {
                 const rawImg = await fetch(base_url + 'partnership/sweep', imageOptions)
                 const respImg = await rawImg.json()
 
@@ -59,7 +59,7 @@ export const PartnerShip = () => {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${access_token}`,
-                },
+                }
             }
 
             const rawPost = await fetch(base_url + 'partnership/' + del.mark + '/delete', postOptions)
@@ -67,10 +67,10 @@ export const PartnerShip = () => {
 
             if (respPost.ok) {
                 closeModal()
-                FetchPosts()
+                FetchPartners()
             }
         } catch (error) {
-            console.error('Error while removing post:', error.message)
+            console.error(error.message)
         }
     }
 
@@ -94,7 +94,7 @@ export const PartnerShip = () => {
             }
             <div>
                 <Link to="/createpartner">
-                    <Button color="green" text="Хамтрагч нэмэх" icon={<IconPencilPlus />} />
+                    <Button color="green" text="Нэмэх" icon={<IconPencilPlus />} />
                 </Link>
             </div>
             <div className="mt-4 grid grid-cols-4 gap-4">

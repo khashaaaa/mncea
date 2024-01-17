@@ -1,7 +1,6 @@
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
-import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 export const Partnership = () => {
@@ -70,14 +69,14 @@ export const Partnership = () => {
     ]
 
     return (
-        <div className='bg-sec py-4'>
+        <div className='bg-sec py-4 border-b border-slate-700'>
             <div style={{ margin: '0 15%' }}>
                 <Swiper slidesPerView={6}>
                     {
                         partners.map(partner => {
                             return (
                                 <SwiperSlide key={partner.name} className='flex justify-center items-center'>
-                                    <img src={partner.logo} alt={partner.name} className='h-20' />
+                                    <img src={partner.logo} alt={partner.name} className='h-20 rounded-md' />
                                 </SwiperSlide>
                             )
                         })

@@ -10,6 +10,7 @@ import { Language } from '../enum/language'
 
 @Controller('post')
 export class PostController {
+
   constructor(private readonly postService: PostService) { }
 
   @Post('thumbnail')
@@ -39,19 +40,35 @@ export class PostController {
     }
   }
 
-  @Post()
-  async create(@Body() createPostDto: CreatePostDto) {
-    return await this.postService.create(createPostDto)
-  }
-
   @Get('/thumbnail/:thumbnail')
   serveImage(@Param('thumbnail') filename: string, @Res() res: any) {
     try {
       const imagePath = path.join(__dirname, '../../../public/post', filename)
       return res.sendFile(imagePath)
     } catch (error) {
-      throw new NotFoundException('Image not found')
+      throw new NotFoundException('Зураг олдсонгүй')
     }
+  }
+
+  @Post('sweep')
+  async sweepImage(@Body() data: any) {
+    const { thumbnail } = data
+
+    try {
+      const imgPath = path.join(__dirname, '../../../public/post', thumbnail)
+      await fs.unlink(imgPath)
+      return {
+        ok: true,
+        message: 'Зураг устгагдлаа'
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('Зураг утсгах явцад алдаа гарлаа: ' + error.message)
+    }
+  }
+
+  @Post()
+  async create(@Body() createPostDto: CreatePostDto) {
+    return await this.postService.create(createPostDto)
   }
 
   @Get()
@@ -77,23 +94,6 @@ export class PostController {
   @Patch(':mark/edit')
   async update(@Param('mark') mark: string, @Body() updatePostDto: UpdatePostDto) {
     return await this.postService.update(mark, updatePostDto)
-  }
-
-  @Post('sweep')
-  async sweepImage(@Body() data: any) {
-    const { thumbnail } = data
-
-    try {
-      const imgPath = path.join(__dirname, '../../../public/post', thumbnail)
-      await fs.unlink(imgPath)
-      return {
-        ok: true,
-        data: null,
-        message: 'Зураг устгагдлаа'
-      }
-    } catch (error) {
-      throw new InternalServerErrorException('Зураг утсгах явцад алдаа гарлаа: ' + error.message)
-    }
   }
 
   @Delete(':mark/delete')

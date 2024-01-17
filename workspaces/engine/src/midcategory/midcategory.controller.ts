@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common'
 import { MidcategoryService } from './midcategory.service'
 import { CreateMidcategoryDto } from './dto/create-midcategory.dto'
 import { UpdateMidcategoryDto } from './dto/update-midcategory.dto'
 import { JwtAuthGuard } from 'src/auth/auth.guard'
+import { Language } from 'src/enum/language'
 
 @Controller('midcategory')
 export class MidcategoryController {
@@ -10,13 +11,13 @@ export class MidcategoryController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() createMidcategoryDto: CreateMidcategoryDto) {
-    return this.midcategoryService.create(createMidcategoryDto)
+  async create(@Body() createMidcategoryDto: CreateMidcategoryDto) {
+    return await this.midcategoryService.create(createMidcategoryDto)
   }
 
   @Get()
-  findAll() {
-    return this.midcategoryService.findAll()
+  async findAll(@Query('language') language: Language) {
+    return await this.midcategoryService.findAll(language)
   }
 
   @Get(':mark')

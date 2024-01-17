@@ -4,6 +4,7 @@ import { UpdateBasecategoryDto } from './dto/update-basecategory.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Basecategory } from './entities/basecategory.entity'
 import { Repository } from 'typeorm'
+import { Language } from 'src/enum/language'
 
 @Injectable()
 export class BasecategoryService {
@@ -25,8 +26,8 @@ export class BasecategoryService {
     }
   }
 
-  async findAll() {
-    return await this.repo.find()
+  async findAll(language: Language) {
+    return await this.repo.find({ where: { language } })
   }
 
   async findOne(mark: number) {

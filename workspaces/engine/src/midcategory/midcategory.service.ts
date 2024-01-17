@@ -4,6 +4,7 @@ import { UpdateMidcategoryDto } from './dto/update-midcategory.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Midcategory } from './entities/midcategory.entity'
 import { Repository } from 'typeorm'
+import { Language } from 'src/enum/language'
 
 @Injectable()
 export class MidcategoryService {
@@ -25,8 +26,8 @@ export class MidcategoryService {
     }
   }
 
-  async findAll() {
-    return await this.repo.find()
+  async findAll(language: Language) {
+    return await this.repo.find({ where: { language } })
   }
 
   async findOne(mark: number) {
