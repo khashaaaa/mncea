@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { IconEdit, IconPencilPlus, IconTrash } from "@tabler/icons-react"
 import { Button } from "../components/Button"
 import Cookiez from 'js-cookie'
-import { base_url } from "../config/global"
+import { base_url } from "../../environment/url"
 import { ModalContext } from "../context/ModalProvider"
 import { Modal } from "../components/Modal"
 
@@ -32,7 +32,7 @@ export const PageList = () => {
     }, [language])
 
     const FetchPages = async () => {
-        const raw = await fetch(`${base_url}page?language=${language}`)
+        const raw = await fetch(`${base_url}/page?language=${language}`)
         const resp = await raw.json()
         setPages(resp)
     }
@@ -46,7 +46,7 @@ export const PageList = () => {
             },
         }
 
-        const rawPost = await fetch(base_url + 'page/' + del.mark, postOptions)
+        const rawPost = await fetch(`${base_url}/page/${del.mark}`, postOptions)
         const respPost = await rawPost.json()
 
         if (respPost.ok) {

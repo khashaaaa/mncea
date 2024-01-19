@@ -2,6 +2,7 @@ import { IconMail, IconMapPin, IconPhone } from '@tabler/icons-react'
 import { useContext, useState } from 'react'
 import { NotifContext } from '../context/NotifProvider'
 import { Spinner } from './Spinner'
+import { base_url } from '../../environment/url'
 
 export const Foot = () => {
 
@@ -34,7 +35,7 @@ export const Foot = () => {
             })
         }
 
-        const raw = await fetch('/server/compliant', options)
+        const raw = await fetch(`${base_url}/compliant`, options)
 
         const resp = await raw.json()
 

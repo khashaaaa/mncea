@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { MainLayout } from '../layouts/MainLayout'
-import { base_url } from '../config/global'
+import { base_url } from '../../environment/url'
 import { ModalContext } from '../context/ModalProvider'
 import { AlertContext } from "../context/AlertProvider"
 import { useNavigate } from 'react-router-dom'
@@ -48,7 +48,7 @@ export const UserControl = () => {
     }, [])
 
     const GetCurrentUser = async () => {
-        const raw = await fetch(base_url + 'user/' + userJSON.mark)
+        const raw = await fetch(`${base_url}/user/` + userJSON.mark)
         const resp = await raw.json()
 
         if (resp.ok) {
@@ -60,7 +60,7 @@ export const UserControl = () => {
     }
 
     const GetUsers = async () => {
-        const raw = await fetch(base_url + 'user')
+        const raw = await fetch(`${base_url}/user`)
         const resp = await raw.json()
         setUsers(resp)
     }
@@ -84,7 +84,7 @@ export const UserControl = () => {
             body: JSON.stringify(data)
         }
 
-        const raw = await fetch(base_url + 'user', options)
+        const raw = await fetch(`${base_url}/user`, options)
         const resp = await raw.json()
 
         setMsg(resp.message)
@@ -118,7 +118,7 @@ export const UserControl = () => {
             body: JSON.stringify(data)
         }
 
-        const raw = await fetch(base_url + 'user/' + userJSON.mark, options)
+        const raw = await fetch(`${base_url}/user/` + userJSON.mark, options)
         const resp = await raw.json()
 
         setMsg(resp.message)
@@ -141,7 +141,7 @@ export const UserControl = () => {
             method: 'DELETE'
         }
 
-        const raw = await fetch(base_url + 'user/' + del.mark, options)
+        const raw = await fetch(`${base_url}/user/` + del.mark, options)
         const resp = await raw.json()
 
         setMsg(resp.message)

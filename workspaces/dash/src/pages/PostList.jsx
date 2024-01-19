@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { MainLayout } from "../layouts/MainLayout"
 import { Button } from "../components/Button"
-import { base_url } from "../config/global"
+import { base_url } from "../../environment/url"
 import { Link } from "react-router-dom"
 import { IconEdit, IconPencilPlus, IconTrash } from "@tabler/icons-react"
 import { ModalContext } from "../context/ModalProvider"
@@ -33,7 +33,7 @@ export const PostList = () => {
     }, [language])
 
     const FetchPosts = async () => {
-        const raw = await fetch(`${base_url}post?language=${language}`)
+        const raw = await fetch(`${base_url}/post?language=${language}`)
         const resp = await raw.json()
         setPosts(resp)
     }
@@ -49,7 +49,7 @@ export const PostList = () => {
             }
 
             if (del.thumbnail) {
-                const rawImg = await fetch(base_url + 'post/sweep', imageOptions)
+                const rawImg = await fetch(`${base_url}/post/sweep`, imageOptions)
                 const respImg = await rawImg.json()
 
                 if (!respImg.ok) {
@@ -65,7 +65,7 @@ export const PostList = () => {
                 },
             }
 
-            const rawPost = await fetch(base_url + 'post/' + del.mark + '/delete', postOptions)
+            const rawPost = await fetch(`${base_url}/post/${del.mark}/delete`, postOptions)
             const respPost = await rawPost.json()
 
             if (respPost.ok) {
@@ -112,7 +112,7 @@ export const PostList = () => {
                             <div key={post.mark} className="border border-stone-200 rounded-2xl hover:shadow-xl duration-300">
                                 {
                                     post.thumbnail ?
-                                        <img src={`${base_url}post/thumbnail/${post.thumbnail}`} alt={post.thumbnail} className="object-cover h-60 w-full rounded-t-xl border-b border-stone-200" />
+                                        <img src={`${base_url}/post/thumbnail/${post.thumbnail}`} alt={post.thumbnail} className="object-cover h-60 w-full rounded-t-xl border-b border-stone-200" />
                                         :
                                         <img src={NoThumb} alt="empty" className="object-cover h-60 w-full rounded-t-xl border-b border-stone-200" />
                                 }

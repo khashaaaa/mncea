@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback, useContext } from 'react'
 import { useNavigate } from "react-router-dom"
 import { Editor } from '@tinymce/tinymce-react'
 import { MainLayout } from "../layouts/MainLayout"
-import { base_url } from '../config/global'
+import { base_url } from '../../environment/url'
 import { IconPhotoPlus, IconPlus, IconX } from '@tabler/icons-react'
 import { Button } from '../components/Button'
 import Cookiez from 'js-cookie'
@@ -57,9 +57,9 @@ export const Publish = () => {
     const fetchData = async () => {
         try {
             const [resp1, resp2, resp3] = await Promise.all([
-                fetch(base_url + 'basecategory'),
-                fetch(base_url + 'midcategory'),
-                fetch(base_url + 'subcategory'),
+                fetch(`${base_url}/basecategory`),
+                fetch(`${base_url}/midcategory`),
+                fetch(`${base_url}/subcategory`),
             ])
 
             const [data1, data2, data3] = await Promise.all([resp1.json(), resp2.json(), resp3.json()])
@@ -113,7 +113,7 @@ export const Publish = () => {
                     body: imgForm,
                 }
 
-                const thumbnailResponse = await fetch(base_url + 'post/thumbnail', thumbnailOptions)
+                const thumbnailResponse = await fetch(`${base_url}/post/thumbnail`, thumbnailOptions)
                 const thumbnailResult = await thumbnailResponse.json()
 
                 if (!thumbnailResult.ok) {
@@ -132,13 +132,12 @@ export const Publish = () => {
                 body: JSON.stringify(postData),
             }
 
-            const postResponse = await fetch(base_url + 'post', postOptions)
+            const postResponse = await fetch(`${base_url}/post`, postOptions)
             const postResult = await postResponse.json()
 
             if (postResult.ok) {
                 navigate('/post')
             } else {
-                // Handle post request failure if needed
                 console.error('Post request failed:', postResult.message)
             }
         } catch (error) {

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { MainLayout } from "../layouts/MainLayout"
 import { useParams, useNavigate } from 'react-router-dom'
-import { base_url } from "../config/global"
+import { base_url } from "../../environment/url"
 import Cookiez from 'js-cookie'
 import { MenuContext } from "../context/MenuProvider"
 
@@ -17,7 +17,7 @@ export const Post = () => {
 
     const [post, setPost] = useState(null)
 
-    const thumbnailUrl = post?.thumbnail ? `${base_url}post/thumbnail/${post.thumbnail}` : ''
+    const thumbnailUrl = post?.thumbnail ? `${base_url}/post/thumbnail/${post.thumbnail}` : ''
 
     useEffect(() => {
         setActive('post')
@@ -25,7 +25,7 @@ export const Post = () => {
             navigate('/login')
         }
         const FetchPost = async () => {
-            const raw = await fetch(`${base_url}post/${mark}`)
+            const raw = await fetch(`${base_url}/post/${mark}`)
             const resp = await raw.json()
             const dateObject = new Date(resp.data.posted_date)
             const formattedTimestamp = `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1)

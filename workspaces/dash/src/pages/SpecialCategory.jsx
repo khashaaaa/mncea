@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { MainLayout } from "../layouts/MainLayout"
 import { TabButton } from "../components/TabButton"
-import { base_url } from '../config/global'
+import { base_url } from '../../environment/url'
 import { IconComponents, IconEdit, IconTrash } from "@tabler/icons-react"
 import { ModalContext } from "../context/ModalProvider"
 import { AlertContext } from "../context/AlertProvider"
@@ -54,9 +54,9 @@ export const SpecialCategory = () => {
     const GetData = async () => {
         try {
             const [baseResp, midResp, subResp] = await Promise.all([
-                fetch(`${base_url}basecategory?language=${language}`),
-                fetch(`${base_url}midcategory?language=${language}`),
-                fetch(`${base_url}subcategory?language=${language}`),
+                fetch(`${base_url}/basecategory?language=${language}`),
+                fetch(`${base_url}/midcategory?language=${language}`),
+                fetch(`${base_url}/subcategory?language=${language}`),
             ])
 
             const baseData = await baseResp.json()
@@ -108,7 +108,7 @@ export const SpecialCategory = () => {
             body: JSON.stringify(form)
         }
 
-        const raw = await fetch(base_url + endpoint, options)
+        const raw = await fetch(`${base_url}/${endpoint}`, options)
         const resp = await raw.json()
 
         if (resp.ok) {
@@ -156,7 +156,7 @@ export const SpecialCategory = () => {
             body: JSON.stringify(form)
         }
 
-        const raw = await fetch(base_url + endpoint + editData.mark, options)
+        const raw = await fetch(`${base_url}/${endpoint}/${editData.mark}`, options)
         const resp = await raw.json()
 
         if (resp.ok) {
@@ -190,7 +190,7 @@ export const SpecialCategory = () => {
             endpoint = 'subcategory/'
         }
 
-        const raw = await fetch(base_url + endpoint + del, options)
+        const raw = await fetch(`${base_url}/${endpoint}/${del}`, options)
         const resp = await raw.json()
 
         if (resp.ok) {

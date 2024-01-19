@@ -6,7 +6,7 @@ import { IconPlus } from "@tabler/icons-react"
 import { Button } from "../components/Button"
 import { useNavigate } from "react-router-dom"
 import Cookiez from 'js-cookie'
-import { base_url } from "../config/global"
+import { base_url } from "../../environment/url"
 
 export const CreatePage = () => {
 
@@ -51,7 +51,7 @@ export const CreatePage = () => {
             body: JSON.stringify(pageData),
         }
 
-        const pageRaw = await fetch(base_url + 'page', pageOptions)
+        const pageRaw = await fetch(`${base_url}/page`, pageOptions)
         const pageResp = await pageRaw.json()
 
         if (pageResp.ok) {

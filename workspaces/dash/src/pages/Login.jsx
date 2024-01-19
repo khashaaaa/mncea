@@ -4,7 +4,7 @@ import { AuthLayout } from '../layouts/AuthLayout'
 import { Button } from '../components/Button'
 import { Alert } from '../components/Alert'
 import { AlertContext } from '../context/AlertProvider'
-import { base_url } from '../config/global'
+import { base_url } from '../../environment/url'
 import Cookiez from 'js-cookie'
 
 export const Login = () => {
@@ -43,7 +43,7 @@ export const Login = () => {
             body: JSON.stringify(formData),
         }
 
-        const response = await fetch(base_url + 'user/login', options)
+        const response = await fetch(`${base_url}/user/login`, options)
         const data = await response.json()
 
         if (data.ok) {

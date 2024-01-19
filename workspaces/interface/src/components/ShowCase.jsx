@@ -7,6 +7,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { base_url } from '../../environment/url'
 
 export const ShowCase = () => {
     const [mega, setMega] = useState(0)
@@ -21,9 +22,9 @@ export const ShowCase = () => {
     const GetMenuData = async () => {
         try {
             const [baseRaw, midRaw, subRaw] = await Promise.all([
-                fetch(`/server/basecategory`),
-                fetch(`/server/midcategory`),
-                fetch(`/server/subcategory`),
+                fetch(`${base_url}/basecategory`),
+                fetch(`${base_url}/midcategory`),
+                fetch(`${base_url}/subcategory`),
             ])
 
             const [baseResp, midResp, subResp] = await Promise.all([

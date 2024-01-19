@@ -1,6 +1,7 @@
 import { IconChevronDown, IconChevronUp } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { base_url } from "../../environment/url"
 
 export const SpecialMenu = () => {
 
@@ -16,9 +17,9 @@ export const SpecialMenu = () => {
     const GetMenuData = async () => {
         try {
             const [baseRaw, midRaw, subRaw] = await Promise.all([
-                fetch(`/server/basecategory`),
-                fetch(`/server/midcategory`),
-                fetch(`/server/subcategory`),
+                fetch(`${base_url}/basecategory`),
+                fetch(`${base_url}/midcategory`),
+                fetch(`${base_url}/subcategory`),
             ])
 
             const [baseResp, midResp, subResp] = await Promise.all([

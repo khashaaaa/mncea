@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AlertContext } from '../context/AlertProvider'
 import { Button } from '../components/Button'
 import { AuthLayout } from '../layouts/AuthLayout'
-import { base_url } from '../config/global'
+import { base_url } from '../../environment/url'
 import { Alert } from '../components/Alert'
 import Cookiez from 'js-cookie'
 
@@ -43,7 +43,7 @@ export const Register = () => {
             body: JSON.stringify(formData),
         }
 
-        const raw = await fetch(base_url + 'user', options)
+        const raw = await fetch(`${base_url}/user`, options)
         const resp = await raw.json()
 
         setAlertType(resp.ok ? 'success' : 'error')

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { base_url } from "../../../dash/src/config/global"
+import { base_url } from "../../environment/url"
 
 export const Sidebar = () => {
 
@@ -11,7 +11,7 @@ export const Sidebar = () => {
 
     const GetPosts = async () => {
 
-        const raw = await fetch('/server/post')
+        const raw = await fetch(`${base_url}/post`)
         const resp = await raw.json()
         setPosts(resp)
     }
@@ -22,7 +22,7 @@ export const Sidebar = () => {
                 posts.map((post, num) => {
                     return (
                         <div key={post.mark} className="mb-4 border-b pb-2">
-                            <img src={`${base_url}post/thumbnail/${post.thumbnail}`} alt={post.title} className="rounded-xl w-48 h-32" />
+                            <img src={`${base_url}/post/thumbnail/${post.thumbnail}`} alt={post.title} className="rounded-xl w-48 h-32" />
                             <p className="mt-2 uppercase text-sm">{post.title}</p>
                         </div>
                     )

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback, useContext } from 'react'
 import { useNavigate, useParams } from "react-router-dom"
 import { Editor } from '@tinymce/tinymce-react'
 import { MainLayout } from "../layouts/MainLayout"
-import { base_url } from '../config/global'
+import { base_url } from '../../environment/url'
 import { IconPhotoPlus, IconX } from '@tabler/icons-react'
 import { Button } from '../components/Button'
 import Cookiez from 'js-cookie'
@@ -55,10 +55,10 @@ export const EditPost = () => {
     const fetchData = async () => {
         try {
             const [postResponse, baseResponse, midResponse, subResponse] = await Promise.all([
-                fetch(base_url + 'post/' + mark),
-                fetch(base_url + 'basecategory'),
-                fetch(base_url + 'midcategory'),
-                fetch(base_url + 'subcategory')
+                fetch(`${base_url}/post/${mark}`),
+                fetch(`${base_url}/basecategory`),
+                fetch(`${base_url}/midcategory`),
+                fetch(`${base_url}/subcategory`)
             ])
 
             const [postData, baseData, midData, subData] = await Promise.all([
@@ -112,7 +112,7 @@ export const EditPost = () => {
             }),
         }
 
-        const raw = await fetch(base_url + 'post', options)
+        const raw = await fetch(`${base_url}/post`, options)
         const resp = await raw.json()
 
         if (resp.ok) {
@@ -129,7 +129,7 @@ export const EditPost = () => {
                     {(currentPost?.thumbnail || preview) && (
                         <div className="relative cursor-default">
                             <IconX onClick={imageCancel} className="bg-white rounded absolute right-0 cursor-pointer" />
-                            <img src={currentPost?.thumbnail ? `${base_url}post/thumbnail/${currentPost?.thumbnail}` : preview[0]} alt="Image Preview" />
+                            <img src={currentPost?.thumbnail ? `${base_url}/post/thumbnail/${currentPost?.thumbnail}` : preview[0]} alt="Image Preview" />
                         </div>
                     )}
                     {!currentPost?.thumbnail && !preview && <IconPhotoPlus />}

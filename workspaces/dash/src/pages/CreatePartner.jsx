@@ -5,7 +5,7 @@ import { MainLayout } from '../layouts/MainLayout'
 import { IconPhotoPlus, IconPlus, IconX } from '@tabler/icons-react'
 import Cookiez from 'js-cookie'
 import { Button } from '../components/Button'
-import { base_url } from '../config/global'
+import { base_url } from '../../environment/url'
 
 export const CreatePartner = () => {
 
@@ -61,7 +61,7 @@ export const CreatePartner = () => {
                     body: imgForm,
                 }
 
-                const imageRaw = await fetch(base_url + 'partnership/logo', imageOptions)
+                const imageRaw = await fetch(`${base_url}/partnership/logo`, imageOptions)
                 const imageResp = await imageRaw.json()
 
                 if (!imageResp.ok) {
@@ -79,7 +79,7 @@ export const CreatePartner = () => {
                 body: JSON.stringify(postData),
             }
 
-            const postResponse = await fetch(base_url + 'partnership', postOptions)
+            const postResponse = await fetch(`${base_url}/partnership`, postOptions)
             const postResult = await postResponse.json()
 
             if (postResult.ok) {

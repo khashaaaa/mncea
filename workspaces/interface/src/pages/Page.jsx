@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom"
 import { SpecialMenu } from "../components/SpecialMenu"
 import { MainLayout } from "../layouts/MainLayout"
 import { useContext, useEffect, useState } from "react"
-import { base_url } from "../../../dash/src/config/global"
+import { base_url } from "../../environment/url"
 import { LanguageContext } from "../context/LanguageProvider"
 
 export const Page = () => {
@@ -25,7 +25,7 @@ export const Page = () => {
             },
             body: JSON.stringify(obj)
         }
-        const raw = await fetch(`${base_url}page/name`, options)
+        const raw = await fetch(`${base_url}/page/name`, options)
         const resp = await raw.json()
 
         setPage(resp.data)

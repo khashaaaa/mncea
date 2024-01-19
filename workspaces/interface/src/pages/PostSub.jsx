@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { SpecialMenu } from "../components/SpecialMenu"
 import { MainLayout } from "../layouts/MainLayout"
-import { base_url } from "../../../dash/src/config/global"
+import { base_url } from "../../environment/url"
 import { useParams } from "react-router-dom"
 
 export const PostSub = () => {
@@ -15,7 +15,7 @@ export const PostSub = () => {
     }, [mark])
 
     const GetPost = async () => {
-        const raw = await fetch(`${base_url}post/sub/${mark}`)
+        const raw = await fetch(`${base_url}/post/sub/${mark}`)
         const resp = await raw.json()
         setPosts(resp)
     }

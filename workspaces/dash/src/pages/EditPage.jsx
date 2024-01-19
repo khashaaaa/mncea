@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useContext } from 'react'
 import { useNavigate, useParams } from "react-router-dom"
 import { Editor } from '@tinymce/tinymce-react'
 import { MainLayout } from "../layouts/MainLayout"
-import { base_url } from '../config/global'
+import { base_url } from '../../environment/url'
 import { Button } from '../components/Button'
 import Cookiez from 'js-cookie'
 import { MenuContext } from '../context/MenuProvider'
@@ -38,7 +38,7 @@ export const EditPage = () => {
     const fetchData = async () => {
         try {
 
-            const pageRaw = await fetch(base_url + 'page/' + mark)
+            const pageRaw = await fetch(`${base_url}/page/` + mark)
             const pageResp = await pageRaw.json()
 
             setCurrentPage(pageResp.data)
@@ -67,7 +67,7 @@ export const EditPage = () => {
             body: JSON.stringify(pageData)
         }
 
-        const raw = await fetch(base_url + 'page', options)
+        const raw = await fetch(`${base_url}/page`, options)
         const resp = await raw.json()
 
         if (resp.ok) {

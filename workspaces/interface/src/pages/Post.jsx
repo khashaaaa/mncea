@@ -3,6 +3,7 @@ import { SpecialMenu } from "../components/SpecialMenu"
 import { MainLayout } from "../layouts/MainLayout"
 import { useParams } from "react-router-dom"
 import { Sidebar } from "../components/Sidebar"
+import { base_url } from "../../environment/url"
 
 export const Post = () => {
 
@@ -16,7 +17,7 @@ export const Post = () => {
 
     const GetPosts = async () => {
 
-        const raw = await fetch(`/server/post/${mark}`)
+        const raw = await fetch(`${base_url}/post/${mark}`)
         const resp = await raw.json()
         setPost(resp.data)
     }
