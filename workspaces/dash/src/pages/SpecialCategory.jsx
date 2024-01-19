@@ -79,13 +79,14 @@ export const SpecialCategory = () => {
 
         if (activeTab === 1) {
             endpoint = 'basecategory'
-            form = { name }
+            form = { name, language }
         }
         if (activeTab === 2) {
             endpoint = 'midcategory'
             form = {
                 parent,
-                name
+                name,
+                language
             }
         }
         if (activeTab === 3) {
@@ -93,7 +94,8 @@ export const SpecialCategory = () => {
             form = {
                 grandParent,
                 parent,
-                name
+                name,
+                language
             }
         }
 

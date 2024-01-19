@@ -97,7 +97,7 @@ export const PostList = () => {
             }
             <div className="flex items-center">
                 <Link to="/publish">
-                    <Button color="green" text="Мэдээлэл нэмэх" icon={<IconPencilPlus />} />
+                    <Button color="green" text="Нэмэх" icon={<IconPencilPlus />} />
                 </Link>
                 <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="ml-4 outline-none bg-white rounded-md border border-stone-200 px-2 py-1">
                     <option value="mn">Монгол</option>

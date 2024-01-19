@@ -1,4 +1,5 @@
 export enum Priority {
     FEATURED = 'featured',
-    RELEVANT = 'relevant'
+    RELEVANT = 'relevant',
+    REGULAR = 'regular'
 }

@@ -33,7 +33,7 @@ export const Publish = () => {
     const [title, setTitle] = useState('')
     const [currentDateTime, setCurrentDateTime] = useState(getCurrentDateTime())
     const [language, setLanguage] = useState('mn')
-    const [priority, setPriority] = useState('')
+    const [priority, setPriority] = useState('regular')
     const [baseCategory, setBaseCategory] = useState('')
     const [midCategory, setMidCategory] = useState('')
     const [subCategory, setSubCategory] = useState('')
@@ -172,7 +172,7 @@ export const Publish = () => {
                 <div className="ml-4 flex flex-col">
                     <label className="text-xs mb-1">Төрөл</label>
                     <select onChange={(e) => setPriority(e.target.value)} className="h-8 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
-                        <option>--- төрөл сонгох ---</option>
+                        <option value="regular">Энгийн</option>
                         <option value="featured">Онцлох</option>
                         <option value="relevant">Чухал</option>
                     </select>

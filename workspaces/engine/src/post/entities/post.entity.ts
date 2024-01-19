@@ -31,9 +31,10 @@ export class Post {
 
     @Column({
         type: 'enum',
-        enum: Priority
+        enum: Priority,
+        nullable: true
     })
-    priority: Priority
+    priority?: Priority
 
     @Column()
     base_category: number
