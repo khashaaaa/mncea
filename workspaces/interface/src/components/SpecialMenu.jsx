@@ -1,25 +1,31 @@
 import { IconChevronDown, IconChevronUp } from "@tabler/icons-react"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { base_url } from "../../environment/url"
+import { LanguageContext } from "../context/LanguageProvider"
 
 export const SpecialMenu = () => {
 
+    const { language } = useContext(LanguageContext)
+
     const [mega, setMega] = useState(0)
+
+    const [selected, setSelected] = useState(null)
+
     const [baseCategories, setBaseCategories] = useState([])
     const [midCategories, setMidCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
 
     useEffect(() => {
         GetMenuData()
-    }, [])
+    }, [language])
 
     const GetMenuData = async () => {
         try {
             const [baseRaw, midRaw, subRaw] = await Promise.all([
-                fetch(`${base_url}/basecategory`),
-                fetch(`${base_url}/midcategory`),
-                fetch(`${base_url}/subcategory`),
+                fetch(`${base_url}/basecategory?language=${language}`),
+                fetch(`${base_url}/midcategory?language=${language}`),
+                fetch(`${base_url}/subcategory?language=${language}`),
             ])
 
             const [baseResp, midResp, subResp] = await Promise.all([
@@ -58,38 +64,35 @@ export const SpecialMenu = () => {
     }
 
     return (
-        <div className="bg-carousel_back bg-no-repeat bg-bottom py-8 text-sm relative">
-            <div className='absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-r from-main to-sky-700 opacity-80'></div>
-            <div className="relative" style={{ margin: '0 15%' }}>
-                <div className="grid grid-cols-3 gap-2">
-                    {baseCategories.map((cat, num) => {
-                        let active = num + 1
-                        return (
-                            <div
-                                key={cat.mark}
-                                onMouseEnter={() => setMega(active)}
-                                onMouseLeave={() => setMega(0)}
-                                className={`${mega === active ? "bg-sky-700 text-white rounded-t-md" : "bg-white rounded-md"} border-2 border-sky-700 flex items-center justify-center py-2 cursor-pointer`}
-                            >
-                                <p className="font-bold uppercase text-xs">{cat?.name}</p>
-                                {mega === active ? <IconChevronUp size={18} /> : <IconChevronDown size={18} />}
-                            </div>
-                        )
-                    })}
+        <div>
+            <div className="grid grid-cols-3 gap-2">
+                {baseCategories.map((cat, num) => {
+                    let active = num + 1
+                    return (
+                        <div
+                            key={cat.mark}
+                            onMouseEnter={() => { setMega(active), setSelected(cat.mark) }}
+                            onMouseLeave={() => setMega(0)}
+                            className={`${mega === active ? "bg-sky-700 text-white rounded-t-md" : "bg-white rounded-md"} border-2 border-sky-700 flex items-center justify-center py-2 cursor-pointer`}
+                        >
+                            <p className="font-bold uppercase text-xs">{cat?.name}</p>
+                            {mega === active ? <IconChevronUp size={18} /> : <IconChevronDown size={18} />}
+                        </div>
+                    )
+                })}
+            </div>
+
+            <div onMouseLeave={() => setMega(0)} className={`${mega === 0 && 'hidden'} absolute grid grid-cols-3 gap-2 w-full z-10`}>
+                <div onMouseEnter={() => setMega(1)} onMouseLeave={() => setMega(0)} className={mega === 1 ? "bg-white duration-300 p-2 rounded-b-md" : "invisible mt-4 p-2 text-gray-800"}>
+                    {renderMidCategories(selected)}
                 </div>
 
-                <div onMouseLeave={() => setMega(0)} className={`${mega === 0 && 'hidden'} absolute grid grid-cols-3 gap-2 w-full z-10`}>
-                    <div onMouseEnter={() => setMega(1)} onMouseLeave={() => setMega(0)} className={mega === 1 ? "bg-white duration-300 p-2 rounded-b-md" : "invisible mt-4 p-2 text-gray-800"}>
-                        {renderMidCategories(5)}
-                    </div>
+                <div onMouseEnter={() => setMega(2)} onMouseLeave={() => setMega(0)} className={mega === 2 ? "bg-white duration-300 p-2 rounded-b-md" : "invisible mt-4 p-2 text-gray-800"}>
+                    {renderMidCategories(selected)}
+                </div>
 
-                    <div onMouseEnter={() => setMega(2)} onMouseLeave={() => setMega(0)} className={mega === 2 ? "bg-white duration-300 p-2 rounded-b-md" : "invisible mt-4 p-2 text-gray-800"}>
-                        {renderMidCategories(6)}
-                    </div>
-
-                    <div onMouseEnter={() => setMega(3)} onMouseLeave={() => setMega(0)} className={mega === 3 ? "bg-white duration-300 p-2 rounded-b-md" : "invisible mt-4 p-2 text-gray-800"}>
-                        {renderMidCategories(7)}
-                    </div>
+                <div onMouseEnter={() => setMega(3)} onMouseLeave={() => setMega(0)} className={mega === 3 ? "bg-white duration-300 p-2 rounded-b-md" : "invisible mt-4 p-2 text-gray-800"}>
+                    {renderMidCategories(selected)}
                 </div>
             </div>
         </div>

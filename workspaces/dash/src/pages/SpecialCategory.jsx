@@ -128,18 +128,18 @@ export const SpecialCategory = () => {
         let form
 
         if (activeTab === 1) {
-            endpoint = 'basecategory/'
+            endpoint = 'basecategory'
             form = { name }
         }
         if (activeTab === 2) {
-            endpoint = 'midcategory/'
+            endpoint = 'midcategory'
             form = {
                 parent,
                 name
             }
         }
         if (activeTab === 3) {
-            endpoint = 'subcategory/'
+            endpoint = 'subcategory'
             form = {
                 grandParent,
                 parent,
@@ -181,13 +181,13 @@ export const SpecialCategory = () => {
 
         let endpoint
         if (activeTab === 1) {
-            endpoint = 'basecategory/'
+            endpoint = 'basecategory'
         }
         if (activeTab === 2) {
-            endpoint = 'midcategory/'
+            endpoint = 'midcategory'
         }
         if (activeTab === 3) {
-            endpoint = 'subcategory/'
+            endpoint = 'subcategory'
         }
 
         const raw = await fetch(`${base_url}/${endpoint}/${del}`, options)

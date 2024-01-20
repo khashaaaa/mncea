@@ -37,7 +37,12 @@ export const Page = () => {
 
     return (
         <MainLayout>
-            <SpecialMenu />
+            <div className="bg-carousel_back bg-no-repeat bg-bottom py-8 text-sm relative">
+                <div className='absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-r from-main to-sky-700 opacity-80'></div>
+                <div className="relative" style={{ margin: '0 15%' }}>
+                    <SpecialMenu />
+                </div>
+            </div>
             <div style={{ margin: '2rem 15%' }}>
                 {
                     pg ?
