@@ -27,6 +27,15 @@ export class PostService {
     }
   }
 
+  async findByPriority(body: any) {
+    const { priority } = body
+    const records = await this.repo.find({ where: { priority } })
+    return {
+      ok: true,
+      data: records
+    }
+  }
+
   async findAll(language: Language) {
     return await this.repo.find({ where: { language } })
   }

@@ -71,6 +71,11 @@ export class PostController {
     return await this.postService.create(createPostDto)
   }
 
+  @Post('priority')
+  async findByPriority(@Body() body: any) {
+    return await this.postService.findByPriority(body)
+  }
+
   @Get()
   async findAll(@Query('language') language: Language) {
     return await this.postService.findAll(language)

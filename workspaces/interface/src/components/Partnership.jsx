@@ -27,7 +27,9 @@ export const Partnership = () => {
                         partners.map(partner => {
                             return (
                                 <SwiperSlide key={partner.name} className='cursor-pointer'>
-                                    <div className="bg-no-repeat bg-cover bg-center h-20" style={{ backgroundImage: `url(${base_url}/partnership/logo/${partner.logo})` }}></div>
+                                    <a href={partner.website} target="_blank">
+                                        <div className="bg-no-repeat bg-cover bg-center h-20" style={{ backgroundImage: `url(${base_url}/partnership/logo/${partner.logo})` }}></div>
+                                    </a>
                                 </SwiperSlide>
                             )
                         })

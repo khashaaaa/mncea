@@ -1,12 +1,37 @@
-import banner from '/banner.png'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { SpecialMenu } from './SpecialMenu'
+import { base_url } from '../../environment/url'
+import { useEffect, useState } from 'react'
 
 export const ShowCase = () => {
+
+    const [posts, setPosts] = useState([])
+
+    useEffect(() => {
+        FetchPosts()
+    }, [])
+
+    const FetchPosts = async () => {
+        const raw = await fetch(`${base_url}/post/priority`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    priority: 'featured'
+                })
+            }
+        )
+
+        const resp = await raw.json()
+
+        setPosts(resp.data)
+    }
 
     return (
         <div className="bg-carousel_back bg-no-repeat bg-bottom py-8 text-sm relative">
@@ -14,30 +39,28 @@ export const ShowCase = () => {
             <div className="relative" style={{ margin: '0 15%' }}>
                 <SpecialMenu />
 
-                <Swiper modules={[Pagination, Navigation]} navigation pagination={{ clickable: true }}>
-                    <SwiperSlide className="mt-8 grid grid-cols-2 gap-8 bg-gradient-to-l from-sky-900 to-transparent rounded-xl">
-                        <div>
-                            <img src={banner} alt="" className='rounded-xl h-full' />
-                        </div>
-                        <div className='flex flex-col justify-center px-4'>
-                            <p className='text-white text-2xl border-l-8 border-white pl-8 cursor-pointer hover:underline'>Боловсролын магадлан итгэмжлэх үндэсний зөвлөл байгуулагдсаны 25 жилийн ой</p>
-                            <div className='flex justify-end mr-4 mt-4'>
-                                <button className='bg-white rounded-md px-4 py-1 hover:bg-gray-100'>Цааш унших</button>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-                    <SwiperSlide className="mt-8 grid grid-cols-2 gap-8 bg-gradient-to-l from-sky-900 to-transparent rounded-xl">
-                        <div>
-                            <img src={banner} alt="" className='rounded-xl h-full' />
-                        </div>
-                        <div className='flex flex-col justify-center px-4'>
-                            <p className='text-white text-2xl border-l-8 border-white pl-8 cursor-pointer hover:underline'>Боловсролын магадлан итгэмжлэх үндэсний зөвлөл байгуулагдсаны 25 жилийн ой</p>
-                            <div className='flex justify-end mr-4 mt-4'>
-                                <button className='bg-white rounded-md px-4 py-1 hover:bg-gray-100'>Цааш унших</button>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-                </Swiper>
+                {
+                    posts.length > 0 &&
+                    <Swiper modules={[Pagination, Navigation]} navigation pagination={{ clickable: true }}>
+                        {
+                            posts.map(pst => {
+                                return (
+                                    <SwiperSlide key={pst.mark} className="mt-8 grid grid-cols-2 gap-8 bg-gradient-to-l from-sky-900 to-transparent rounded-xl">
+                                        <div>
+                                            <img src={`${base_url}/post/thumbnail/${pst.thumbnail}`} alt={pst.title} className='rounded-xl h-full' />
+                                        </div>
+                                        <div className='flex flex-col justify-center px-4'>
+                                            <p className='text-white text-2xl border-l-8 border-white pl-8 cursor-pointer hover:underline'>{pst.title}</p>
+                                            <div className='flex justify-end mr-4 mt-4'>
+                                                <button className='bg-white rounded-md px-4 py-1 hover:bg-gray-100'>Цааш унших</button>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+                                )
+                            })
+                        }
+                    </Swiper>
+                }
             </div>
         </div>
     )
