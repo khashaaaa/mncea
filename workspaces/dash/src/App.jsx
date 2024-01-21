@@ -25,7 +25,7 @@ const App = () => {
         <MenuProvider>
           <Router>
             <Routes>
-              <Route path="/dash" element={<PageList />} />
+              <Route path="/" element={<PageList />} />
               <Route path="/createpage" element={<CreatePage />} />
               <Route path="/post" element={<PostList />} />
               <Route path="/publish" element={<Publish />} />

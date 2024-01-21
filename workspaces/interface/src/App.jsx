@@ -10,7 +10,7 @@ export const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/interface" element={<Landing />} />
+        <Route path="/" element={<Landing />} />
         <Route path="/page/:page" element={<Page />} />
         <Route path="/post/mid/:mark" element={<PostMid />} />
         <Route path="/post/sub/:mark" element={<PostSub />} />
