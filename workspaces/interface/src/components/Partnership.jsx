@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { base_url } from '../../environment/url'
 import { useEffect, useState } from 'react'
 
-export const Partnership = () => {
+export const Partnership = ({ margin, deviceSize }) => {
 
     const [partners, setPartners] = useState([])
 
@@ -21,8 +21,8 @@ export const Partnership = () => {
 
     return (
         partners.length > 0 && <div className='bg-sec py-4 border-b border-slate-700'>
-            <div style={{ margin: '0 15%' }}>
-                <Swiper slidesPerView={8} spaceBetween={30}>
+            <div style={{ margin: margin }}>
+                <Swiper slidesPerView={deviceSize === 'mobile' && 3 || deviceSize === 'tablet' && 6 || deviceSize === 'smallMonitor' && 8 || 8} spaceBetween={30}>
                     {
                         partners.map(partner => {
                             return (

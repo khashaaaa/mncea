@@ -23,7 +23,7 @@ export const Sidebar = () => {
     }
 
     return (
-        <div className="mt-8 col-span-1">
+        <div className="mt-8 col-span-1 sm:hidden">
             {
                 posts.map((post, num) => {
                     return (

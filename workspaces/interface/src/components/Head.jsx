@@ -7,7 +7,7 @@ import logo from '/logo.jpg'
 import mongolia from '/mongolia.png'
 import usa from '/united-states.png'
 
-export const Head = () => {
+export const Head = ({ margin }) => {
 
     const { language, switchLanguage } = useContext(LanguageContext)
 
@@ -16,9 +16,9 @@ export const Head = () => {
     return (
         <div>
             <div className="bg-gray-100 w-full h-12 flex items-center justify-end">
-                <div className="flex items-center" style={{ margin: '0 15%' }}>
+                <div style={{ margin: margin }} className="flex items-center">
                     <div className='flex items-center mr-8 cursor-pointer'>
-                        <input className='outline-none rounded-l-md p-1' placeholder='Хайх' />
+                        <input className='outline-none rounded-l-md p-1 sm:w-36' placeholder='Хайх' />
                         <button className='bg-white rounded-r-md p-1 hover:bg-sky-200'>
                             <IconSearch color='navy' />
                         </button>
@@ -37,17 +37,27 @@ export const Head = () => {
                     </div>
                 </div>
             </div>
-            <div className='mx-auto h-20 flex items-center' style={{ width: '70%' }}>
+            <div className='mx-auto h-20 flex items-center' style={{ margin: margin }}>
                 <div className='w-full flex items-center justify-between'>
-                    <Link to="/" className="flex items-center">
+                    <Link to="/" className="flex items-center sm:hidden md:hidden">
                         <img className='w-60' src={logo} alt="logo" />
                     </Link>
-                    <div className='flex text-sm'>
-                        <Link to="/page/about" className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.about")}</Link>
-                        <Link to="/page/news" className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.news")}</Link>
-                        <Link to="/page/transparency" className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.transparency")}</Link>
-                        <Link to="/page/fund" className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.fund")}</Link>
-                        <Link to="/page/contact" className='ml-8 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.contact")}</Link>
+                    <div className='flex sm:w-full text-sm'>
+                        <div>
+                            <Link to="/page/about" className='ml-8 sm:mx-2 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.about")}</Link>
+                        </div>
+                        <div>
+                            <Link to="/page/news" className='ml-8 sm:mx-2 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.news")}</Link>
+                        </div>
+                        <div>
+                            <Link to="/page/transparency" className='ml-8 sm:mx-2 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.transparency")}</Link>
+                        </div>
+                        <div>
+                            <Link to="/page/fund" className='ml-8 sm:mx-2 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.fund")}</Link>
+                        </div>
+                        <div>
+                            <Link to="/page/contact" className='ml-8 sm:mx-2 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.contact")}</Link>
+                        </div>
                     </div>
                 </div>
             </div>

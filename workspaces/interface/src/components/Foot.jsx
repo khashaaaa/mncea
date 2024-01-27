@@ -4,7 +4,7 @@ import { NotifContext } from '../context/NotifProvider'
 import { Spinner } from './Spinner'
 import { base_url } from '../../environment/url'
 
-export const Foot = () => {
+export const Foot = ({ margin }) => {
 
     const { isOpen, Open, Cloze, setMsg } = useContext(NotifContext)
 
@@ -55,7 +55,7 @@ export const Foot = () => {
 
     return (
         <div className="bg-sec text-sm">
-            <div style={{ margin: '0 15%' }} className="grid grid-cols-2 gap-8 py-8">
+            <div style={{ margin: margin }} className="sm:block grid grid-cols-2 gap-8 py-8">
                 <div>
                     <p className="text-xl text-white">Санал хүсэлт илгээх</p>
                     <div className="mt-4 grid grid-cols-2 gap-4">
@@ -96,7 +96,7 @@ export const Foot = () => {
                     </div>
                 </div>
 
-                <div>
+                <div className="sm:mt-8">
                     <p className="text-xl text-white">Холбоо барих</p>
                     <div className="mt-4 grid grid-rows-3 gap-4">
                         <div className='flex items-center'>
