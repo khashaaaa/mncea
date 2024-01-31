@@ -34,7 +34,7 @@ export const PageList = () => {
     const FetchPages = async () => {
         const raw = await fetch(`${base_url}/page?language=${language}`)
         const resp = await raw.json()
-        setPages(resp)
+        setPages(resp.data)
     }
 
     const RemovePage = async () => {

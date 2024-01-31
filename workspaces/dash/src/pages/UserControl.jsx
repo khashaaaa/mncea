@@ -137,6 +137,13 @@ export const UserControl = () => {
     const DeleteUser = async () => {
         closeModal()
 
+        if (userJSON.mark === del.mark) {
+            Cookiez.remove('access_token')
+            Cookiez.remove('user')
+            navigate('/login')
+            return
+        }
+
         const options = {
             method: 'DELETE'
         }

@@ -10,9 +10,10 @@ import { MidcategoryModule } from './midcategory/midcategory.module'
 import { SubcategoryModule } from './subcategory/subcategory.module'
 import { PostModule } from './post/post.module'
 import { UserModule } from './user/user.module'
-import { PageModule } from './page/page.module';
-import { CompliantModule } from './compliant/compliant.module';
-import { PartnershipModule } from './partnership/partnership.module';
+import { PageModule } from './page/page.module'
+import { CompliantModule } from './compliant/compliant.module'
+import { PartnershipModule } from './partnership/partnership.module'
+import { SearchModule } from './search/search.module'
 
 @Module({
   imports: [
@@ -53,7 +54,8 @@ import { PartnershipModule } from './partnership/partnership.module';
     UserModule,
     PageModule,
     CompliantModule,
-    PartnershipModule
+    PartnershipModule,
+    SearchModule
   ],
   controllers: [AppController],
   providers: [AppService],

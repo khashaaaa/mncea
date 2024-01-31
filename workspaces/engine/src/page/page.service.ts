@@ -27,24 +27,27 @@ export class PageService {
   }
 
   async findAll(language: Language) {
-    return await this.repo.find({ where: { language } })
+    try {
+      const records = await this.repo.find({ where: { language } })
+      return {
+        ok: true,
+        data: records
+      }
+    } catch (error) {
+      throw new NotFoundException('Мэдээлэл олдсонгүй: ' + error.message)
+    }
   }
 
   async findByName(body: { language: Language, page: string }) {
-    try {
-      const exist = await this.repo.findOneOrFail({ where: { language: body.language, page: body.page } })
+    const exist = await this.repo.findOne({ where: { language: body.language, page: body.page } })
 
-      if (!exist) {
-        throw new NotFoundException('Олдсонгүй')
-      }
-
-      return {
-        ok: true,
-        data: exist
-      }
+    if (!exist) {
+      throw new NotFoundException('Олдсонгүй')
     }
-    catch (error) {
-      throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
+
+    return {
+      ok: true,
+      data: exist
     }
   }
 

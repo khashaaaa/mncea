@@ -29,7 +29,7 @@ export const NewsGrid = ({ margin }) => {
                     posts.length > 0 &&
                     <div className="mt-8 grid grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8">
                         {
-                            posts?.map((post, num) => {
+                            posts.length > 0 && posts.slice(0, 4).map((post, num) => {
                                 return (
                                     <Link key={post.mark} to={`/post/${post.mark}`} className="bg-white rounded-md shadow hover:shadow-lg duration-100">
                                         <div className="bg-no-repeat h-60 bg-center bg-cover rounded-t-md" style={{ backgroundImage: `url(${base_url}/post/thumbnail/${post.thumbnail})` }}></div>

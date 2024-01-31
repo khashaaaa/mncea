@@ -1,7 +1,8 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from "react-i18next"
 import { LanguageContext } from '../context/LanguageProvider'
+import { base_url } from '../../environment/url'
 import { IconBrandFacebook, IconBrandX, IconBrandYoutube, IconSearch } from '@tabler/icons-react'
 import logo from '/logo.jpg'
 import mongolia from '/mongolia.png'
@@ -13,14 +14,31 @@ export const Head = ({ margin }) => {
 
     const { t } = useTranslation()
 
+    const [search, setSearch] = useState('')
+
+    const ProceedSearch = async () => {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                keyword: search
+            })
+        }
+        const raw = await fetch(`${base_url}/search`, options)
+        const resp = await raw.json()
+        console.log(resp)
+    }
+
     return (
         <div>
             <div className="bg-gray-100 w-full h-12 flex items-center justify-end">
                 <div style={{ margin: margin }} className="flex items-center">
                     <div className='flex items-center mr-8 cursor-pointer'>
-                        <input className='outline-none rounded-l-md p-1 sm:w-36' placeholder='Хайх' />
+                        <input onChange={(e) => setSearch(e.target.value)} className='outline-none rounded-l-md p-2 text-xs sm:w-36' placeholder='Хайх' />
                         <button className='bg-white rounded-r-md p-1 hover:bg-sky-200'>
-                            <IconSearch color='navy' />
+                            <IconSearch onClick={ProceedSearch} color='navy' />
                         </button>
                     </div>
                     <div className='grid grid-cols-3 gap-2 mr-8'>
