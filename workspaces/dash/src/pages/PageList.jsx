@@ -81,7 +81,7 @@ export const PageList = () => {
                     <option value="mn">Монгол</option>
                     <option value="en">English</option>
                 </select>
-                <p className="ml-4">Нийт: {pages.length}</p>
+                <p className="ml-4">Нийт: {pages?.length}</p>
             </div>
             {
                 pages.length > 0 ?
