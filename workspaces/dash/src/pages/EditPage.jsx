@@ -19,31 +19,30 @@ export const EditPage = () => {
 
     const { mark } = useParams()
 
+    const [currentPage, setCurrentPage] = useState(null)
+
     const [title, setTitle] = useState('')
     const [language, setLanguage] = useState('')
     const [page, setPage] = useState('')
 
     const editorData = useRef(null)
 
-    const [currentPage, setCurrentPage] = useState(null)
-
     useEffect(() => {
         setActive('page')
         if (!access_token) {
             navigate('/login')
         }
-        fetchData()
+        FetchPage()
     }, [])
 
-    const fetchData = async () => {
+    const FetchPage = async () => {
         try {
-
             const pageRaw = await fetch(`${base_url}/page/` + mark)
             const pageResp = await pageRaw.json()
 
             setCurrentPage(pageResp.data)
         } catch (error) {
-            console.error('Error fetching data:', error)
+            console.error(error.message)
         }
     }
 
@@ -51,15 +50,15 @@ export const EditPage = () => {
         const editorContent = editorData.current.getContent()
 
         const pageData = {
-            title,
-            content: editorContent,
-            admin: user?.username,
-            page,
-            language
+            title: title ? title : currentPage.title,
+            content: editorContent ? editorContent : currentPage.content,
+            page: page ? page : currentPage.page,
+            language: language ? language : currentPage.language,
+            admin: user?.username
         }
 
         const options = {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${access_token}`
@@ -67,7 +66,7 @@ export const EditPage = () => {
             body: JSON.stringify(pageData)
         }
 
-        const raw = await fetch(`${base_url}/page`, options)
+        const raw = await fetch(`${base_url}/page/${mark}`, options)
         const resp = await raw.json()
 
         if (resp.ok) {
@@ -129,7 +128,7 @@ export const EditPage = () => {
             />
 
             <div className='mt-4 flex justify-end'>
-                <Button onClick={SavePage} text="Нийтлэх" color="green" />
+                <Button click={SavePage} text="Нийтлэх" color="green" />
             </div>
         </MainLayout>
     )

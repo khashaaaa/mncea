@@ -41,12 +41,14 @@ export class PostController {
   }
 
   @Get('/thumbnail/:thumbnail')
-  serveImage(@Param('thumbnail') filename: string, @Res() res: any) {
+  async serveImage(@Param('thumbnail') filename: string, @Res() res: any) {
     try {
       const imagePath = path.join(__dirname, '../../../public/post', filename)
+      await fs.access(imagePath)
       return res.sendFile(imagePath)
     } catch (error) {
-      throw new NotFoundException('Зураг олдсонгүй')
+      const noThumbnailImagePath = path.join(__dirname, '../../../public/system/no-thumbnail.jpg')
+      return res.sendFile(noThumbnailImagePath)
     }
   }
 

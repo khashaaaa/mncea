@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { MenuContext } from "../context/MenuProvider"
 import { Link, useNavigate } from "react-router-dom"
 import Cookiez from 'js-cookie'
-import { IconCategory, IconClipboardText, IconComponents, IconHierarchy, IconNews, IconPower, IconUserCog } from "@tabler/icons-react"
+import { IconCategory, IconClipboardText, IconComponents, IconHierarchy, IconMessageQuestion, IconNews, IconPower, IconUserCog } from "@tabler/icons-react"
 
 export const Aside = () => {
 
@@ -52,6 +52,10 @@ export const Aside = () => {
                 <Link to="/partnership" onClick={() => setActive('partnership')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'partnership' && 'bg-sky-800 text-white'}`}>
                     <IconHierarchy />
                     <p className="ml-2">Хамтрагч байгууллага</p>
+                </Link>
+                <Link to="/compliant" onClick={() => setActive('compliant')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'compliant' && 'bg-sky-800 text-white'}`}>
+                    <IconMessageQuestion />
+                    <p className="ml-2">Санал хүсэлт</p>
                 </Link>
                 <Link to="/usercontrol" onClick={() => setActive('user')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'user' && 'bg-sky-800 text-white'}`}>
                     <IconUserCog />

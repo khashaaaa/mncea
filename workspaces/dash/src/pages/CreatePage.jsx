@@ -1,12 +1,14 @@
-import { useContext, useEffect, useRef, useState } from "react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { MainLayout } from "../layouts/MainLayout"
 import { MenuContext } from "../context/MenuProvider"
 import { Editor } from "@tinymce/tinymce-react"
 import { IconPlus } from "@tabler/icons-react"
 import { Button } from "../components/Button"
 import { useNavigate } from "react-router-dom"
+import { Alert } from "../components/Alert"
 import Cookiez from 'js-cookie'
 import { base_url } from "../../environment/url"
+import { AlertContext } from "../context/AlertProvider"
 
 export const CreatePage = () => {
 
@@ -17,11 +19,13 @@ export const CreatePage = () => {
     const navigate = useNavigate()
 
     const { setActive } = useContext(MenuContext)
+    const { isAlertOpen, openAlert } = useContext(AlertContext)
 
+    const [msg, setMsg] = useState(null)
+    const [errType, setErrType] = useState('')
     const [title, setTitle] = useState('')
     const [language, setLanguage] = useState('mn')
     const [page, setPage] = useState('')
-
     const editorData = useRef(null)
 
     useEffect(() => {
@@ -31,7 +35,13 @@ export const CreatePage = () => {
         }
     }, [])
 
-    const SavePage = async () => {
+    const SavePage = useCallback(async () => {
+        if (!page || !title) {
+            setMsg(!page ? 'Хуудас сонгоно уу' : 'Гарчиг оруулна уу')
+            openAlert()
+            return
+        }
+
         const editorContent = editorData.current.getContent()
 
         const pageData = {
@@ -57,21 +67,23 @@ export const CreatePage = () => {
         if (pageResp.ok) {
             navigate('/')
         }
-    }
+    }, [page, title, user, language, access_token, navigate, openAlert])
 
     return (
         <MainLayout>
+            {isAlertOpen && <Alert content={msg} type={errType} />}
             <div className="flex mb-4">
                 <div className="flex flex-col">
                     <label className="text-xs mb-1">Хэл</label>
-                    <select defaultValue={language} onChange={(e) => setLanguage(e.target.value)} className="h-8 w-40 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                    <select value={language} onChange={(e) => setLanguage(e.target.value)} className="h-8 w-30 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
                         <option value="mn">Монгол</option>
                         <option value="en">English</option>
                     </select>
                 </div>
                 <div className="ml-4 flex flex-col">
                     <label className="text-xs mb-1"><span className="text-red-600">*</span> Цэс</label>
-                    <select onChange={(e) => setPage(e.target.value)} className="h-8 w-40 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                    <select value={page} onChange={(e) => setPage(e.target.value)} className="h-8 w-48 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                        <option value="">--- хуудас сонгох ---</option>
                         <option value="about">Тухай</option>
                         <option value="news">Мэдээ</option>
                         <option value="transparency">Ил тод байдал</option>
@@ -79,11 +91,10 @@ export const CreatePage = () => {
                         <option value="contact">Холбоо барих</option>
                     </select>
                 </div>
-
             </div>
             <div className="mb-4 flex flex-col">
                 <label className="text-xs mb-1"><span className="text-red-600">*</span> Гарчиг</label>
-                <input type="text" onChange={(e) => setTitle(e.target.value)} className="h-8 outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300" />
+                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="h-8 outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300" />
             </div>
             <Editor
                 apiKey='bq0t7hixxbs2y6iib4l4hvj79103oganol8cqcadoyolejrs'

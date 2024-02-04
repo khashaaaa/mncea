@@ -16,6 +16,7 @@ import { CreatePage } from "./pages/CreatePage"
 import { EditPage } from "./pages/EditPage"
 import { PartnerShip } from "./pages/PartnerShip"
 import { CreatePartner } from "./pages/CreatePartner"
+import { CompliantList } from "./pages/CompliantList"
 
 const App = () => {
 
@@ -33,6 +34,7 @@ const App = () => {
               <Route path="/specialcategory" element={<SpecialCategory />} />
               <Route path="/partnership" element={<PartnerShip />} />
               <Route path="/createpartner" element={<CreatePartner />} />
+              <Route path="/compliant" element={<CompliantList />} />
               <Route path="/usercontrol" element={<UserControl />} />
               <Route path="/post/:mark" element={<Post />} />
               <Route path="/post/:mark/update" element={<EditPost />} />

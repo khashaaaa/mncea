@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
 export class Partnership {
@@ -9,7 +9,7 @@ export class Partnership {
     @Column()
     name: string
 
-    @Column()
+    @Column({ nullable: true })
     logo: string
 
     @Column()

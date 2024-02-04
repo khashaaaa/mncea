@@ -8,6 +8,7 @@ import { Modal } from "../components/Modal"
 import { Button } from "../components/Button"
 import { IconEdit, IconPencilPlus, IconTrash } from "@tabler/icons-react"
 import { base_url } from "../../environment/url"
+import NoThumb from '/no-thumbnail.jpg'
 
 export const PartnerShip = () => {
 

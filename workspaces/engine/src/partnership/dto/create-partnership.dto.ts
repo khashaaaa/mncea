@@ -1,6 +1,6 @@
 export class CreatePartnershipDto {
 
     name: string
-    logo: string
+    logo?: string
     website: string
 }

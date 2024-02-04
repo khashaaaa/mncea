@@ -7,8 +7,16 @@ import { IconPhotoPlus, IconPlus, IconX } from '@tabler/icons-react'
 import { Button } from '../components/Button'
 import Cookiez from 'js-cookie'
 import { MenuContext } from '../context/MenuProvider'
+import { AlertContext } from '../context/AlertProvider'
+import { Alert } from '../components/Alert'
 
 export const Publish = () => {
+
+    const navigate = useNavigate()
+
+    const access_token = Cookiez.get('access_token')
+    const str = Cookiez.get('user')
+    const user = str ? JSON.parse(str) : null
 
     const getCurrentDateTime = () => {
         const now = new Date()
@@ -20,13 +28,12 @@ export const Publish = () => {
         return `${year}-${month}-${day}T${hours}:${minutes}`
     }
 
-    const access_token = Cookiez.get('access_token')
-    const str = Cookiez.get('user')
-    const user = str ? JSON.parse(str) : null
+    const { isAlertOpen, openAlert } = useContext(AlertContext)
 
     const { setActive } = useContext(MenuContext)
 
-    const navigate = useNavigate()
+    const [msg, setMsg] = useState(null)
+    const [errType, setErrType] = useState('')
 
     const editorData = useRef(null)
 
@@ -51,10 +58,10 @@ export const Publish = () => {
         if (!access_token) {
             navigate('/login')
         }
-        fetchData()
+        FetchDatas()
     }, [])
 
-    const fetchData = async () => {
+    const FetchDatas = async () => {
         try {
             const [resp1, resp2, resp3] = await Promise.all([
                 fetch(`${base_url}/basecategory`),
@@ -87,66 +94,73 @@ export const Publish = () => {
     }, [])
 
     const SavePost = async () => {
-        try {
-            const editorContent = editorData.current.getContent()
 
-            const postData = {
-                title,
-                content: editorContent,
-                posted_date: currentDateTime,
-                language,
-                priority,
-                admin: user?.username,
-                base_category: baseCategory,
-                mid_category: midCategory,
-                sub_category: subCategory,
-            }
+        if (!title) {
+            setMsg('Гарчиг оруулна уу')
+            openAlert()
+            return
+        }
+        if (!baseCategory) {
+            setMsg('Үндсэн цэс сонгоно уу')
+            openAlert()
+        }
+        const editorContent = editorData.current.getContent()
 
-            if (image) {
-                postData.thumbnail = image
+        const postData = {
+            title,
+            content: editorContent,
+            posted_date: currentDateTime,
+            language,
+            priority,
+            admin: user?.username,
+            base_category: baseCategory,
+            mid_category: midCategory,
+            sub_category: subCategory,
+        }
 
-                const imgForm = new FormData()
-                imgForm.append('file', imageFile)
+        if (image) {
+            postData.thumbnail = image
 
-                const thumbnailOptions = {
-                    method: 'POST',
-                    body: imgForm,
-                }
+            const imgForm = new FormData()
+            imgForm.append('file', imageFile)
 
-                const thumbnailResponse = await fetch(`${base_url}/post/thumbnail`, thumbnailOptions)
-                const thumbnailResult = await thumbnailResponse.json()
-
-                if (!thumbnailResult.ok) {
-                    // Handle thumbnail upload failure if needed
-                    console.error('Thumbnail upload failed:', thumbnailResult.message)
-                    return
-                }
-            }
-
-            const postOptions = {
+            const thumbnailOptions = {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${access_token}`,
-                },
-                body: JSON.stringify(postData),
+                body: imgForm,
             }
 
-            const postResponse = await fetch(`${base_url}/post`, postOptions)
-            const postResult = await postResponse.json()
+            const thumbnailResponse = await fetch(`${base_url}/post/thumbnail`, thumbnailOptions)
+            const thumbnailResult = await thumbnailResponse.json()
 
-            if (postResult.ok) {
-                navigate('/post')
-            } else {
-                console.error('Post request failed:', postResult.message)
+            if (!thumbnailResult.ok) {
+                // Handle thumbnail upload failure if needed
+                console.error('Thumbnail upload failed:', thumbnailResult.message)
+                return
             }
-        } catch (error) {
-            console.error('Error while saving post:', error.message)
+        }
+
+        const postOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${access_token}`,
+            },
+            body: JSON.stringify(postData),
+        }
+
+        const postResponse = await fetch(`${base_url}/post`, postOptions)
+        const postResult = await postResponse.json()
+
+        if (postResult.ok) {
+            navigate('/post')
+        } else {
+            console.error('Post request failed:', postResult.message)
         }
     }
 
     return (
         <MainLayout>
+            {isAlertOpen && <Alert content={msg} type={errType} />}
             <div className='flex items-end'>
                 <label className="flex items-center justify-center w-28 h-28 border-dashed border-2 border-stone-200 rounded-md cursor-pointer hover:bg-stone-100 duration-300">
                     <input type="file" onChange={imageProcess} hidden />
@@ -170,7 +184,7 @@ export const Publish = () => {
 
                 <div className="ml-4 flex flex-col">
                     <label className="text-xs mb-1">Төрөл</label>
-                    <select onChange={(e) => setPriority(e.target.value)} className="h-8 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                    <select onChange={(e) => setPriority(e.target.value)} value={priority} className="h-8 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
                         <option value="regular">Энгийн</option>
                         <option value="featured">Онцлох</option>
                         <option value="relevant">Чухал</option>
