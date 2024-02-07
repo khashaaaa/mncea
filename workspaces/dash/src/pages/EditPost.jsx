@@ -167,15 +167,18 @@ export const EditPost = () => {
             },
             body: JSON.stringify({ thumbnail: currentPost?.thumbnail })
         }
-        const rawImg = await fetch(`${base_url}/post/sweep`, imageOptions)
-        const imgResp = await rawImg.json()
 
-        if (!imgResp.ok) {
-            console.error(imgResp.message)
-            return
+        if (currentPost?.thumbnail) {
+            const rawImg = await fetch(`${base_url}/post/sweep`, imageOptions)
+            const imgResp = await rawImg.json()
+
+            setCurrentPost({ thumbnail: null })
+
+            if (!imgResp.ok) {
+                console.error(imgResp.message)
+                return
+            }
         }
-
-        setCurrentPost({ thumbnail: null })
 
         const options = {
             method: 'PATCH',
