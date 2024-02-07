@@ -9,6 +9,7 @@ import Cookiez from 'js-cookie'
 import { MenuContext } from '../context/MenuProvider'
 import { AlertContext } from '../context/AlertProvider'
 import { Alert } from '../components/Alert'
+import { v4 as uuidv4 } from 'uuid'
 
 export const Publish = () => {
 
@@ -80,11 +81,17 @@ export const Publish = () => {
     }
 
     const imageProcess = useCallback((ev) => {
-        const newPreview = [URL.createObjectURL(ev.target.files?.[0])]
+        const file = ev.target.files[0]
 
-        setImageFile(ev.target.files[0])
-        setPreview(newPreview)
-        setImage(ev.target.files?.[0]?.name)
+        if (file) {
+            const uniqueName = uuidv4()
+            const extension = file.name.split('.').pop()
+            const newFileName = `${uniqueName}.${extension}`
+
+            setPreview(URL.createObjectURL(file))
+            setImageFile(new File([file], newFileName, { type: file.type }))
+            setImage(newFileName)
+        }
     }, [])
 
     const imageCancel = useCallback(() => {
@@ -133,7 +140,6 @@ export const Publish = () => {
             const thumbnailResult = await thumbnailResponse.json()
 
             if (!thumbnailResult.ok) {
-                // Handle thumbnail upload failure if needed
                 console.error('Thumbnail upload failed:', thumbnailResult.message)
                 return
             }

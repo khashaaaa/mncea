@@ -7,6 +7,7 @@ import { IconPhotoPlus, IconX } from '@tabler/icons-react'
 import { Button } from '../components/Button'
 import Cookiez from 'js-cookie'
 import { MenuContext } from '../context/MenuProvider'
+import { v4 as uuidv4 } from 'uuid'
 
 export const EditPost = () => {
 
@@ -30,29 +31,39 @@ export const EditPost = () => {
 
     const { mark } = useParams()
 
-    const editorData = useRef(null)
-    const [preview, setPreview] = useState(null)
-    const [image, setImage] = useState(null)
-    const [title, setTitle] = useState('')
-    const [currentDateTime, setCurrentDateTime] = useState(getCurrentDateTime())
-    const [baseCategory, setBaseCategory] = useState('')
-    const [midCategory, setMidCategory] = useState('')
-    const [subCategory, setSubCategory] = useState('')
-
     const [baseCategories, setBaseCategories] = useState([])
     const [midCategories, setMidCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
     const [currentPost, setCurrentPost] = useState(null)
+
+    const [imageFile, setImageFile] = useState(null)
+    const [preview, setPreview] = useState(null)
+    const [image, setImage] = useState(null)
+
+    const editorData = useRef(null)
+
+    const [formData, setFormData] = useState({
+        title: '',
+        base_category: 0,
+        mid_category: 0,
+        sub_category: 0,
+        content: '',
+        thumbnail: '',
+        language: '',
+        priority: '',
+        admin: user?.username,
+        posted_date: getCurrentDateTime()
+    })
 
     useEffect(() => {
         setActive('post')
         if (!access_token) {
             navigate('/login')
         }
-        fetchData()
+        FetchDatas()
     }, [])
 
-    const fetchData = async () => {
+    const FetchDatas = async () => {
         try {
             const [postResponse, baseResponse, midResponse, subResponse] = await Promise.all([
                 fetch(`${base_url}/post/${mark}`),
@@ -67,8 +78,19 @@ export const EditPost = () => {
                 midResponse.json(),
                 subResponse.json()
             ])
-
             setCurrentPost(postData.data)
+            setFormData({
+                title: postData.data?.title || '',
+                base_category: postData.data?.base_category || 0,
+                mid_category: postData.data?.mid_category || 0,
+                sub_category: postData.data?.sub_category || 0,
+                content: postData.data?.content || '',
+                thumbnail: postData.data?.thumbnail || '',
+                language: postData.data?.language || '',
+                priority: postData.data?.priority || '',
+                admin: user?.username,
+                posted_date: postData.data?.posted_date || ''
+            })
             setBaseCategories(baseData)
             setMidCategories(midData)
             setSubCategories(subData)
@@ -78,72 +100,135 @@ export const EditPost = () => {
     }
 
     const imageProcess = useCallback((ev) => {
-        const newPreview = [URL.createObjectURL(ev.target.files?.[0])]
-        const newImageFile = ev.target.files?.[0]
+        const file = ev.target.files[0]
 
-        setPreview(newPreview)
-        setImage(newImageFile)
+        if (file) {
+            const uniqueName = uuidv4()
+            const extension = file.name.split('.').pop()
+            const newFileName = `${uniqueName}.${extension}`
+
+            setPreview(URL.createObjectURL(file))
+            setImageFile(new File([file], newFileName, { type: file.type }))
+            setImage(newFileName)
+        }
     }, [])
 
     const imageCancel = useCallback(() => {
-        setCurrentPost({ thumbnail: null })
+        RemoveImage()
+        setImageFile(null)
         setPreview(null)
         setImage(null)
     }, [])
 
-    const SavePost = async () => {
+    const Proceed = async () => {
+
         const editorContent = editorData.current.getContent()
 
+        formData.content = editorContent
+        if (image) {
+            const imgForm = new FormData()
+            imgForm.append('file', imageFile)
+
+            const imageOptions = { method: 'POST', body: imgForm }
+
+            const rawImg = await fetch(`${base_url}/post/thumbnail`, imageOptions)
+            const imgResp = await rawImg.json()
+
+            if (!imgResp.ok) {
+                console.error(imgResp.message)
+                return
+            }
+
+            formData.thumbnail = image
+        }
+
         const options = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${access_token}`
+            },
+            body: JSON.stringify(formData),
+        }
+
+        const rawPost = await fetch(`${base_url}/post/${mark}/edit`, options)
+        const postResp = await rawPost.json()
+
+        if (postResp.ok) {
+            navigate('/post')
+        }
+    }
+
+    const RemoveImage = async () => {
+        const imageOptions = {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ thumbnail: currentPost?.thumbnail })
+        }
+        const rawImg = await fetch(`${base_url}/post/sweep`, imageOptions)
+        const imgResp = await rawImg.json()
+
+        if (!imgResp.ok) {
+            console.error(imgResp.message)
+            return
+        }
+
+        setCurrentPost({ thumbnail: null })
+
+        const options = {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${access_token}`
             },
             body: JSON.stringify({
-                title,
-                content: editorContent,
-                posted_date: currentDateTime,
-                thumbnail: image,
-                admin: user.username,
-                base_category: baseCategory,
-                mid_category: midCategory,
-                sub_category: subCategory,
+                thumbnail: null
             }),
         }
-
-        const raw = await fetch(`${base_url}/post`, options)
-        const resp = await raw.json()
-
-        if (resp.ok) {
-            navigate('/')
-        }
+        const rawPost = await fetch(`${base_url}/post/${mark}/edit`, options)
+        await rawPost.json()
     }
 
     return (
         <MainLayout>
-            <div>
-                <p className="mb-2">Өнгөц зураг сонгох</p>
+            <div className='flex items-end'>
                 <label className="flex items-center justify-center w-28 h-28 border-dashed border-2 border-stone-200 rounded-md cursor-pointer">
                     <input type="file" onChange={imageProcess} hidden />
                     {(currentPost?.thumbnail || preview) && (
                         <div className="relative cursor-default">
                             <IconX onClick={imageCancel} className="bg-white rounded absolute right-0 cursor-pointer" />
-                            <img src={currentPost?.thumbnail ? `${base_url}/post/thumbnail/${currentPost?.thumbnail}` : preview[0]} alt="Image Preview" />
+                            <img src={currentPost?.thumbnail ? `${base_url}/post/thumbnail/${currentPost?.thumbnail}` : preview} alt="Image Preview" />
                         </div>
                     )}
                     {!currentPost?.thumbnail && !preview && <IconPhotoPlus />}
                 </label>
+                <div className="ml-4 flex flex-col">
+                    <label className="text-xs mb-1">Хэл</label>
+                    <select defaultValue={currentPost?.language} onChange={(e) => setFormData(prev => ({ ...prev, language: e.target.value }))} className="h-8 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                        <option value="mn">Монгол</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
 
+                <div className="ml-4 flex flex-col">
+                    <label className="text-xs mb-1">Төрөл</label>
+                    <select defaultValue={currentPost?.priority} onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value }))} className="h-8 bg-white outline-none border border-stone-200 py-1 px-2 rounded-md focus:ring ring-sky-300 duration-300">
+                        <option value="regular">Энгийн</option>
+                        <option value="featured">Онцлох</option>
+                        <option value="relevant">Чухал</option>
+                    </select>
+                </div>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-4">
                 <div className="col-span-2 flex flex-col">
                     <label className="text-xs mb-1"><span className="text-red-600">*</span> Гарчиг</label>
-                    <input type="text" defaultValue={currentPost?.title} onChange={(e) => setTitle(e.target.value)} className="h-8 text-sm outline-none border border-stone-200 py-1 px-2 rounded-md" />
+                    <input type="text" defaultValue={currentPost?.title} onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))} className="h-8 text-sm outline-none border border-stone-200 py-1 px-2 rounded-md" />
                 </div>
                 <div className="flex flex-col">
                     <label className="text-xs mb-1"><span className="text-red-600">*</span> Огноо</label>
-                    <input type="datetime-local" value={currentDateTime} onChange={(e) => setCurrentDateTime(e.target.value)} className="h-8 text-sm outline-none border border-stone-200 py-1 px-2 rounded-md" />
+                    <input type="datetime-local" value={getCurrentDateTime()} onChange={(e) => setFormData(prev => ({ ...prev, posted_date: e.target.value }))} className="h-8 text-sm outline-none border border-stone-200 py-1 px-2 rounded-md" />
                 </div>
             </div>
 
@@ -152,7 +237,7 @@ export const EditPost = () => {
                     currentPost?.base_category &&
                     <div>
                         <label className="text-xs mb-1"><span className="text-red-600">*</span> Үндсэн цэс</label>
-                        <select defaultValue={currentPost?.base_category} onChange={(e) => setBaseCategory(e.target.value)} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
+                        <select defaultValue={currentPost?.base_category} onChange={(e) => setFormData(prev => ({ ...prev, base_category: parseInt(e.target.value) }))} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
                             <option>--- сонгох ---</option>
                             {baseCategories.map((item) => (
                                 <option key={item.mark} value={item.mark}>{item.name}</option>
@@ -164,7 +249,7 @@ export const EditPost = () => {
                     currentPost?.mid_category &&
                     <div>
                         <label className="text-xs mb-1">Дунд цэс</label>
-                        <select defaultValue={currentPost?.mid_category} onChange={(e) => setMidCategory(e.target.value)} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
+                        <select defaultValue={currentPost?.mid_category} onChange={(e) => setFormData(prev => ({ ...prev, mid_category: parseInt(e.target.value) }))} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
                             <option>--- сонгох ---</option>
                             {midCategories.map((item) => (
                                 <option key={item.mark} value={item.mark}>{item.name}</option>
@@ -176,7 +261,7 @@ export const EditPost = () => {
                     currentPost?.sub_category &&
                     <div>
                         <label className="text-xs mb-1">Дэд цэс</label>
-                        <select defaultValue={currentPost?.sub_category} onChange={(e) => setSubCategory(e.target.value)} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
+                        <select defaultValue={currentPost?.sub_category} onChange={(e) => setFormData(prev => ({ ...prev, sub_category: parseInt(e.target.value) }))} className="h-8 text-sm w-full bg-white outline-none border border-stone-200 py-1 px-2 rounded-md">
                             <option>--- сонгох ---</option>
                             {subCategories.map((item) => (
                                 <option key={item.mark} value={item.mark}>{item.name}</option>
@@ -187,7 +272,7 @@ export const EditPost = () => {
             </div>
             <Editor
                 apiKey='bq0t7hixxbs2y6iib4l4hvj79103oganol8cqcadoyolejrs'
-                onInit={(evt, editor) => editorData.current = editor}
+                onInit={(evt, val) => editorData.current = val}
                 initialValue={currentPost?.content}
                 init={{
                     height: '500px',
@@ -203,7 +288,7 @@ export const EditPost = () => {
             />
 
             <div className='mt-4 flex justify-end'>
-                <Button onClick={SavePost} text="Нийтлэх" color="green" />
+                <Button click={Proceed} text="Нийтлэх" color="green" />
             </div>
         </MainLayout>
     )

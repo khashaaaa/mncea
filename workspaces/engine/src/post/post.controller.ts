@@ -47,8 +47,10 @@ export class PostController {
       await fs.access(imagePath)
       return res.sendFile(imagePath)
     } catch (error) {
-      const noThumbnailImagePath = path.join(__dirname, '../../../public/system/no-thumbnail.jpg')
-      return res.sendFile(noThumbnailImagePath)
+      return {
+        ok: false,
+        message: error.message
+      }
     }
   }
 
