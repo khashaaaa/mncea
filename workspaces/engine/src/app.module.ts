@@ -14,6 +14,7 @@ import { PageModule } from './page/page.module'
 import { CompliantModule } from './compliant/compliant.module'
 import { PartnershipModule } from './partnership/partnership.module'
 import { SearchModule } from './search/search.module'
+import { HeadcategoryModule } from './headcategory/headcategory.module';
 
 @Module({
   imports: [
@@ -55,7 +56,8 @@ import { SearchModule } from './search/search.module'
     PageModule,
     CompliantModule,
     PartnershipModule,
-    SearchModule
+    SearchModule,
+    HeadcategoryModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,63 +1,56 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { CreatePartnershipDto } from './dto/create-partnership.dto'
-import { UpdatePartnershipDto } from './dto/update-partnership.dto'
+import { CreateHeadcategoryDto } from './dto/create-headcategory.dto'
+import { UpdateHeadcategoryDto } from './dto/update-headcategory.dto'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Partnership } from './entities/partnership.entity'
+import { Headcategory } from './entities/headcategory.entity'
 import { Repository } from 'typeorm'
 
 @Injectable()
-export class PartnershipService {
+export class HeadcategoryService {
 
-  constructor(@InjectRepository(Partnership) private repo: Repository<Partnership>) { }
+  constructor(@InjectRepository(Headcategory) private repo: Repository<Headcategory>) { }
 
-  async create(createPartnershipDto: CreatePartnershipDto) {
+  async create(createHeadcategoryDto: CreateHeadcategoryDto) {
 
     try {
-      const record = await this.repo.save(createPartnershipDto)
+      const record = await this.repo.save(createHeadcategoryDto)
       return {
         ok: true,
         data: record,
-        message: 'Хамтрагч байгууллага нэмэгдлээ'
+        message: 'Мэдээлэл нэмэгдлээ'
       }
     }
     catch (error) {
-      throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
   async findAll() {
-
-    try {
-      const records = await this.repo.find()
-      return {
-        ok: true,
-        data: records
-      }
-    }
-    catch (error) {
-      throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
+    const records = await this.repo.find()
+    return {
+      ok: true,
+      data: records
     }
   }
 
-  async findOne(mark: string) {
-
+  async findOne(mark: number) {
     try {
       const record = await this.repo.findOneOrFail({ where: { mark } })
-
       if (!record) {
-        throw new NotFoundException('Мэдээлэл олдсонгүй')
+        throw new NotFoundException('Илэрц байхгүй байна')
       }
+
       return {
         ok: true,
         data: record
       }
     }
     catch (error) {
-      throw new InternalServerErrorException('Алдааны мэдээлэл: ' + error.message)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
-  async update(mark: string, updatePartnershipDto: UpdatePartnershipDto) {
+  async update(mark: number, updateHeadcategoryDto: UpdateHeadcategoryDto) {
 
     try {
 
@@ -69,7 +62,7 @@ export class PartnershipService {
 
       const updated = await this.repo.save({
         ...exist,
-        ...updatePartnershipDto
+        ...updateHeadcategoryDto
       })
 
       return {
@@ -83,8 +76,9 @@ export class PartnershipService {
     }
   }
 
-  async remove(mark: string) {
+  async remove(mark: number) {
     const delItem = await this.repo.delete(mark)
+
     if (delItem.affected === 0) {
       throw new NotFoundException('Олдсонгүй')
     }

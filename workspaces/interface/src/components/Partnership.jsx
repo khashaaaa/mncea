@@ -29,7 +29,7 @@ export const Partnership = ({ margin, deviceSize }) => {
                             return (
                                 <SwiperSlide key={partner.name} className='cursor-pointer'>
                                     <a href={partner.website} target="_blank">
-                                        <div className="bg-no-repeat bg-cover bg-center h-20" style={{ backgroundImage: `url(${base_url}/partnership/logo/${partner.logo})` }}></div>
+                                        <div className="bg-no-repeat bg-contain bg-center max-h-20 h-16" style={{ backgroundImage: `url(${base_url}/partnership/logo/${partner.logo})` }}></div>
                                     </a>
                                 </SwiperSlide>
                             )

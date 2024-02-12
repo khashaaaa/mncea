@@ -105,9 +105,9 @@ export const PartnerShip = () => {
                             <div key={partner.mark} className="border border-stone-200 rounded-2xl hover:shadow-xl duration-300">
                                 {
                                     partner.logo ?
-                                        <img src={`${base_url}/partnership/logo/${partner.logo}`} alt={partner.logo} className="object-cover h-60 w-full rounded-t-xl border-b border-stone-200" />
+                                        <img src={`${base_url}/partnership/logo/${partner.logo}`} alt={partner.logo} className="object-contain h-60 w-full rounded-t-xl border-b border-stone-200" />
                                         :
-                                        <img src={NoThumb} alt="empty" className="object-cover h-60 w-full rounded-t-xl border-b border-stone-200" />
+                                        <img src={NoThumb} alt="empty" className="object-contain h-60 w-full rounded-t-xl border-b border-stone-200" />
                                 }
                                 <div className="p-2 h-20 flex flex-col justify-between">
                                     <p className="font-bold text-xs">{partner.name}</p>
