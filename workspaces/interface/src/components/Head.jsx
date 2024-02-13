@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from "react-i18next"
 import { LanguageContext } from '../context/LanguageProvider'
@@ -15,6 +15,20 @@ export const Head = ({ margin }) => {
     const { t } = useTranslation()
 
     const [search, setSearch] = useState('')
+
+    const [menu, setMenu] = useState([])
+
+    const [drop, setDrop] = useState(null)
+
+    useEffect(() => {
+        FetchMenus()
+    }, [])
+
+    const FetchMenus = async () => {
+        const raw = await fetch(`${base_url}/headcategory`)
+        const resp = await raw.json()
+        setMenu(resp.data)
+    }
 
     const ProceedSearch = async () => {
         const options = {
@@ -56,26 +70,37 @@ export const Head = ({ margin }) => {
                 </div>
             </div>
             <div className='mx-auto h-20 flex items-center' style={{ margin: margin }}>
-                <div className='w-full flex items-center justify-between'>
+                <div className='w-full flex items-end justify-between'>
                     <Link to="/" className="flex items-center sm:hidden md:hidden">
                         <img className='w-60' src={logo} alt="logo" />
                     </Link>
                     <div className='flex sm:w-full text-sm'>
-                        <div>
-                            <Link to="/page/about" className='ml-8 sm:mx-2 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.about")}</Link>
-                        </div>
-                        <div>
-                            <Link to="/page/news" className='ml-8 sm:mx-2 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.news")}</Link>
-                        </div>
-                        <div>
-                            <Link to="/page/transparency" className='ml-8 sm:mx-2 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.transparency")}</Link>
-                        </div>
-                        <div>
-                            <Link to="/page/fund" className='ml-8 sm:mx-2 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.fund")}</Link>
-                        </div>
-                        <div>
-                            <Link to="/page/contact" className='ml-8 sm:mx-2 rounded-full px-4 font-bold hover:text-main hover:bg-gray-100 duration-100'>{t("head_menu.contact")}</Link>
-                        </div>
+                        {menu?.length > 0 &&
+                            menu.map((item) => (
+                                <div key={item.mark} className="relative">
+                                    <Link
+                                        onMouseEnter={() => setDrop(item.mark)}
+                                        onMouseLeave={() => setDrop(null)}
+                                        to={`/page/${language === 'mn' ? item.mn : item.en}`}
+                                        className='mx-4 sm:mx-2 font-bold hover:text-main duration-100'
+                                    >
+                                        {language === 'mn' ? item.mn : item.en}
+                                    </Link>
+                                    <div onMouseEnter={() => setDrop(item.mark)} onMouseLeave={() => setDrop(null)} className={`transition-all duration-300 ${drop === item.mark ? 'max-h-60 pt-2' : 'h-0 pt-0'} absolute top-6 bg-white w-40 z-10 rounded-b-md shadow-md overflow-hidden`}>
+                                        {
+                                            item.children?.length > 0 &&
+                                            item.children?.map((child, num) => (
+                                                <Link key={num} to={`/page/${child.keyword}`}>
+                                                    <div className="w-full font-bold text-xs p-2 hover:bg-gray-200">
+                                                        {child.mn}
+                                                    </div>
+                                                </Link>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
             </div>

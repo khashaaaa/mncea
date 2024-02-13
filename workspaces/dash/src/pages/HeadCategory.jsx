@@ -29,11 +29,11 @@ export const HeadCategory = () => {
     const [categories, setCategories] = useState([])
     const [editItem, setEditItem] = useState(null)
     const [del, setDel] = useState(null)
-    const [sub, setSub] = useState([])
 
     const [mn, setmn] = useState('')
     const [en, seten] = useState('')
     const [keyword, setKeyword] = useState('')
+    const [sub, setSub] = useState([])
 
     useEffect(() => {
         setActive('headcategory')
@@ -77,28 +77,37 @@ export const HeadCategory = () => {
     }
 
     const EditCategory = async () => {
-        closeModal()
+        // closeModal()
 
-        const options = {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${access_token}`
-            },
-            body: JSON.stringify({ mn, en, keyword })
+        const formdata = {
+            mn: mn ? mn : editItem.mn,
+            en: en ? en : editItem.en,
+            keyword: keyword ? keyword : editItem.keyword,
+            children: sub ? sub : editItem.sub
         }
 
-        const raw = await fetch(`${base_url}/headcategory/${editItem.mark}`, options)
-        const resp = await raw.json()
+        console.log(formdata)
 
-        if (resp.ok) {
-            FetchHeadCategories()
-        }
-        else {
-            setErrType('error')
-            setMsg(resp.message)
-            openAlert()
-        }
+        // const options = {
+        //     method: 'PATCH',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         Authorization: `Bearer ${access_token}`
+        //     },
+        //     body: JSON.stringify({ mn, en, keyword, children: sub })
+        // }
+
+        // const raw = await fetch(`${base_url}/headcategory/${editItem.mark}`, options)
+        // const resp = await raw.json()
+
+        // if (resp.ok) {
+        //     FetchHeadCategories()
+        // }
+        // else {
+        //     setErrType('error')
+        //     setMsg(resp.message)
+        //     openAlert()
+        // }
     }
 
     const DeleteCategory = async () => {
@@ -125,7 +134,7 @@ export const HeadCategory = () => {
     }
 
     const IncrementSub = () => {
-        setSub([...sub, ''])
+        setSub([...sub, { mn: '', en: '', keyword: '' }])
     }
 
     const DecrementSub = () => {
@@ -160,13 +169,30 @@ export const HeadCategory = () => {
                         {
                             sub?.length > 0 &&
                             sub.map((item, num) => (
-                                <div key={num}>
-                                    <label className="mt-4 text-xs">{`Дэд цэс ${num + 1}`}</label>
+                                <div key={num} className="mt-4 grid grid-cols-3 gap-4">
                                     <input
-                                        value={item}
+                                        value={item.mn}
                                         onChange={(e) => {
                                             const newInputs = [...sub]
-                                            newInputs[num] = e.target.value
+                                            newInputs[num].mn = e.target.value
+                                            setSub(newInputs)
+                                        }}
+                                        className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300"
+                                    />
+                                    <input
+                                        value={item.en}
+                                        onChange={(e) => {
+                                            const newInputs = [...sub]
+                                            newInputs[num].en = e.target.value
+                                            setSub(newInputs)
+                                        }}
+                                        className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300"
+                                    />
+                                    <input
+                                        value={item.keyword}
+                                        onChange={(e) => {
+                                            const newInputs = [...sub]
+                                            newInputs[num].keyword = e.target.value
                                             setSub(newInputs)
                                         }}
                                         className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300"
@@ -174,7 +200,6 @@ export const HeadCategory = () => {
                                 </div>
                             ))
                         }
-
                         <div className="mt-4 grid grid-cols-2 gap-4">
                             <Button click={IncrementSub} text="Нэмэх" color="amber" />
                             <Button click={DecrementSub} text="Устгах" color="gray" />
@@ -223,6 +248,27 @@ export const HeadCategory = () => {
                                 </div>
                             ))
                         }
+                        {
+                            sub?.length > 0 &&
+                            sub.map((item, num) => (
+                                <div key={num}>
+                                    <label className="mt-4 text-xs">{`Дэд цэс ${num + 1}`}</label>
+                                    <input
+                                        value={item}
+                                        onChange={(e) => {
+                                            const newInputs = [...sub]
+                                            newInputs[num] = e.target.value
+                                            setSub(newInputs)
+                                        }}
+                                        className="w-full outline-none border border-stone-200 rounded-md py-1 px-2 focus:ring ring-sky-300 duration-300"
+                                    />
+                                </div>
+                            ))
+                        }
+                        <div className="mt-4 grid grid-cols-2 gap-4">
+                            <Button click={IncrementSub} text="Нэмэх" color="amber" />
+                            <Button click={DecrementSub} text="Устгах" color="gray" />
+                        </div>
                         <div className="mt-4 flex justify-end">
                             <Button click={EditCategory} text="Болсон" color="green" />
                         </div>

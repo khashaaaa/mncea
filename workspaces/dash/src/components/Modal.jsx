@@ -31,7 +31,7 @@ export const Modal = ({ content }) => {
 
     return (
         <div>
-            <div className="fixed top-0 bottom-0 right-0 left-0 bg-black opacity-50 modal-overlay"></div>
+            <div className="fixed top-0 bottom-0 right-0 left-0 bg-gray-500 opacity-50 modal-overlay"></div>
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-4">
                 <IconX onClick={() => closeModal()} className="cursor-pointer absolute right-2 top-2" />
                 {content}
