@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from "react-i18next"
 import { LanguageContext } from '../context/LanguageProvider'
 import { base_url } from '../../environment/url'
-import { IconBrandFacebook, IconBrandX, IconBrandYoutube, IconSearch } from '@tabler/icons-react'
+import { IconBrandFacebook, IconBrandX, IconBrandYoutube, IconChevronDown, IconSearch } from '@tabler/icons-react'
 import logo from '/logo.jpg'
 import mongolia from '/mongolia.png'
 import usa from '/united-states.png'
@@ -82,11 +82,12 @@ export const Head = ({ margin }) => {
                                         onMouseEnter={() => setDrop(item.mark)}
                                         onMouseLeave={() => setDrop(null)}
                                         to={`/page/${language === 'mn' ? item.mn : item.en}`}
-                                        className='mx-4 sm:mx-2 font-bold hover:text-main duration-100'
+                                        className='flex items-center mx-4 sm:mx-2 font-bold hover:text-main duration-100'
                                     >
                                         {language === 'mn' ? item.mn : item.en}
+                                        {item.children.length > 0 && <IconChevronDown size={18} />}
                                     </Link>
-                                    <div onMouseEnter={() => setDrop(item.mark)} onMouseLeave={() => setDrop(null)} className={`transition-all duration-300 ${drop === item.mark ? 'max-h-60 pt-2' : 'h-0 pt-0'} absolute top-6 bg-white w-40 z-10 rounded-b-md shadow-md overflow-hidden`}>
+                                    <div onMouseEnter={() => setDrop(item.mark)} onMouseLeave={() => setDrop(null)} className={`transition-all duration-300 ${drop === item.mark ? 'max-h-60' : 'h-0'} absolute top-6 bg-white w-40 z-10 rounded-b-md shadow-md overflow-hidden`}>
                                         {
                                             item.children?.length > 0 &&
                                             item.children?.map((child, num) => (

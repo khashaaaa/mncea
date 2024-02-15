@@ -387,11 +387,11 @@ export const SpecialCategory = () => {
                 <Button click={() => { setEditData({}), setType('create'), openModal() }} text="Нэмэх" color="green" icon={<IconComponents />} />
             </div>
             {
-                activeTab === 1 && tableElement(baseCategories)
+                activeTab === 1 && baseCategories.length > 0 && tableElement(baseCategories)
                 ||
-                activeTab === 2 && tableElement(midCategories)
+                activeTab === 2 && midCategories.length > 0 && tableElement(midCategories)
                 ||
-                activeTab === 3 && tableElement(subCategories)
+                activeTab === 3 && subCategories.length > 0 && tableElement(subCategories)
             }
         </MainLayout>
     )
