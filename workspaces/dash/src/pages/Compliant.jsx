@@ -9,7 +9,7 @@ import { ModalContext } from '../context/ModalProvider'
 import { Modal } from "../components/Modal"
 import { Button } from '../components/Button'
 
-export const CompliantList = () => {
+export const Compliant = () => {
 
     const access_token = Cookiez.get('access_token')
     const str = Cookiez.get('user')
@@ -108,42 +108,44 @@ export const CompliantList = () => {
         <MainLayout>
             {isModalOpen && <Modal content={ModalContent()} />}
             {
-                compliants.length > 0 &&
-                <div className="border border-stone-200 rounded-lg w-fit">
-                    <table className="text-sm">
-                        <thead className="bg-stone-200">
-                            <tr>
-                                <th className='px-4 py-2'>Нэр</th>
-                                <th className='px-4 py-2'>Утас</th>
-                                <th className='px-4 py-2'>Имэйл</th>
-                                <th className='px-4 py-2'>Төрөл</th>
-                                <th className='px-4 py-2'>Хүсэлт</th>
-                                <th className='px-4 py-2'>Огноо</th>
-                                <th className='px-4 py-2'></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                compliants.map((comp) => (
-                                    <tr key={comp.mark}>
-                                        <td className='px-4 py-2'>{comp.user}</td>
-                                        <td className='px-4 py-2'>{comp.mobile}</td>
-                                        <td className='px-4 py-2'>{comp.email}</td>
-                                        <td className='px-4 py-2'>{formatType(comp.type)}</td>
-                                        <td className='px-4 py-2 overflow-hidden truncate' style={{ maxWidth: '600px' }}>{comp.statement}</td>
-                                        <td className='px-4 py-2'>{formatTimestamp(comp.created)}</td>
-                                        <td className='px-4 py-2'>
-                                            <div className="flex justify-between w-12">
-                                                <IconEye onClick={() => { openModal(), setCompliant(comp), setActionType('show') }} className="cursor-pointer" size={20} />
-                                                <IconTrash onClick={() => { openModal(), setDel(comp), setActionType('delete') }} className="cursor-pointer" size={20} />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                compliants && compliants.length > 0 ?
+                    <div className="border border-stone-200 rounded-lg w-fit">
+                        <table className="text-sm">
+                            <thead className="bg-stone-200">
+                                <tr>
+                                    <th className='px-4 py-2'>Нэр</th>
+                                    <th className='px-4 py-2'>Утас</th>
+                                    <th className='px-4 py-2'>Имэйл</th>
+                                    <th className='px-4 py-2'>Төрөл</th>
+                                    <th className='px-4 py-2'>Хүсэлт</th>
+                                    <th className='px-4 py-2'>Огноо</th>
+                                    <th className='px-4 py-2'></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    compliants.map((comp) => (
+                                        <tr key={comp.mark}>
+                                            <td className='px-4 py-2'>{comp.user}</td>
+                                            <td className='px-4 py-2'>{comp.mobile}</td>
+                                            <td className='px-4 py-2'>{comp.email}</td>
+                                            <td className='px-4 py-2'>{formatType(comp.type)}</td>
+                                            <td className='px-4 py-2 overflow-hidden truncate' style={{ maxWidth: '600px' }}>{comp.statement}</td>
+                                            <td className='px-4 py-2'>{formatTimestamp(comp.created)}</td>
+                                            <td className='px-4 py-2'>
+                                                <div className="flex justify-between w-12">
+                                                    <IconEye onClick={() => { openModal(), setCompliant(comp), setActionType('show') }} className="cursor-pointer" size={20} />
+                                                    <IconTrash onClick={() => { openModal(), setDel(comp), setActionType('delete') }} className="cursor-pointer" size={20} />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    :
+                    <p>Санал хүсэлт бүртгэгдээгүй байна</p>
             }
         </MainLayout>
     )

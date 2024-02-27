@@ -18,6 +18,5 @@ export const Spinner = () => {
             <use xlinkHref="#loader" transform="rotate(330 20 20)"><animate attributeName="opacity" values="0;1;0" dur="1s" begin="0.92s" repeatCount="indefinite"></animate></use>
             <use xlinkHref="#loader" transform="rotate(360 20 20)"><animate attributeName="opacity" values="0;1;0" dur="1s" begin="1.00s" repeatCount="indefinite"></animate></use>
         </svg>
-
     )
 }

@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { MenuContext } from "../context/MenuProvider"
 import { Link, useNavigate } from "react-router-dom"
 import Cookiez from 'js-cookie'
-import { IconCategory, IconClipboardText, IconComponents, IconHierarchy, IconMessageQuestion, IconNews, IconPower, IconUserCog } from "@tabler/icons-react"
+import { IconBook, IconCategory, IconClipboardText, IconComponents, IconHomeLink, IconMessageQuestion, IconNews, IconPower, IconUserCog, IconWorld } from "@tabler/icons-react"
 
 export const Aside = () => {
 
@@ -34,7 +34,7 @@ export const Aside = () => {
             </div>
             <div className="mt-8 grid grid-rows-4 gap-2 text-sm">
                 <Link to="/" onClick={() => setActive('page')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'page' && 'bg-sky-800 text-white'}`}>
-                    <IconClipboardText />
+                    <IconBook />
                     <p className="ml-2">Хуудас</p>
                 </Link>
                 <Link to="/post" onClick={() => setActive('post')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'post' && 'bg-sky-800 text-white'}`}>
@@ -50,12 +50,16 @@ export const Aside = () => {
                     <p className="ml-2">Онцгой цэс</p>
                 </Link>
                 <Link to="/partnership" onClick={() => setActive('partnership')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'partnership' && 'bg-sky-800 text-white'}`}>
-                    <IconHierarchy />
+                    <IconWorld />
                     <p className="ml-2">Хамтрагч байгууллага</p>
                 </Link>
                 <Link to="/compliant" onClick={() => setActive('compliant')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'compliant' && 'bg-sky-800 text-white'}`}>
                     <IconMessageQuestion />
                     <p className="ml-2">Санал хүсэлт</p>
+                </Link>
+                <Link to="/social" onClick={() => setActive('social')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'social' && 'bg-sky-800 text-white'}`}>
+                    <IconHomeLink />
+                    <p className="ml-2">Сошл холбоос</p>
                 </Link>
                 <Link to="/usercontrol" onClick={() => setActive('user')} className={`flex items-center rounded-md px-4 py-1 duration-300 hover:bg-sky-700 hover:border-sky-700 hover:text-white ${menuOpen === 'user' && 'bg-sky-800 text-white'}`}>
                     <IconUserCog />
